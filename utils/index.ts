@@ -1,7 +1,7 @@
 const username = process.env.DEVOPS_USERNAME;
 const pat = process.env.PAT_KEY;
 
-const authorization = `Basic ${Buffer.from(username + ":" + pat).toString(
+const authorization = `Basic ${Buffer.from(pat).toString(
   "base64"
 )}`;
 
