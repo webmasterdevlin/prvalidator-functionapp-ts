@@ -18,6 +18,7 @@ const CONNECTION_STRING = process.env.CONNECTION_STRING;
 const CONTAINER_NAME = process.env.REPO_CONTAINER_NAME;
 
 const ONE_MINUTE = 60 * 1000;
+const blobName = "Contributors.md";
 
 const blobTrigger: AzureFunction = async function (
   context: Context,
@@ -33,13 +34,17 @@ const blobTrigger: AzureFunction = async function (
 
   const abortCtrl = AbortController.timeout(5 * ONE_MINUTE);
 
-  const blobName = "Contributors.md";
+  context.log("blobServiceClient");
   const blobServiceClient = await BlobServiceClient.fromConnectionString(
     CONNECTION_STRING
   );
+
+  context.log("containerClient");
   const containerClient: ContainerClient = await blobServiceClient.getContainerClient(
     CONTAINER_NAME
   );
+
+  context.log("blockBlobClient");
   const blockBlobClient: BlockBlobClient = containerClient.getBlockBlobClient(
     blobName
   );
@@ -51,16 +56,16 @@ const blobTrigger: AzureFunction = async function (
     return;
   }
   */
-
+  context.log("downloadBlockBlobResponse");
   const downloadBlockBlobResponse: BlobDownloadResponseModel = await blockBlobClient.download(
     0
   );
 
   // TODO: Check if readabeStreamBody is needed or downloadBlockBlobResponse
-  // const readable = downloadBlockBlobResponse.readableStreamBody;
+  const readable = downloadBlockBlobResponse.readableStreamBody;
   context.log("CHECK::");
   try {
-    const data = await fs.readFile(downloadBlockBlobResponse);
+    const data = await fs.readFile(readable);
     context.log(data);
     if (!data) {
       context.log("File is empty");
