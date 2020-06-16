@@ -57,18 +57,12 @@ const blobTrigger: AzureFunction = async function (
   }
   */
   context.log("downloadBlockBlobResponse");
-  const downloadBlockBlobResponse: BlobDownloadResponseModel = await blockBlobClient.download(
-    0
-  );
+  const downloadTobuffer: Buffer = await blockBlobClient.downloadToBuffer(0);
 
   // TODO: Check if readabeStreamBody is needed or downloadBlockBlobResponse
-  const readable = downloadBlockBlobResponse.readableStreamBody;
   context.log("CHECK::");
 
-  fs.readFile(downloadBlockBlobResponse, { encoding: "utf8" }, function (
-    err,
-    data
-  ) {
+  fs.readFile(downloadTobuffer, { encoding: "utf8" }, function (err, data) {
     if (err) {
       return context.log(err);
     }
