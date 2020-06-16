@@ -1,27 +1,9 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
-import { BuildCompleted } from "../models/webhooks/BuildCompleted";
-import { Description, State, StatusPolicy } from "../models/StatusPolicy";
-import { Vote } from "../models/ApprovePullRequest";
-import {
-  GitPullRequestResources,
-  GitRepositories,
-  PullRequestCreated,
-} from "../models/webhooks/PullRequestCreated";
-import {
-  StorageSharedKeyCredential,
-  BlobServiceClient,
-  ContainerClient,
-  BlobClient,
-  BlockBlobClient,
-  BlobDownloadResponseModel,
-} from "@azure/storage-blob";
+import { PullRequestCreated } from "../models/webhooks/PullRequestCreated";
+import { BlobServiceClient, ContainerClient } from "@azure/storage-blob";
 
 const CONNECTION_STRING = process.env.CONNECTION_STRING;
 const CONTAINER_NAME = process.env.REPO_CONTAINER_NAME;
-
-const accountName = process.env.ACCOUNT_NAME;
-
-const ONE_MINUTE = 60 * 1000;
 
 const httpTrigger: AzureFunction = async function (
   context: Context,
@@ -30,10 +12,6 @@ const httpTrigger: AzureFunction = async function (
   context.log("HTTP trigger function processed a request.");
   const data = req.body as PullRequestCreated;
   context.log("Data Received: " + JSON.stringify(req.body));
-
-  context.log(
-    `https://dev.azure.com/${accountName}/${data.resource.repository.project.name}/_apis/git/repositories/${data.resource.repository.name}/pullrequests/${data.resource.pullRequestId}/statuses?api-version=5.0-preview.1`
-  );
 
   const blobServiceClient = await BlobServiceClient.fromConnectionString(
     CONNECTION_STRING
@@ -44,7 +22,7 @@ const httpTrigger: AzureFunction = async function (
   );
 
   // Create a unique name for the blob
-  const blobName = "pull-request-created.txt";
+  const blobName = "pull-request-created.json";
 
   // Get a block blob client
   const blockBlobClient = containerClient.getBlockBlobClient(blobName);
@@ -52,8 +30,11 @@ const httpTrigger: AzureFunction = async function (
   console.log("\nUploading to Azure storage as blob:\n\t", blobName);
 
   // Upload data to the blob
-  const info = "Hello, World!";
-  const uploadBlobResponse = await blockBlobClient.upload(info, info.length);
+  const uploadBlobResponse = await blockBlobClient.upload(
+    JSON.stringify(data),
+    JSON.stringify(data).length
+  );
+
   console.log(
     "Blob was uploaded successfully. requestId: ",
     uploadBlobResponse.requestId
