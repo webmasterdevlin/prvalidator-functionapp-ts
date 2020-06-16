@@ -51,7 +51,7 @@ const blobTrigger: AzureFunction = async function (
 
   const exists = await blockBlobClient.exists();
   if (!exists) {
-    console.log("Blob does not exists");
+    context.log("Blob does not exists");
     return;
   }
 
