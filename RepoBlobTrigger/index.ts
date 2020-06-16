@@ -62,9 +62,9 @@ const blobTrigger: AzureFunction = async function (
 
   fs.readFile(downloadTobuffer, { encoding: "utf8" }, function (err, data) {
     if (err) {
-      console.log(err);
+      context.log(err);
     } else {
-      console.log(data);
+      context.log(data);
     }
   });
 };
