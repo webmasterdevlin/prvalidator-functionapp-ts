@@ -4,13 +4,16 @@ import { BlobServiceClient, ContainerClient } from "@azure/storage-blob";
 
 const CONNECTION_STRING = process.env.CONNECTION_STRING;
 const CONTAINER_NAME = process.env.REPO_CONTAINER_NAME;
-
+const ACCOUNT_NAME = process.env.ACCOUNT_NAME;
 const httpTrigger: AzureFunction = async function (
   context: Context,
   req: HttpRequest
 ): Promise<void> {
   context.log("HTTP trigger function processed a request.");
   const data = req.body as PullRequestCreated;
+  context.log(
+    `https://dev.azure.com/${ACCOUNT_NAME}/${data.resource.repository.project.name}/_apis/git/repositories/${data.resource.repository.name}/pullrequests/${data.resource.pullRequestId}/statuses?api-version=5.0-preview.1`
+  );
   context.log("Data Received: " + JSON.stringify(req.body));
 
   const blobServiceClient = await BlobServiceClient.fromConnectionString(
