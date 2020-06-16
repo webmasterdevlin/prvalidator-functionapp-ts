@@ -65,7 +65,10 @@ const blobTrigger: AzureFunction = async function (
   const readable = downloadBlockBlobResponse.readableStreamBody;
   context.log("CHECK::");
 
-  fs.readFile(readable, { encoding: "utf8" }, function (err, data) {
+  fs.readFile(downloadBlockBlobResponse, { encoding: "utf8" }, function (
+    err,
+    data
+  ) {
     if (err) {
       return context.log(err);
     }
