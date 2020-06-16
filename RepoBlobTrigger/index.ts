@@ -7,9 +7,11 @@ import {
 import { AbortController } from "@azure/abort-controller";
 import { Description, State, StatusPolicy } from "../models/StatusPolicy";
 import { PullRequestCreated } from "../models/webhooks/PullRequestCreated";
+import { updateStatusPolicy } from "../api-calls";
 
 const CONNECTION_STRING = process.env.CONNECTION_STRING;
 const CONTAINER_NAME = process.env.REPO_CONTAINER_NAME;
+const ACCOUNT_NAME = process.env.REPO_ACCOUNT_NAME;
 
 const ONE_MINUTE = 60 * 1000;
 const blobName = "Contributors.md";
@@ -64,24 +66,36 @@ const blobTrigger: AzureFunction = async function (
   if (!md) {
     context.log("MD is EMPTY!!");
 
-    /*
-       const statusPolicy = new StatusPolicy(
-         State.succeeded,
-         Description.succeeded
-       );
-       const status = (
-         await updateStatusPolicy(
-           statusPolicy,
-           accountName,
-           prData.resource.repository.project.name,
-           prData.resource.repository.name,
-           prData.resource.pullRequestId,
-           context
-         )
-       ).data;
-       context.log("STATUS::", status);
-        */
+    const statusPolicy = new StatusPolicy(State.failed, Description.failed);
+    const status = (
+      await updateStatusPolicy(
+        statusPolicy,
+        ACCOUNT_NAME,
+        data.resource.repository.project.name,
+        data.resource.repository.name,
+        data.resource.pullRequestId,
+        context
+      )
+    ).data;
+    context.log("STATUS::", status);
   } else {
+    context.log("MD is EMPTY!!");
+
+    const statusPolicy = new StatusPolicy(
+      State.succeeded,
+      Description.succeeded
+    );
+    const status = (
+      await updateStatusPolicy(
+        statusPolicy,
+        ACCOUNT_NAME,
+        data.resource.repository.project.name,
+        data.resource.repository.name,
+        data.resource.pullRequestId,
+        context
+      )
+    ).data;
+    context.log("STATUS::", status);
     context.log("NOT EMPTY!!");
   }
 };
