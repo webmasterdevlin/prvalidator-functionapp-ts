@@ -93,7 +93,10 @@ const blobTrigger: AzureFunction = async function (
       context.log(data);
     }
   });*/
-  context.log(text);
+  context.log("TEXT::", text);
+
+  const fsRead = await fs.readdirSync(downloadTobuffer);
+  context.log("fsRead, fsRead");
 };
 
 export default blobTrigger;
