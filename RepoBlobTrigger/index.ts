@@ -24,27 +24,16 @@ const blobTrigger: AzureFunction = async function (
   context: Context,
   myBlob: any
 ): Promise<void> {
-  /*  context.log(
-    "Blob trigger function processed blob \n Name:",
-    context.bindingData.name,
-    "\n Blob Size:",
-    myBlob.length,
-    "Bytes"
-  );*/
-
   const abortCtrl = AbortController.timeout(5 * ONE_MINUTE);
 
-  context.log("blobServiceClient");
   const blobServiceClient = await BlobServiceClient.fromConnectionString(
     CONNECTION_STRING
   );
 
-  context.log("containerClient");
   const containerClient: ContainerClient = await blobServiceClient.getContainerClient(
     CONTAINER_NAME
   );
 
-  context.log("blockBlobClient");
   const blockBlobClient: BlockBlobClient = containerClient.getBlockBlobClient(
     blobName
   );
@@ -55,48 +44,14 @@ const blobTrigger: AzureFunction = async function (
     return;
   }
 
-  /*
-  context.log("downloadBlockBlobResponse");
-
-  context.log("CHECK::readable");
-  const readable = await blockBlobClient.download();
-  fs.readFile(readable, { encoding: "utf8" }, function (err, data) {
-    if (err) {
-      context.log(err);
-    } else {
-      context.log(data);
-    }
-  });
-*/
-  /*  context.log("downloadResponse");
-  const downloadResponse = await blockBlobClient.download(0);
-  fs.readFile(
-    downloadResponse.readableStreamBody,
-    { encoding: "utf8" },
-    function (err, data) {
-      if (err) {
-        context.log(err);
-      } else {
-        context.log(data);
-      }
-    }
-  );*/
-
-  context.log("CHECK::downloadtobuffer");
   const downloadTobuffer: Buffer = await blockBlobClient.downloadToBuffer();
   const text = downloadTobuffer.toString();
-  /*context.log("DATA::", downloadTobuffer);
-  fs.readFile(downloadTobuffer, { encoding: "utf8" }, function (err, data) {
-    if (err) {
-      context.log(err);
-    } else {
-      context.log(data);
-    }
-  });*/
-  context.log("TEXT::", text);
 
-  const fsRead = await fs.readdirSync(downloadTobuffer);
-  context.log("fsRead, fsRead");
+  if (!text) {
+    context.log("EMPTY!!");
+  } else {
+    context.log("NOT EMPTY!!");
+  }
 };
 
 export default blobTrigger;
