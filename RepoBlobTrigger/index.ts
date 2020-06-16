@@ -76,9 +76,9 @@ const blobTrigger: AzureFunction = async function (
         context
       )
     ).data;
-    context.log("STATUS::", status);
+    context.log("STATUS_FAILED::", status);
   } else {
-    context.log("MD is EMPTY!!");
+    context.log("MD is Not EMPTY!!");
 
     const statusPolicy = new StatusPolicy(
       State.succeeded,
@@ -94,8 +94,7 @@ const blobTrigger: AzureFunction = async function (
         context
       )
     ).data;
-    context.log("STATUS::", status);
-    context.log("NOT EMPTY!!");
+    context.log("STATUS_SUCCEEDED::", status);
   }
 };
 
