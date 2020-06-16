@@ -31,26 +31,22 @@ const blobTrigger: AzureFunction = async function (
   const blockBlobClient: BlockBlobClient = containerClient.getBlockBlobClient(
     blobName
   );
-
-  const prBlockBlobClient: BlockBlobClient = containerClient.getBlockBlobClient(
-    prBlobName
-  );
-
   const exists = await blockBlobClient.exists();
   if (!exists) {
     context.log("Blob does not exists");
     return;
   }
-
   const downloadTobuffer: Buffer = await blockBlobClient.downloadToBuffer();
   const md = downloadTobuffer.toString();
 
+  const prBlockBlobClient: BlockBlobClient = containerClient.getBlockBlobClient(
+    prBlobName
+  );
   const prExists = await prBlockBlobClient.exists();
   if (!prExists) {
-    context.log("Blob does not exists");
+    context.log("PR Blob does not exists");
     return;
   }
-
   const prDownloadTobuffer: Buffer = await prBlockBlobClient.downloadToBuffer();
   const pr = prDownloadTobuffer.toString();
 
