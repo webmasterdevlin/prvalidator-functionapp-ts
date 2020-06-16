@@ -55,10 +55,10 @@ const blobTrigger: AzureFunction = async function (
   );
 
   // TODO: Check if readabeStreamBody is needed or downloadBlockBlobResponse
-  const readable = downloadBlockBlobResponse.readableStreamBody;
-
+  // const readable = downloadBlockBlobResponse.readableStreamBody;
+  context.log("CHECK::");
   try {
-    const data = await fs.readFile(readable);
+    const data = await fs.readFile(downloadBlockBlobResponse);
     context.log(data);
     if (!data) {
       context.log("File is empty");
