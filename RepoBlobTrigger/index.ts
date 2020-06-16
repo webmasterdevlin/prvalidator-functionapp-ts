@@ -4,16 +4,15 @@ import {
   ContainerClient,
   BlockBlobClient,
 } from "@azure/storage-blob";
-import { AbortController } from "@azure/abort-controller";
+
 import { Description, State, StatusPolicy } from "../models/StatusPolicy";
 import { PullRequestCreated } from "../models/webhooks/PullRequestCreated";
 import { updateStatusPolicy } from "../api-calls";
 
 const CONNECTION_STRING = process.env.CONNECTION_STRING;
 const CONTAINER_NAME = process.env.REPO_CONTAINER_NAME;
-const ACCOUNT_NAME = process.env.REPO_ACCOUNT_NAME;
+const ACCOUNT_NAME = process.env.ACCOUNT_NAME;
 
-const ONE_MINUTE = 60 * 1000;
 const blobName = "Contributors.md";
 const prBlobName = "pull-request-created.json";
 
