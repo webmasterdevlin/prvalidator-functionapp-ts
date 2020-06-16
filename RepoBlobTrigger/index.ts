@@ -49,24 +49,22 @@ const blobTrigger: AzureFunction = async function (
     blobName
   );
 
-  /*
   const exists = await blockBlobClient.exists();
   if (!exists) {
     console.log("Blob does not exists");
     return;
   }
-  */
+
   context.log("downloadBlockBlobResponse");
   const downloadTobuffer: Buffer = await blockBlobClient.downloadToBuffer(0);
 
-  // TODO: Check if readabeStreamBody is needed or downloadBlockBlobResponse
   context.log("CHECK::");
 
   fs.readFile(downloadTobuffer, { encoding: "utf8" }, function (err, data) {
-    context.log(data);
-
     if (err) {
-      context.log(err);
+      console.log(err);
+    } else {
+      console.log(data);
     }
   });
 };
