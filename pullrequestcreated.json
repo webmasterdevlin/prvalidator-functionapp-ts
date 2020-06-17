@@ -1,0 +1,582 @@
+{
+    subscriptionId: 'a2d8d5ba-8bba-4d82-a87f-0a8ef3f201d0',
+    notificationId: 1,
+    id: 'b54349c8-bb78-4f49-9500-cdc96da7511c',
+    eventType: 'git.pullrequest.created',
+    publisherId: 'tfs',
+    message: {
+      text: 'Devlin Duldulao created pull request 35 (Updated azure-pipelines.yml) in AspNetCorePrometheusGrafana\r\n' +
+        'https://dev.azure.com/devlinduldulao0138/AspNetCorePrometheusGrafana/_git/AspNetCorePrometheusGrafana/',
+      html: 'Devlin Duldulao created <a href="https://dev.azure.com/devlinduldulao0138/AspNetCorePrometheusGrafana/_git/AspNetCorePrometheusGrafana/pullrequest/35">pull request 35</a> (Updated azure-pipelines.yml) in <a href="https://dev.azure.com/devlinduldulao0138/AspNetCorePrometheusGrafana/_git/AspNetCorePrometheusGrafana/">AspNetCorePrometheusGrafana</a>',
+      markdown: 'Devlin Duldulao created [pull request 35](https://dev.azure.com/devlinduldulao0138/AspNetCorePrometheusGrafana/_git/AspNetCorePrometheusGrafana/pullrequest/35) (Updated azure-pipelines.yml) in [AspNetCorePrometheusGrafana](https://dev.azure.com/devlinduldulao0138/AspNetCorePrometheusGrafana/_git/AspNetCorePrometheusGrafana/)'
+    },
+    detailedMessage: {
+      text: 'Devlin Duldulao created pull request 35 (Updated azure-pipelines.yml) in AspNetCorePrometheusGrafana\r\n' +
+        'https://dev.azure.com/devlinduldulao0138/AspNetCorePrometheusGrafana/_git/AspNetCorePrometheusGrafana/\r\n' +
+        'Updated azure-pipelines.yml\r\n',
+      html: 'Devlin Duldulao created <a href="https://dev.azure.com/devlinduldulao0138/AspNetCorePrometheusGrafana/_git/AspNetCorePrometheusGrafana/pullrequest/35">pull request 35</a> (Updated azure-pipelines.yml) in <a href="https://dev.azure.com/devlinduldulao0138/AspNetCorePrometheusGrafana/_git/AspNetCorePrometheusGrafana/">AspNetCorePrometheusGrafana</a><p>Updated azure-pipelines.yml</p>',
+      markdown: 'Devlin Duldulao created [pull request 35](https://dev.azure.com/devlinduldulao0138/AspNetCorePrometheusGrafana/_git/AspNetCorePrometheusGrafana/pullrequest/35) (Updated azure-pipelines.yml) in [AspNetCorePrometheusGrafana](https://dev.azure.com/devlinduldulao0138/AspNetCorePrometheusGrafana/_git/AspNetCorePrometheusGrafana/)\r\n' +
+        'Updated azure-pipelines.yml\r\n'
+    },
+    resource: {
+      repository: {
+        id: '7c3741c7-5279-48ae-b011-e6dd25995972',
+        name: 'AspNetCorePrometheusGrafana',
+        url: 'https://dev.azure.com/devlinduldulao0138/937be093-e957-4698-8c11-653a839598ed/_apis/git/repositories/7c3741c7-5279-48ae-b011-e6dd25995972',
+        project: [Object],
+        size: 6745,
+        remoteUrl: 'https://devlinduldulao0138@dev.azure.com/devlinduldulao0138/AspNetCorePrometheusGrafana/_git/AspNetCorePrometheusGrafana',
+        sshUrl: 'git@ssh.dev.azure.com:v3/devlinduldulao0138/AspNetCorePrometheusGrafana/AspNetCorePrometheusGrafana',
+        webUrl: 'https://dev.azure.com/devlinduldulao0138/AspNetCorePrometheusGrafana/_git/AspNetCorePrometheusGrafana'
+      },
+      pullRequestId: 35,
+      codeReviewId: 35,
+      status: 'active',
+      createdBy: {
+        displayName: 'Devlin Duldulao',
+        url: 'https://spsprodea1.vssps.visualstudio.com/A958477b7-537d-400b-9bb6-19890e263813/_apis/Identities/1eefe186-4358-6f14-a1cb-1d1c8833216c',
+        _links: [Object],
+        id: '1eefe186-4358-6f14-a1cb-1d1c8833216c',
+        uniqueName: 'devlinduldulao@outlook.com',
+        imageUrl: 'https://dev.azure.com/devlinduldulao0138/_api/_common/identityImage?id=1eefe186-4358-6f14-a1cb-1d1c8833216c',
+        descriptor: 'msa.MWVlZmUxODYtNDM1OC03ZjE0LWExY2ItMWQxYzg4MzMyMTZj'
+      },
+      creationDate: '2020-06-17T21:24:54.4988452Z',
+      title: 'Updated azure-pipelines.yml',
+      description: 'Updated azure-pipelines.yml',
+      sourceRefName: 'refs/heads/devlin/8',
+      targetRefName: 'refs/heads/master',
+      mergeStatus: 'succeeded',
+      isDraft: false,
+      mergeId: 'f73ec5e0-9e7c-4405-b3c8-319c714f7e44',
+      lastMergeSourceCommit: {
+        commitId: '5a4a08702515b53dca21f058e857fced52f3d2af',
+        url: 'https://dev.azure.com/devlinduldulao0138/937be093-e957-4698-8c11-653a839598ed/_apis/git/repositories/7c3741c7-5279-48ae-b011-e6dd25995972/commits/5a4a08702515b53dca21f058e857fced52f3d2af'
+      },
+      lastMergeTargetCommit: {
+        commitId: '222c5a6a0b623788b041e8e8fd0d78c2aea2337f',
+        url: 'https://dev.azure.com/devlinduldulao0138/937be093-e957-4698-8c11-653a839598ed/_apis/git/repositories/7c3741c7-5279-48ae-b011-e6dd25995972/commits/222c5a6a0b623788b041e8e8fd0d78c2aea2337f'
+      },
+      lastMergeCommit: {
+        commitId: '8ef6789eba791eff5d4e482964b87848463149ea',
+        author: [Object],
+        committer: [Object],
+        comment: 'Merge pull request 35 from devlin/8 into master',
+        url: 'https://dev.azure.com/devlinduldulao0138/937be093-e957-4698-8c11-653a839598ed/_apis/git/repositories/7c3741c7-5279-48ae-b011-e6dd25995972/commits/8ef6789eba791eff5d4e482964b87848463149ea'
+      },
+      reviewers: [],
+      url: 'https://dev.azure.com/devlinduldulao0138/937be093-e957-4698-8c11-653a839598ed/_apis/git/repositories/7c3741c7-5279-48ae-b011-e6dd25995972/pullRequests/35',
+      _links: { web: [Object], statuses: [Object] },
+      supportsIterations: true,
+      artifactId: 'vstfs:///Git/PullRequestId/937be093-e957-4698-8c11-653a839598ed%2f7c3741c7-5279-48ae-b011-e6dd25995972%2f35'
+    },
+    resourceVersion: '1.0',
+    resourceContainers: {
+      collection: {
+        id: '3b4029e0-2986-44f2-aad7-958acf7c1d5a',
+        baseUrl: 'https://dev.azure.com/devlinduldulao0138/'
+      },
+      account: {
+        id: '958477b7-537d-400b-9bb6-19890e263813',
+        baseUrl: 'https://dev.azure.com/devlinduldulao0138/'
+      },
+      project: {
+        id: '937be093-e957-4698-8c11-653a839598ed',
+        baseUrl: 'https://dev.azure.com/devlinduldulao0138/'
+      }
+    },
+    createdDate: '2020-06-17T21:25:02.9157894Z'
+  }
+  2020-06-17T21:25:06.992 [Information] BUILD_COMPLETED_DATA {
+    subscriptionId: 'a2d8d5ba-8bba-4d82-a87f-0a8ef3f201d0',
+    notificationId: 1,
+    id: 'b54349c8-bb78-4f49-9500-cdc96da7511c',
+    eventType: 'git.pullrequest.created',
+    publisherId: 'tfs',
+    message: {
+      text: 'Devlin Duldulao created pull request 35 (Updated azure-pipelines.yml) in AspNetCorePrometheusGrafana\r\n' +
+        'https://dev.azure.com/devlinduldulao0138/AspNetCorePrometheusGrafana/_git/AspNetCorePrometheusGrafana/',
+      html: 'Devlin Duldulao created <a href="https://dev.azure.com/devlinduldulao0138/AspNetCorePrometheusGrafana/_git/AspNetCorePrometheusGrafana/pullrequest/35">pull request 35</a> (Updated azure-pipelines.yml) in <a href="https://dev.azure.com/devlinduldulao0138/AspNetCorePrometheusGrafana/_git/AspNetCorePrometheusGrafana/">AspNetCorePrometheusGrafana</a>',
+      markdown: 'Devlin Duldulao created [pull request 35](https://dev.azure.com/devlinduldulao0138/AspNetCorePrometheusGrafana/_git/AspNetCorePrometheusGrafana/pullrequest/35) (Updated azure-pipelines.yml) in [AspNetCorePrometheusGrafana](https://dev.azure.com/devlinduldulao0138/AspNetCorePrometheusGrafana/_git/AspNetCorePrometheusGrafana/)'
+    },
+    detailedMessage: {
+      text: 'Devlin Duldulao created pull request 35 (Updated azure-pipelines.yml) in AspNetCorePrometheusGrafana\r\n' +
+        'https://dev.azure.com/devlinduldulao0138/AspNetCorePrometheusGrafana/_git/AspNetCorePrometheusGrafana/\r\n' +
+        'Updated azure-pipelines.yml\r\n',
+      html: 'Devlin Duldulao created <a href="https://dev.azure.com/devlinduldulao0138/AspNetCorePrometheusGrafana/_git/AspNetCorePrometheusGrafana/pullrequest/35">pull request 35</a> (Updated azure-pipelines.yml) in <a href="https://dev.azure.com/devlinduldulao0138/AspNetCorePrometheusGrafana/_git/AspNetCorePrometheusGrafana/">AspNetCorePrometheusGrafana</a><p>Updated azure-pipelines.yml</p>',
+      markdown: 'Devlin Duldulao created [pull request 35](https://dev.azure.com/devlinduldulao0138/AspNetCorePrometheusGrafana/_git/AspNetCorePrometheusGrafana/pullrequest/35) (Updated azure-pipelines.yml) in [AspNetCorePrometheusGrafana](https://dev.azure.com/devlinduldulao0138/AspNetCorePrometheusGrafana/_git/AspNetCorePrometheusGrafana/)\r\n' +
+        'Updated azure-pipelines.yml\r\n'
+    },
+    resource: {
+      repository: {
+        id: '7c3741c7-5279-48ae-b011-e6dd25995972',
+        name: 'AspNetCorePrometheusGrafana',
+        url: 'https://dev.azure.com/devlinduldulao0138/937be093-e957-4698-8c11-653a839598ed/_apis/git/repositories/7c3741c7-5279-48ae-b011-e6dd25995972',
+        project: [Object],
+        size: 6745,
+        remoteUrl: 'https://devlinduldulao0138@dev.azure.com/devlinduldulao0138/AspNetCorePrometheusGrafana/_git/AspNetCorePrometheusGrafana',
+        sshUrl: 'git@ssh.dev.azure.com:v3/devlinduldulao0138/AspNetCorePrometheusGrafana/AspNetCorePrometheusGrafana',
+        webUrl: 'https://dev.azure.com/devlinduldulao0138/AspNetCorePrometheusGrafana/_git/AspNetCorePrometheusGrafana'
+      },
+      pullRequestId: 35,
+      codeReviewId: 35,
+      status: 'active',
+      createdBy: {
+        displayName: 'Devlin Duldulao',
+        url: 'https://spsprodea1.vssps.visualstudio.com/A958477b7-537d-400b-9bb6-19890e263813/_apis/Identities/1eefe186-4358-6f14-a1cb-1d1c8833216c',
+        _links: [Object],
+        id: '1eefe186-4358-6f14-a1cb-1d1c8833216c',
+        uniqueName: 'devlinduldulao@outlook.com',
+        imageUrl: 'https://dev.azure.com/devlinduldulao0138/_api/_common/identityImage?id=1eefe186-4358-6f14-a1cb-1d1c8833216c',
+        descriptor: 'msa.MWVlZmUxODYtNDM1OC03ZjE0LWExY2ItMWQxYzg4MzMyMTZj'
+      },
+      creationDate: '2020-06-17T21:24:54.4988452Z',
+      title: 'Updated azure-pipelines.yml',
+      description: 'Updated azure-pipelines.yml',
+      sourceRefName: 'refs/heads/devlin/8',
+      targetRefName: 'refs/heads/master',
+      mergeStatus: 'succeeded',
+      isDraft: false,
+      mergeId: 'f73ec5e0-9e7c-4405-b3c8-319c714f7e44',
+      lastMergeSourceCommit: {
+        commitId: '5a4a08702515b53dca21f058e857fced52f3d2af',
+        url: 'https://dev.azure.com/devlinduldulao0138/937be093-e957-4698-8c11-653a839598ed/_apis/git/repositories/7c3741c7-5279-48ae-b011-e6dd25995972/commits/5a4a08702515b53dca21f058e857fced52f3d2af'
+      },
+      lastMergeTargetCommit: {
+        commitId: '222c5a6a0b623788b041e8e8fd0d78c2aea2337f',
+        url: 'https://dev.azure.com/devlinduldulao0138/937be093-e957-4698-8c11-653a839598ed/_apis/git/repositories/7c3741c7-5279-48ae-b011-e6dd25995972/commits/222c5a6a0b623788b041e8e8fd0d78c2aea2337f'
+      },
+      lastMergeCommit: {
+        commitId: '8ef6789eba791eff5d4e482964b87848463149ea',
+        author: [Object],
+        committer: [Object],
+        comment: 'Merge pull request 35 from devlin/8 into master',
+        url: 'https://dev.azure.com/devlinduldulao0138/937be093-e957-4698-8c11-653a839598ed/_apis/git/repositories/7c3741c7-5279-48ae-b011-e6dd25995972/commits/8ef6789eba791eff5d4e482964b87848463149ea'
+      },
+      reviewers: [],
+      url: 'https://dev.azure.com/devlinduldulao0138/937be093-e957-4698-8c11-653a839598ed/_apis/git/repositories/7c3741c7-5279-48ae-b011-e6dd25995972/pullRequests/35',
+      _links: { web: [Object], statuses: [Object] },
+      supportsIterations: true,
+      artifactId: 'vstfs:///Git/PullRequestId/937be093-e957-4698-8c11-653a839598ed%2f7c3741c7-5279-48ae-b011-e6dd25995972%2f35'
+    },
+    resourceVersion: '1.0',
+    resourceContainers: {
+      collection: {
+        id: '3b4029e0-2986-44f2-aad7-958acf7c1d5a',
+        baseUrl: 'https://dev.azure.com/devlinduldulao0138/'
+      },
+      account: {
+        id: '958477b7-537d-400b-9bb6-19890e263813',
+        baseUrl: 'https://dev.azure.com/devlinduldulao0138/'
+      },
+      project: {
+        id: '937be093-e957-4698-8c11-653a839598ed',
+        baseUrl: 'https://dev.azure.com/devlinduldulao0138/'
+      }
+    },
+    createdDate: '2020-06-17T21:25:02.9157894Z'
+  }
+  2020-06-17T21:25:06.999 [Information] Data Received: {"subscriptionId":"a2d8d5ba-8bba-4d82-a87f-0a8ef3f201d0","notificationId":1,"id":"b54349c8-bb78-4f49-9500-cdc96da7511c","eventType":"git.pullrequest.created","publisherId":"tfs","message":{"text":"Devlin Duldulao created pull request 35 (Updated azure-pipelines.yml) in AspNetCorePrometheusGrafana\r\nhttps://dev.azure.com/devlinduldulao0138/AspNetCorePrometheusGrafana/_git/AspNetCorePrometheusGrafana/","html":"Devlin Duldulao created <a href=\"https://dev.azure.com/devlinduldulao0138/AspNetCorePrometheusGrafana/_git/AspNetCorePrometheusGrafana/pullrequest/35\">pull request 35</a> (Updated azure-pipelines.yml) in <a href=\"https://dev.azure.com/devlinduldulao0138/AspNetCorePrometheusGrafana/_git/AspNetCorePrometheusGrafana/\">AspNetCorePrometheusGrafana</a>","markdown":"Devlin Duldulao created [pull request 35](https://dev.azure.com/devlinduldulao0138/AspNetCorePrometheusGrafana/_git/AspNetCorePrometheusGrafana/pullrequest/35) (Updated azure-pipelines.yml) in [AspNetCorePrometheusGrafana](https://dev.azure.com/devlinduldulao0138/AspNetCorePrometheusGrafana/_git/AspNetCorePrometheusGrafana/)"},"detailedMessage":{"text":"Devlin Duldulao created pull request 35 (Updated azure-pipelines.yml) in AspNetCorePrometheusGrafana\r\nhttps://dev.azure.com/devlinduldulao0138/AspNetCorePrometheusGrafana/_git/AspNetCorePrometheusGrafana/\r\nUpdated azure-pipelines.yml\r\n","html":"Devlin Duldulao created <a href=\"https://dev.azure.com/devlinduldulao0138/AspNetCorePrometheusGrafana/_git/AspNetCorePrometheusGrafana/pullrequest/35\">pull request 35</a> (Updated azure-pipelines.yml) in <a href=\"https://dev.azure.com/devlinduldulao0138/AspNetCorePrometheusGrafana/_git/AspNetCorePrometheusGrafana/\">AspNetCorePrometheusGrafana</a><p>Updated azure-pipelines.yml</p>","markdown":"Devlin Duldulao created [pull request 35](https://dev.azure.com/devlinduldulao0138/AspNetCorePrometheusGrafana/_git/AspNetCorePrometheusGrafana/pullrequest/35) (Updated azure-pipelines.yml) in [AspNetCorePrometheusGrafana](https://dev.azure.com/devlinduldulao0138/AspNetCorePrometheusGrafana/_git/AspNetCorePrometheusGrafana/)\r\nUpdated azure-pipelines.yml\r\n"},"resource":{"repository":{"id":"7c3741c7-5279-48ae-b011-e6dd25995972","name":"AspNetCorePrometheusGrafana","url":"https://dev.azure.com/devlinduldulao0138/937be093-e957-4698-8c11-653a839598ed/_apis/git/repositories/7c3741c7-5279-48ae-b011-e6dd25995972","project":{"id":"937be093-e957-4698-8c11-653a839598ed","name":"AspNetCorePrometheusGrafana","url":"https://dev.azure.com/devlinduldulao0138/_apis/projects/937be093-e957-4698-8c11-653a839598ed","state":"wellFormed","revision":203,"visibility":"private","lastUpdateTime":"2020-06-16T09:43:09Z"},"size":6745,"remoteUrl":"https://devlinduldulao0138@dev.azure.com/devlinduldulao0138/AspNetCorePrometheusGrafana/_git/AspNetCorePrometheusGrafana","sshUrl":"git@ssh.dev.azure.com:v3/devlinduldulao0138/AspNetCorePrometheusGrafana/AspNetCorePrometheusGrafana","webUrl":"https://dev.azure.com/devlinduldulao0138/AspNetCorePrometheusGrafana/_git/AspNetCorePrometheusGrafana"},"pullRequestId":35,"codeReviewId":35,"status":"active","createdBy":{"displayName":"Devlin Duldulao","url":"https://spsprodea1.vssps.visualstudio.com/A958477b7-537d-400b-9bb6-19890e263813/_apis/Identities/1eefe186-4358-6f14-a1cb-1d1c8833216c","_links":{"avatar":{"href":"https://dev.azure.com/devlinduldulao0138/_apis/GraphProfile/MemberAvatars/msa.MWVlZmUxODYtNDM1OC03ZjE0LWExY2ItMWQxYzg4MzMyMTZj"}},"id":"1eefe186-4358-6f14-a1cb-1d1c8833216c","uniqueName":"devlinduldulao@outlook.com","imageUrl":"https://dev.azure.com/devlinduldulao0138/_api/_common/identityImage?id=1eefe186-4358-6f14-a1cb-1d1c8833216c","descriptor":"msa.MWVlZmUxODYtNDM1OC03ZjE0LWExY2ItMWQxYzg4MzMyMTZj"},"creationDate":"2020-06-17T21:24:54.4988452Z","title":"Updated azure-pipelines.yml","description":"Updated azure-pipelines.yml","sourceRefName":"refs/heads/devlin/8","targetRefName":"refs/heads/master","mergeStatus":"succeeded","isDraft":false,"mergeId":"f73ec5e0-9e7c-4405-b3c8-319c714f7e44","lastMergeSourceCommit":{"commitId":"5a4a08702515b53dca21f058e857fced52f3d2af","url":"https://dev.azure.com/devlinduldulao0138/937be093-e957-4698-8c11-653a839598ed/_apis/git/repositories/7c3741c7-5279-48ae-b011-e6dd25995972/commits/5a4a08702515b53dca21f058e857fced52f3d2af"},"lastMergeTargetCommit":{"commitId":"222c5a6a0b623788b041e8e8fd0d78c2aea2337f","url":"https://dev.azure.com/devlinduldulao0138/937be093-e957-4698-8c11-653a839598ed/_apis/git/repositories/7c3741c7-5279-48ae-b011-e6dd25995972/commits/222c5a6a0b623788b041e8e8fd0d78c2aea2337f"},"lastMergeCommit":{"commitId":"8ef6789eba791eff5d4e482964b87848463149ea","author":{"name":"Devlin Duldulao","email":"devlinduldulao@outlook.com","date":"2020-06-17T21:24:55Z"},"committer":{"name":"Devlin Duldulao","email":"devlinduldulao@outlook.com","date":"2020-06-17T21:24:55Z"},"comment":"Merge pull request 35 from devlin/8 into master","url":"https://dev.azure.com/devlinduldulao0138/937be093-e957-4698-8c11-653a839598ed/_apis/git/repositories/7c3741c7-5279-48ae-b011-e6dd25995972/commits/8ef6789eba791eff5d4e482964b87848463149ea"},"reviewers":[],"url":"https://dev.azure.com/devlinduldulao0138/937be093-e957-4698-8c11-653a839598ed/_apis/git/repositories/7c3741c7-5279-48ae-b011-e6dd25995972/pullRequests/35","_links":{"web":{"href":"https://dev.azure.com/devlinduldulao0138/AspNetCorePrometheusGrafana/_git/AspNetCorePrometheusGrafana/pullrequest/35"},"statuses":{"href":"https://dev.azure.com/devlinduldulao0138/937be093-e957-4698-8c11-653a839598ed/_apis/git/repositories/7c3741c7-5279-48ae-b011-e6dd25995972/pullRequests/35/statuses"}},"supportsIterations":true,"artifactId":"vstfs:///Git/PullRequestId/937be093-e957-4698-8c11-653a839598ed%2f7c3741c7-5279-48ae-b011-e6dd25995972%2f35"},"resourceVersion":"1.0","resourceContainers":{"collection":{"id":"3b4029e0-2986-44f2-aad7-958acf7c1d5a","baseUrl":"https://dev.azure.com/devlinduldulao0138/"},"account":{"id":"958477b7-537d-400b-9bb6-19890e263813","baseUrl":"https://dev.azure.com/devlinduldulao0138/"},"project":{"id":"937be093-e957-4698-8c11-653a839598ed","baseUrl":"https://dev.azure.com/devlinduldulao0138/"}},"createdDate":"2020-06-17T21:25:02.9157894Z"}
+  2020-06-17T21:25:07.000 [Information] ################ PullRequestCreated Webhook Triggered ################
+  2020-06-17T21:25:07.001 [Information] https://dev.azure.com/devlinduldulao0138/AspNetCorePrometheusGrafana/_apis/git/repositories/AspNetCorePrometheusGrafana/pullrequests/35/statuses?api-version=5.0-preview.1
+  2020-06-17T21:25:07.001 [Information] updateStatusPolicy()
+  2020-06-17T21:25:08.074 [Information] STATUS:: {
+    status: 200,
+    statusText: 'OK',
+    headers: {
+      'cache-control': 'no-cache, no-store, must-revalidate',
+      pragma: 'no-cache',
+      'content-length': '1232',
+      'content-type': 'application/json; charset=utf-8; api-version=5.0-preview.1',
+      expires: '-1',
+      p3p: 'CP="CAO DSP COR ADMa DEV CONo TELo CUR PSA PSD TAI IVDo OUR SAMi BUS DEM NAV STA UNI COM INT PHY ONL FIN PUR LOC CNT"',
+      'set-cookie': [
+        'VstsSession=%7B%22PersistentSessionId%22%3A%228b21e72a-1ee8-41a1-b0be-8f49d93bb91d%22%2C%22PendingAuthenticationSessionId%22%3A%2200000000-0000-0000-0000-000000000000%22%2C%22CurrentAuthenticationSessionId%22%3A%2200000000-0000-0000-0000-000000000000%22%2C%22SignInState%22%3A%7B%7D%7D;SameSite=None; domain=.dev.azure.com; expires=Mon, 16-Jun-2025 21:25:07 GMT; path=/; secure; HttpOnly'
+      ],
+      'x-tfs-processid': 'be016f62-7bb6-4398-814d-877974e788b5',
+      'strict-transport-security': 'max-age=31536000; includeSubDomains',
+      activityid: '467cfb07-59af-4bbf-833b-af32158a72bc',
+      'x-tfs-session': '467cfb07-59af-4bbf-833b-af32158a72bc',
+      'x-vss-e2eid': '467cfb07-59af-4bbf-833b-af32158a72bc',
+      'x-vss-userdata': '1eefe186-4358-6f14-a1cb-1d1c8833216c:devlinduldulao@outlook.com',
+      'x-frame-options': 'SAMEORIGIN',
+      'request-context': 'appId=cid-v1:3c7b8b49-f5d2-4833-9371-c778ad6eb2f9',
+      'access-control-expose-headers': 'Request-Context',
+      'x-content-type-options': 'nosniff',
+      'x-msedge-ref': 'Ref A: DFA19A7277024C00A7644CAA74F8BEDE Ref B: DM2EDGE0814 Ref C: 2020-06-17T21:25:07Z',
+      date: 'Wed, 17 Jun 2020 21:25:08 GMT',
+      connection: 'close'
+    },
+    config: {
+      url: 'https://dev.azure.com/devlinduldulao0138/AspNetCorePrometheusGrafana/_apis/git/repositories/AspNetCorePrometheusGrafana/pullrequests/35/statuses?api-version=5.0-preview.1',
+      method: 'post',
+      data: '{"state":"succeeded","description":"pr succeeded","targetUrl":"https://visualstudio.microsoft.com","context":{"name":"Pull Request Validering","genre":"pr-azure-function-ci"}}',
+      headers: {
+        Accept: 'application/json, text/plain, */*',
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ZGV2bGluZHVsZHVsYW86ZnRkaTVxeWh6ZDJka3o2bHoydHFyMnVzMzNrdDNmaTUyYmJ4aGxtZ2V4ajRiN2dscXc1YQ==',
+        'User-Agent': 'node-fetch/1.0 (+https://github.com/bitinn/node-fetch)',
+        'Content-Length': 175
+      },
+      transformRequest: [ [Function: transformRequest] ],
+      transformResponse: [ [Function: transformResponse] ],
+      timeout: 0,
+      adapter: [Function: httpAdapter],
+      xsrfCookieName: 'XSRF-TOKEN',
+      xsrfHeaderName: 'X-XSRF-TOKEN',
+      maxContentLength: -1,
+      validateStatus: [Function: validateStatus]
+    },
+    request: ClientRequest {
+      _events: [Object: null prototype] {
+        socket: [Function],
+        abort: [Function],
+        aborted: [Function],
+        error: [Function],
+        timeout: [Function],
+        prefinish: [Function: requestOnPrefinish]
+      },
+      _eventsCount: 6,
+      _maxListeners: undefined,
+      outputData: [],
+      outputSize: 0,
+      writable: true,
+      _last: true,
+      chunkedEncoding: false,
+      shouldKeepAlive: false,
+      useChunkedEncodingByDefault: true,
+      sendDate: false,
+      _removedConnection: false,
+      _removedContLen: false,
+      _removedTE: false,
+      _contentLength: null,
+      _hasBody: true,
+      _trailer: '',
+      finished: true,
+      _headerSent: true,
+      socket: TLSSocket {
+        _tlsOptions: [Object],
+        _secureEstablished: true,
+        _securePending: false,
+        _newSessionPending: false,
+        _controlReleased: true,
+        _SNICallback: null,
+        servername: false,
+        alpnProtocol: false,
+        authorized: true,
+        authorizationError: null,
+        encrypted: true,
+        _events: [Object: null prototype],
+        _eventsCount: 9,
+        connecting: false,
+        _hadError: false,
+        _parent: null,
+        _host: 'dev.azure.com',
+        _readableState: [ReadableState],
+        readable: true,
+        _maxListeners: undefined,
+        _writableState: [WritableState],
+        writable: false,
+        allowHalfOpen: false,
+        _sockname: null,
+        _pendingData: null,
+        _pendingEncoding: '',
+        server: undefined,
+        _server: null,
+        ssl: [TLSWrap],
+        _requestCert: true,
+        _rejectUnauthorized: true,
+        parser: null,
+        _httpMessage: [Circular],
+        [Symbol(res)]: [TLSWrap],
+        [Symbol(asyncId)]: 108,
+        [Symbol(kHandle)]: [TLSWrap],
+        [Symbol(lastWriteQueueSize)]: 0,
+        [Symbol(timeout)]: null,
+        [Symbol(kBuffer)]: null,
+        [Symbol(kBufferCb)]: null,
+        [Symbol(kBufferGen)]: null,
+        [Symbol(kBytesRead)]: 0,
+        [Symbol(kBytesWritten)]: 0,
+        [Symbol(connect-options)]: [Object]
+      },
+      connection: TLSSocket {
+        _tlsOptions: [Object],
+        _secureEstablished: true,
+        _securePending: false,
+        _newSessionPending: false,
+        _controlReleased: true,
+        _SNICallback: null,
+        servername: false,
+        alpnProtocol: false,
+        authorized: true,
+        authorizationError: null,
+        encrypted: true,
+        _events: [Object: null prototype],
+        _eventsCount: 9,
+        connecting: false,
+        _hadError: false,
+        _parent: null,
+        _host: 'dev.azure.com',
+        _readableState: [ReadableState],
+        readable: true,
+        _maxListeners: undefined,
+        _writableState: [WritableState],
+        writable: false,
+        allowHalfOpen: false,
+        _sockname: null,
+        _pendingData: null,
+        _pendingEncoding: '',
+        server: undefined,
+        _server: null,
+        ssl: [TLSWrap],
+        _requestCert: true,
+        _rejectUnauthorized: true,
+        parser: null,
+        _httpMessage: [Circular],
+        [Symbol(res)]: [TLSWrap],
+        [Symbol(asyncId)]: 108,
+        [Symbol(kHandle)]: [TLSWrap],
+        [Symbol(lastWriteQueueSize)]: 0,
+        [Symbol(timeout)]: null,
+        [Symbol(kBuffer)]: null,
+        [Symbol(kBufferCb)]: null,
+        [Symbol(kBufferGen)]: null,
+        [Symbol(kBytesRead)]: 0,
+        [Symbol(kBytesWritten)]: 0,
+        [Symbol(connect-options)]: [Object]
+      },
+      _header: 'POST /devlinduldulao0138/AspNetCorePrometheusGrafana/_apis/git/repositories/AspNetCorePrometheusGrafana/pullrequests/35/statuses?api-version=5.0-preview.1 HTTP/1.1\r\n' +
+        'Accept: application/json, text/plain, */*\r\n' +
+        'Content-Type: application/json\r\n' +
+        'Authorization: Basic ZGV2bGluZHVsZHVsYW86ZnRkaTVxeWh6ZDJka3o2bHoydHFyMnVzMzNrdDNmaTUyYmJ4aGxtZ2V4ajRiN2dscXc1YQ==\r\n' +
+        'User-Agent: node-fetch/1.0 (+https://github.com/bitinn/node-fetch)\r\n' +
+        'Content-Length: 175\r\n' +
+        'Host: dev.azure.com\r\n' +
+        'Connection: close\r\n' +
+        '\r\n',
+      _onPendingData: [Function: noopPendingOutput],
+      agent: Agent {
+        _events: [Object: null prototype],
+        _eventsCount: 1,
+        _maxListeners: undefined,
+        defaultPort: 443,
+        protocol: 'https:',
+        options: [Object],
+        requests: {},
+        sockets: [Object],
+        freeSockets: {},
+        keepAliveMsecs: 1000,
+        keepAlive: false,
+        maxSockets: Infinity,
+        maxFreeSockets: 256,
+        maxCachedSessions: 100,
+        _sessionCache: [Object]
+      },
+      socketPath: undefined,
+      method: 'POST',
+      insecureHTTPParser: undefined,
+      path: '/devlinduldulao0138/AspNetCorePrometheusGrafana/_apis/git/repositories/AspNetCorePrometheusGrafana/pullrequests/35/statuses?api-version=5.0-preview.1',
+      _ended: true,
+      res: IncomingMessage {
+        _readableState: [ReadableState],
+        readable: false,
+        _events: [Object: null prototype],
+        _eventsCount: 3,
+        _maxListeners: undefined,
+        socket: [TLSSocket],
+        connection: [TLSSocket],
+        httpVersionMajor: 1,
+        httpVersionMinor: 1,
+        httpVersion: '1.1',
+        complete: true,
+        headers: [Object],
+        rawHeaders: [Array],
+        trailers: {},
+        rawTrailers: [],
+        aborted: false,
+        upgrade: false,
+        url: '',
+        method: null,
+        statusCode: 200,
+        statusMessage: 'OK',
+        client: [TLSSocket],
+        _consuming: false,
+        _dumped: false,
+        req: [Circular],
+        responseUrl: 'https://dev.azure.com/devlinduldulao0138/AspNetCorePrometheusGrafana/_apis/git/repositories/AspNetCorePrometheusGrafana/pullrequests/35/statuses?api-version=5.0-preview.1',
+        redirects: []
+      },
+      aborted: false,
+      timeoutCb: null,
+      upgradeOrConnect: false,
+      parser: null,
+      maxHeadersCount: null,
+      _redirectable: Writable {
+        _writableState: [WritableState],
+        writable: true,
+        _events: [Object: null prototype],
+        _eventsCount: 2,
+        _maxListeners: undefined,
+        _options: [Object],
+        _redirectCount: 0,
+        _redirects: [],
+        _requestBodyLength: 175,
+        _requestBodyBuffers: [],
+        _onNativeResponse: [Function],
+        _currentRequest: [Circular],
+        _currentUrl: 'https://dev.azure.com/devlinduldulao0138/AspNetCorePrometheusGrafana/_apis/git/repositories/AspNetCorePrometheusGrafana/pullrequests/35/statuses?api-version=5.0-preview.1'
+      },
+      [Symbol(kNeedDrain)]: false,
+      [Symbol(isCorked)]: false,
+      [Symbol(kOutHeaders)]: [Object: null prototype] {
+        accept: [Array],
+        'content-type': [Array],
+        authorization: [Array],
+        'user-agent': [Array],
+        'content-length': [Array],
+        host: [Array]
+      }
+    },
+    data: {
+      id: 2,
+      state: 'succeeded',
+      description: 'pr succeeded',
+      context: { name: 'Pull Request Validering', genre: 'pr-azure-function-ci' },
+      creationDate: '2020-06-17T21:25:07.9524605Z',
+      updatedDate: '2020-06-17T21:25:07.9524605Z',
+      createdBy: {
+        displayName: 'Devlin Duldulao',
+        url: 'https://spsprodea1.vssps.visualstudio.com/A958477b7-537d-400b-9bb6-19890e263813/_apis/Identities/1eefe186-4358-6f14-a1cb-1d1c8833216c',
+        _links: [Object],
+        id: '1eefe186-4358-6f14-a1cb-1d1c8833216c',
+        uniqueName: 'devlinduldulao@outlook.com',
+        imageUrl: 'https://dev.azure.com/devlinduldulao0138/_apis/GraphProfile/MemberAvatars/msa.MWVlZmUxODYtNDM1OC03ZjE0LWExY2ItMWQxYzg4MzMyMTZj',
+        descriptor: 'msa.MWVlZmUxODYtNDM1OC03ZjE0LWExY2ItMWQxYzg4MzMyMTZj'
+      },
+      targetUrl: 'https://visualstudio.microsoft.com',
+      _links: { self: [Object], repository: [Object] }
+    }
+  }
+  2020-06-17T21:25:08.076 [Information] Executed 'Functions.TestHttpTrigger' (Succeeded, Id=c338eaf5-2309-41c5-992c-7ff23600b84f)
+  2020-06-17T21:26:04.865 [Information] Executing 'Functions.TestHttpTrigger' (Reason='This function was programmatically called via the host APIs.', Id=07baa56e-b26e-451e-aa23-3b195ec8d62a)
+  2020-06-17T21:26:04.877 [Information] Service Hook Received
+  2020-06-17T21:26:04.884 [Information] PULL_REQUEST_DATA {
+    subscriptionId: 'b3277ce4-4554-4e6f-8737-04968d092a3c',
+    notificationId: 1,
+    id: 'e8b19e48-e48e-4c2a-94c1-93bd9afaf436',
+    eventType: 'build.complete',
+    publisherId: 'tfs',
+    message: {
+      text: 'Build 20200617.6 succeeded',
+      html: 'Build <a href="https://dev.azure.com/devlinduldulao0138/web/build.aspx?pcguid=3b4029e0-2986-44f2-aad7-958acf7c1d5a&amp;builduri=vstfs%3a%2f%2f%2fBuild%2fBuild%2f206">20200617.6</a> succeeded',
+      markdown: 'Build [20200617.6](https://dev.azure.com/devlinduldulao0138/web/build.aspx?pcguid=3b4029e0-2986-44f2-aad7-958acf7c1d5a&builduri=vstfs%3a%2f%2f%2fBuild%2fBuild%2f206) succeeded'
+    },
+    detailedMessage: {
+      text: 'Build 20200617.6 succeeded',
+      html: 'Build <a href="https://dev.azure.com/devlinduldulao0138/web/build.aspx?pcguid=3b4029e0-2986-44f2-aad7-958acf7c1d5a&amp;builduri=vstfs%3a%2f%2f%2fBuild%2fBuild%2f206">20200617.6</a> succeeded',
+      markdown: 'Build [20200617.6](https://dev.azure.com/devlinduldulao0138/web/build.aspx?pcguid=3b4029e0-2986-44f2-aad7-958acf7c1d5a&builduri=vstfs%3a%2f%2f%2fBuild%2fBuild%2f206) succeeded'
+    },
+    resource: {
+      uri: 'vstfs:///Build/Build/206',
+      id: 206,
+      buildNumber: '20200617.6',
+      url: 'https://dev.azure.com/devlinduldulao0138/937be093-e957-4698-8c11-653a839598ed/_apis/build/Builds/206',
+      startTime: '2020-06-17T21:25:19.1093796Z',
+      finishTime: '2020-06-17T21:25:50.8234988Z',
+      reason: 'validateShelveset',
+      status: 'succeeded',
+      drop: {},
+      log: {},
+      sourceGetVersion: 'LG:refs/pull/35/merge:8ef6789eba791eff5d4e482964b87848463149ea',
+      lastChangedBy: {
+        displayName: 'Microsoft.VisualStudio.Services.TFS',
+        id: '00000000-0000-0000-0000-000000000000',
+        uniqueName: '00000002-0000-8888-8000-000000000000@2c895908-04e0-4952-89fd-54b0046d6288'
+      },
+      retainIndefinitely: false,
+      definition: {
+        definitionType: 'xaml',
+        id: 20,
+        name: 'AspNetCorePrometheusGrafana',
+        url: 'https://dev.azure.com/devlinduldulao0138/937be093-e957-4698-8c11-653a839598ed/_apis/build/Definitions/20'
+      },
+      requests: [ [Object] ]
+    },
+    resourceVersion: '1.0',
+    resourceContainers: {
+      collection: {
+        id: '3b4029e0-2986-44f2-aad7-958acf7c1d5a',
+        baseUrl: 'https://dev.azure.com/devlinduldulao0138/'
+      },
+      account: {
+        id: '958477b7-537d-400b-9bb6-19890e263813',
+        baseUrl: 'https://dev.azure.com/devlinduldulao0138/'
+      },
+      project: {
+        id: '937be093-e957-4698-8c11-653a839598ed',
+        baseUrl: 'https://dev.azure.com/devlinduldulao0138/'
+      }
+    },
+    createdDate: '2020-06-17T21:26:03.9563247Z'
+  }
+  2020-06-17T21:26:04.884 [Information] BUILD_COMPLETED_DATA {
+    subscriptionId: 'b3277ce4-4554-4e6f-8737-04968d092a3c',
+    notificationId: 1,
+    id: 'e8b19e48-e48e-4c2a-94c1-93bd9afaf436',
+    eventType: 'build.complete',
+    publisherId: 'tfs',
+    message: {
+      text: 'Build 20200617.6 succeeded',
+      html: 'Build <a href="https://dev.azure.com/devlinduldulao0138/web/build.aspx?pcguid=3b4029e0-2986-44f2-aad7-958acf7c1d5a&amp;builduri=vstfs%3a%2f%2f%2fBuild%2fBuild%2f206">20200617.6</a> succeeded',
+      markdown: 'Build [20200617.6](https://dev.azure.com/devlinduldulao0138/web/build.aspx?pcguid=3b4029e0-2986-44f2-aad7-958acf7c1d5a&builduri=vstfs%3a%2f%2f%2fBuild%2fBuild%2f206) succeeded'
+    },
+    detailedMessage: {
+      text: 'Build 20200617.6 succeeded',
+      html: 'Build <a href="https://dev.azure.com/devlinduldulao0138/web/build.aspx?pcguid=3b4029e0-2986-44f2-aad7-958acf7c1d5a&amp;builduri=vstfs%3a%2f%2f%2fBuild%2fBuild%2f206">20200617.6</a> succeeded',
+      markdown: 'Build [20200617.6](https://dev.azure.com/devlinduldulao0138/web/build.aspx?pcguid=3b4029e0-2986-44f2-aad7-958acf7c1d5a&builduri=vstfs%3a%2f%2f%2fBuild%2fBuild%2f206) succeeded'
+    },
+    resource: {
+      uri: 'vstfs:///Build/Build/206',
+      id: 206,
+      buildNumber: '20200617.6',
+      url: 'https://dev.azure.com/devlinduldulao0138/937be093-e957-4698-8c11-653a839598ed/_apis/build/Builds/206',
+      startTime: '2020-06-17T21:25:19.1093796Z',
+      finishTime: '2020-06-17T21:25:50.8234988Z',
+      reason: 'validateShelveset',
+      status: 'succeeded',
+      drop: {},
+      log: {},
+      sourceGetVersion: 'LG:refs/pull/35/merge:8ef6789eba791eff5d4e482964b87848463149ea',
+      lastChangedBy: {
+        displayName: 'Microsoft.VisualStudio.Services.TFS',
+        id: '00000000-0000-0000-0000-000000000000',
+        uniqueName: '00000002-0000-8888-8000-000000000000@2c895908-04e0-4952-89fd-54b0046d6288'
+      },
+      retainIndefinitely: false,
+      definition: {
+        definitionType: 'xaml',
+        id: 20,
+        name: 'AspNetCorePrometheusGrafana',
+        url: 'https://dev.azure.com/devlinduldulao0138/937be093-e957-4698-8c11-653a839598ed/_apis/build/Definitions/20'
+      },
+      requests: [ [Object] ]
+    },
+    resourceVersion: '1.0',
+    resourceContainers: {
+      collection: {
+        id: '3b4029e0-2986-44f2-aad7-958acf7c1d5a',
+        baseUrl: 'https://dev.azure.com/devlinduldulao0138/'
+      },
+      account: {
+        id: '958477b7-537d-400b-9bb6-19890e263813',
+        baseUrl: 'https://dev.azure.com/devlinduldulao0138/'
+      },
+      project: {
+        id: '937be093-e957-4698-8c11-653a839598ed',
+        baseUrl: 'https://dev.azure.com/devlinduldulao0138/'
+      }
+    },
+    createdDate: '2020-06-17T21:26:03.9563247Z'
+  }
+  

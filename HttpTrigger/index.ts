@@ -72,7 +72,7 @@ const appendMetaData = (body: any, context) => {
   const start: any = new Date(body.resource.startTime); // This is a string "2020-06-13T18:13:55.7788727Z"
   const finish: any = new Date(body.resource.finishTime); // This is a string "2020-06-13T18:15:05.9171757Z"
   const timeDiff = finish - start;
-  context.console.log("TIME_DIFF::", timeDiff);
+  context.log("TIME_DIFF::", timeDiff);
 
   body.customData = {
     executionTimeMs: timeDiff,

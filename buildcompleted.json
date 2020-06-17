@@ -1,0 +1,59 @@
+{
+  "subscriptionId": "b3277ce4-4554-4e6f-8737-04968d092a3c",
+  "notificationId": 1,
+  "id": "e8b19e48-e48e-4c2a-94c1-93bd9afaf436",
+  "eventType": "build.complete",
+  "publisherId": "tfs",
+  "message": {
+    "text": "Build 20200617.6 succeeded",
+    "html": "Build <a href=\"https://dev.azure.com/devlinduldulao0138/web/build.aspx?pcguid=3b4029e0-2986-44f2-aad7-958acf7c1d5a&amp;builduri=vstfs%3a%2f%2f%2fBuild%2fBuild%2f206\">20200617.6</a> succeeded",
+    "markdown": "Build [20200617.6](https://dev.azure.com/devlinduldulao0138/web/build.aspx?pcguid=3b4029e0-2986-44f2-aad7-958acf7c1d5a&builduri=vstfs%3a%2f%2f%2fBuild%2fBuild%2f206) succeeded"
+  },
+  "detailedMessage": {
+    "text": "Build 20200617.6 succeeded",
+    "html": "Build <a href=\"https://dev.azure.com/devlinduldulao0138/web/build.aspx?pcguid=3b4029e0-2986-44f2-aad7-958acf7c1d5a&amp;builduri=vstfs%3a%2f%2f%2fBuild%2fBuild%2f206\">20200617.6</a> succeeded",
+    "markdown": "Build [20200617.6](https://dev.azure.com/devlinduldulao0138/web/build.aspx?pcguid=3b4029e0-2986-44f2-aad7-958acf7c1d5a&builduri=vstfs%3a%2f%2f%2fBuild%2fBuild%2f206) succeeded"
+  },
+  "resource": {
+    "uri": "vstfs:///Build/Build/206",
+    "id": 206,
+    "buildNumber": "20200617.6",
+    "url": "https://dev.azure.com/devlinduldulao0138/937be093-e957-4698-8c11-653a839598ed/_apis/build/Builds/206",
+    "startTime": "2020-06-17T21:25:19.1093796Z",
+    "finishTime": "2020-06-17T21:25:50.8234988Z",
+    "reason": "validateShelveset",
+    "status": "succeeded",
+    "drop": {},
+    "log": {},
+    "sourceGetVersion": "LG:refs/pull/35/merge:8ef6789eba791eff5d4e482964b87848463149ea",
+    "lastChangedBy": {
+      "displayName": "Microsoft.VisualStudio.Services.TFS",
+      "id": "00000000-0000-0000-0000-000000000000",
+      "uniqueName": "00000002-0000-8888-8000-000000000000@2c895908-04e0-4952-89fd-54b0046d6288"
+    },
+    "retainIndefinitely": false,
+    "definition": {
+      "definitionType": "xaml",
+      "id": 20,
+      "name": "AspNetCorePrometheusGrafana",
+      "url": "https://dev.azure.com/devlinduldulao0138/937be093-e957-4698-8c11-653a839598ed/_apis/build/Definitions/20"
+    },
+    "requests": [[Object]]
+  },
+  "resourceVersion": "1.0",
+  "resourceContainers": {
+    "collection": {
+      "id": "3b4029e0-2986-44f2-aad7-958acf7c1d5a",
+      "baseUrl": "https://dev.azure.com/devlinduldulao0138/"
+    },
+    "account": {
+      "id": "958477b7-537d-400b-9bb6-19890e263813",
+      "baseUrl": "https://dev.azure.com/devlinduldulao0138/"
+    },
+    "project": {
+      "id": "937be093-e957-4698-8c11-653a839598ed",
+      "baseUrl": "https://dev.azure.com/devlinduldulao0138/"
+    }
+  },
+  "createdDate": "2020-06-17T21:26:03.9563247Z"
+}
