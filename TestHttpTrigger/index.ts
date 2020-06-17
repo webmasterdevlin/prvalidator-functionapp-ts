@@ -26,6 +26,9 @@ const httpTrigger: AzureFunction = async function (
     const prData = req.body as PullRequestCreated;
     const buildData = req.body as BuildCompleted;
 
+    context.log("PULL_REQUEST_DATA", prData);
+    context.log("BUILD_COMPLETED_DATA", buildData);
+
     context.log("Data Received: " + JSON.stringify(req.body));
 
     if (prData.resource.createdBy) {

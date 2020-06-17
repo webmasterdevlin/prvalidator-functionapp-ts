@@ -7,6 +7,5 @@
       "path": "builds/{name}/{filename}.json",
       "connection": "AzureWebJobsStorage"
     }
-  ],
-  "scriptFile": "../dist/BlobTrigger/index.js"
+  ]
 }
