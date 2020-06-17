@@ -41,16 +41,14 @@ const httpTrigger: AzureFunction = async function (
         `https://dev.azure.com/${accountName}/${prData.resource.repository.project.name}/_apis/git/repositories/${prData.resource.repository.name}/pullrequests/${prData.resource.pullRequestId}/statuses?api-version=5.0-preview.1`
       );
 
-      const status = (
-        await updateStatusPolicy(
-          statusPolicy,
-          accountName,
-          prData.resource.repository.project.name,
-          prData.resource.repository.name,
-          prData.resource.pullRequestId,
-          context
-        )
-      ).data;
+      const status = await updateStatusPolicy(
+        statusPolicy,
+        accountName,
+        prData.resource.repository.project.name,
+        prData.resource.repository.name,
+        prData.resource.pullRequestId,
+        context
+      );
 
       context.log("STATUS::", status);
     } else if (buildData.resource.buildNumber) {
@@ -58,57 +56,40 @@ const httpTrigger: AzureFunction = async function (
         "################ BuildCompleted Webhook Triggered ################"
       );
       const projectId = buildData.resourceContainers.project.id;
-      /*
-       *[Information] TypeError: Cannot read property 'data' of undefined
-       *This error does not appear on the 2ns call.
-       * I tried await sleep to see if delaying is needed. But it doesn't work
-       * */
-      // await sleep(10000);
-      const gitRepositories: GitRepositories = (
-        await getRepository(accountName, projectId, context)
-      ).data;
+
+      const gitRepositories: any = await getRepository(
+        accountName,
+        projectId,
+        context
+      );
 
       context.log("DATA", gitRepositories);
       context.log("GIT REPOSITORY::", JSON.stringify(gitRepositories.value));
       context.log(
         `MyURL2:: https://dev.azure.com/${accountName}/${projectId}/_apis/git/repositories/${gitRepositories.value[0].id}/pullrequests?api-version=5.1`
       );
-      /*
-       *[Information] TypeError: Cannot read property 'data' of undefined
-       *This error does not appear on the 2ns call.
-       * I tried await sleep to see if delaying is needed. But it doesn't work
-       * */
-      // await sleep(10000);
-      const resources: GitPullRequestResources = (
-        await getGitPullRequestResources(
-          accountName,
-          projectId,
-          gitRepositories.value[0].id,
-          context
-        )
-      ).data;
+
+      const resources: any = await getGitPullRequestResources(
+        accountName,
+        projectId,
+        gitRepositories.value[0].id,
+        context
+      );
 
       context.log("GIT RESOURCE COUNT::", resources.count);
       context.log(
         `FEED_BACK_URL:: https://${accountName}.visualstudio.com/${projectId}/_apis/git/repositories/${gitRepositories.value[0].id}/pullRequests/${resources.value[0].pullRequestId}/reviewers/${buildData.resource.requests[0].requestedFor.id}?api-version=5.0-preview.1`
       );
-      /*
-       *[Information] TypeError: Cannot read property 'data' of undefined
-       *This error does not appear on the 2ns call.
-       * I tried await sleep to see if delaying is needed. But it doesn't work
-       * */
-      // await sleep(10000);
-      const feedback = (
-        await sendFeedback(
-          accountName,
-          projectId,
-          gitRepositories.value[0].id,
-          resources.value[0].pullRequestId,
-          buildData.resource.requests[0].requestedFor.id,
-          Vote.approve,
-          context
-        )
-      ).data;
+
+      const feedback = await sendFeedback(
+        accountName,
+        projectId,
+        gitRepositories.value[0].id,
+        resources.value[0].pullRequestId,
+        buildData.resource.requests[0].requestedFor.id,
+        Vote.approve,
+        context
+      );
       context.log("FEEDBACK DATA:", feedback);
     } else {
       context.log(

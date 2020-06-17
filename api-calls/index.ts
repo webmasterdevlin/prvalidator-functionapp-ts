@@ -1,12 +1,7 @@
 import { Vote } from "../models/ApprovePullRequest";
-import {
-  GitPullRequestResources,
-  GitRepositories,
-} from "../models/webhooks/PullRequestCreated";
 import { Context } from "@azure/functions";
 import fetch from "node-fetch";
-
-import { Status, StatusPolicy } from "../models/StatusPolicy";
+import { StatusPolicy } from "../models/StatusPolicy";
 import { headers } from "../utils";
 
 export const updateStatusPolicy = async (
@@ -23,7 +18,7 @@ export const updateStatusPolicy = async (
   const body = JSON.stringify(statusPolicy);
 
   try {
-    return await fetch(url, { method, body, headers });
+    return await (await fetch(url, { method, body, headers })).json;
   } catch (e) {
     context.log(e);
   }
@@ -37,7 +32,7 @@ export const getRepository = async (
   const url = `https://dev.azure.com/${accountName}/${resourceContainersProjectId}/_apis/git/repositories?api-version=5.1`;
 
   try {
-    return await fetch(url, { headers });
+    return await (await fetch(url, { headers })).json;
   } catch (e) {
     context.log(e);
   }
@@ -52,7 +47,7 @@ export const getGitPullRequestResources = async (
   const url = `https://dev.azure.com/${accountName}/${resourceContainersProjectId}/_apis/git/repositories/${repositoryId}/pullrequests?api-version=5.1`;
 
   try {
-    return await fetch(url, { headers });
+    return await (await fetch(url, { headers })).json;
   } catch (e) {
     context.log(e);
   }
@@ -72,7 +67,7 @@ export const sendFeedback = async (
   const body = JSON.stringify(vote);
 
   try {
-    return await fetch(url, { method, body, headers });
+    return await (await fetch(url, { method, body, headers })).json;
   } catch (e) {
     context.log(e);
   }
