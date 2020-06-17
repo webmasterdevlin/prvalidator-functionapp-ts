@@ -63,7 +63,7 @@ const blobTrigger: AzureFunction = async function (
       data.resource.pullRequestId,
       context
     );
-    context.log("STATUS_FAILED::", await status());
+    context.log("STATUS_FAILED::", status);
   } else {
     context.log("MD is Not EMPTY!!");
 
@@ -79,7 +79,7 @@ const blobTrigger: AzureFunction = async function (
       data.resource.pullRequestId,
       context
     );
-    context.log("STATUS_SUCCEEDED::", await status());
+    context.log("STATUS_SUCCEEDED::", status);
   }
 };
 
