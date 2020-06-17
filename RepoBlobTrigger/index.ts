@@ -62,16 +62,14 @@ const blobTrigger: AzureFunction = async function (
     context.log("MD is EMPTY!!");
 
     const statusPolicy = new StatusPolicy(State.failed, Description.failed);
-    const status = (
-      await updateStatusPolicy(
-        statusPolicy,
-        ACCOUNT_NAME,
-        data.resource.repository.project.name,
-        data.resource.repository.name,
-        data.resource.pullRequestId,
-        context
-      )
-    ).data;
+    const status = await updateStatusPolicy(
+      statusPolicy,
+      ACCOUNT_NAME,
+      data.resource.repository.project.name,
+      data.resource.repository.name,
+      data.resource.pullRequestId,
+      context
+    );
     context.log("STATUS_FAILED::", status);
   } else {
     context.log("MD is Not EMPTY!!");
@@ -80,16 +78,14 @@ const blobTrigger: AzureFunction = async function (
       State.succeeded,
       Description.succeeded
     );
-    const status = (
-      await updateStatusPolicy(
-        statusPolicy,
-        ACCOUNT_NAME,
-        data.resource.repository.project.name,
-        data.resource.repository.name,
-        data.resource.pullRequestId,
-        context
-      )
-    ).data;
+    const status = await updateStatusPolicy(
+      statusPolicy,
+      ACCOUNT_NAME,
+      data.resource.repository.project.name,
+      data.resource.repository.name,
+      data.resource.pullRequestId,
+      context
+    );
     context.log("STATUS_SUCCEEDED::", status);
   }
 };
