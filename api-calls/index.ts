@@ -24,8 +24,8 @@ export const updateStatusPolicy = async (
     return await axios.post<Status>(
       url,
       {
-        state: "succeeded",
-        description: "succeeded",
+        state: "failed",
+        description: "scan failed",
         context: {
           name: "PullRequest-WIT-App",
         },
