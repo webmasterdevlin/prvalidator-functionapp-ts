@@ -1,5 +1,5 @@
 import { AzureFunction, Context } from "@azure/functions";
-import fetch from "node-fetch";
+import axios from "axios";
 import {
   BlobServiceClient,
   StorageSharedKeyCredential,
@@ -7,68 +7,65 @@ import {
 import { headers } from "../utils";
 
 /* Application settings */
-const account = process.env.ACCOUNT;
-const accountName = process.env.ACCOUNT_NAME;
-const accountKey = process.env.ACCESS_KEY;
-const username = process.env.DEVOPS_USERNAME;
-const pat = process.env.PAT_KEY;
+const ACCOUNT = process.env.ACCOUNT;
+const ACCOUNT_NAME = process.env.ACCOUNT_NAME;
+const ACCESS_KEY = process.env.ACCESS_KEY;
 
 /*
  * function
  * /api/BlobTrigger
  * */
 const blobTrigger: AzureFunction = async function (
-  context: Context,
+  { done, log }: Context,
   buffer: any
 ): Promise<void> {
-  context.log(
-    "Blob trigger function processed blob \n Name:",
-    context.bindingData.name,
-    "\n Blob Size:",
-    buffer.length,
-    "Bytes"
-  );
-
   const data = JSON.parse(buffer.toString("utf8"));
   const buildId = extractBuildId(data);
   const projectId = extractProjectId(data);
 
+  const url = artifacts_uri(projectId, buildId);
+
   try {
-    await fetchUrl(artifacts_uri(projectId, buildId), buildId);
-    context.res = { status: 201, body: "Insert succeeded." };
-    context.done(null, context.res);
+    await fetchUrl(url, buildId);
+    done(null, { status: 201, body: "Insert succeeded." });
   } catch (error) {
-    context.log.error(error);
-    context.res = { status: 500, body: "Exception" };
-    context.done(null, context.res);
+    log.error(error);
+    done(null, { status: 500, body: "Exception" });
   }
 };
 
+export default blobTrigger;
+
 const defaultAzureCredential = new StorageSharedKeyCredential(
-  account,
-  accountKey
+  ACCOUNT,
+  ACCESS_KEY
 );
 
 const extractBuildId = (blob) => blob.resource.id;
 const extractProjectId = (blob) => blob.resourceContainers.project.id;
 
-const artifacts_uri = (projectId, buildId) =>
-  `https://dev.azure.com/${accountName}/${projectId}/_apis/build/Builds/${buildId}/artifacts?api-version=5.1`;
+const artifacts_uri = (projectId: string, buildId: string) =>
+  `https://dev.azure.com/${ACCOUNT_NAME}/${projectId}/_apis/build/Builds/${buildId}/artifacts?api-version=5.1`;
 
 const blobServiceClient = new BlobServiceClient(
-  `https://${account}.blob.core.windows.net`,
+  `https://${ACCOUNT}.blob.core.windows.net`,
   defaultAzureCredential
 );
 
-async function download(url) {
-  const response = await fetch(url, { headers });
-  if (!response.ok)
-    throw new Error(`unexpected response ${response.statusText}`);
+const download = async (url: string) => {
+  try {
+    const { data } = await axios.get(url, { headers });
+    return Buffer.from(data);
+  } catch (e) {
+    throw new Error(e.message);
+  }
+};
 
-  return await response.buffer();
-}
-
-const uploadFiles = async (content, blobName, buildId) => {
+const uploadFiles = async (
+  content: Buffer,
+  blobName: string,
+  buildId: string
+) => {
   const containerName = `builds/${buildId}/artifacts`;
   const containerClient = blobServiceClient.getContainerClient(containerName);
   const blockBlobClient = containerClient.getBlockBlobClient(blobName);
@@ -79,7 +76,16 @@ const uploadFiles = async (content, blobName, buildId) => {
   return uploadBlobResponse.requestId;
 };
 
-async function downloadArtifacts(json, buildId) {
+const fetchUrl = async (url: string, buildId: string) => {
+  try {
+    const { data } = await axios.get(url, { headers });
+    return await downloadArtifacts(data, buildId);
+  } catch (e) {
+    throw new Error(e.message);
+  }
+};
+
+const downloadArtifacts = async (json: any, buildId: string) => {
   for (let i = 0; i < json.value.length; i++) {
     const element = json.value[i];
     const url = element.resource.downloadUrl;
@@ -89,14 +95,4 @@ async function downloadArtifacts(json, buildId) {
       await uploadFiles(artifact, fileName, buildId);
     }
   }
-}
-
-async function fetchUrl(url, buildId) {
-  const response = await fetch(url, { headers });
-  if (!response.ok)
-    throw new Error(`unexpected response ${response.statusText}`);
-  const content = await response.json();
-  return await downloadArtifacts(content, buildId);
-}
-
-export default blobTrigger;
+};

@@ -10,6 +10,11 @@ export type BuildCompleted = {
   resourceVersion: string;
   resourceContainers: ResourceContainers;
   createdDate: Date;
+  customData: CustomData;
+};
+
+type CustomData = {
+  executionTimeMs: number;
 };
 
 export type Message = {

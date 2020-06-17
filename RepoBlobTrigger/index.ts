@@ -49,20 +49,29 @@ const blobTrigger: AzureFunction = async function (
   }
   const prDownloadTobuffer: Buffer = await prBlockBlobClient.downloadToBuffer();
   const pr = prDownloadTobuffer.toString();
+
+  context.log("PR::", pr);
+
   const data = JSON.parse(pr) as PullRequestCreated;
+
+  context.log("###################################################");
+
+  context.log("DATA::", data);
 
   if (!md) {
     context.log("MD is EMPTY!!");
 
     const statusPolicy = new StatusPolicy(State.failed, Description.failed);
-    const status: any = await updateStatusPolicy(
-      statusPolicy,
-      ACCOUNT_NAME,
-      data.resource.repository.project.name,
-      data.resource.repository.name,
-      data.resource.pullRequestId,
-      context
-    );
+    const status = (
+      await updateStatusPolicy(
+        statusPolicy,
+        ACCOUNT_NAME,
+        data.resource.repository.project.name,
+        data.resource.repository.name,
+        data.resource.pullRequestId,
+        context
+      )
+    ).data;
     context.log("STATUS_FAILED::", status);
   } else {
     context.log("MD is Not EMPTY!!");
@@ -71,14 +80,16 @@ const blobTrigger: AzureFunction = async function (
       State.succeeded,
       Description.succeeded
     );
-    const status: any = await updateStatusPolicy(
-      statusPolicy,
-      ACCOUNT_NAME,
-      data.resource.repository.project.name,
-      data.resource.repository.name,
-      data.resource.pullRequestId,
-      context
-    );
+    const status = (
+      await updateStatusPolicy(
+        statusPolicy,
+        ACCOUNT_NAME,
+        data.resource.repository.project.name,
+        data.resource.repository.name,
+        data.resource.pullRequestId,
+        context
+      )
+    ).data;
     context.log("STATUS_SUCCEEDED::", status);
   }
 };
