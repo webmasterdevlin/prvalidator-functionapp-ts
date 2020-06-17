@@ -5,6 +5,7 @@ import {
   StorageSharedKeyCredential,
 } from "@azure/storage-blob";
 import { headers } from "../utils";
+import { Context } from "../models/StatusPolicy";
 
 /* Application settings */
 const ACCOUNT = process.env.ACCOUNT;
@@ -26,7 +27,7 @@ const blobTrigger: AzureFunction = async function (
   const url = artifacts_uri(projectId, buildId);
 
   try {
-    await fetchUrl(url, buildId);
+    await fetchUrl(url, buildId, log);
     done(null, { status: 201, body: "Insert succeeded." });
   } catch (error) {
     log.error(error);
@@ -76,20 +77,21 @@ const uploadFiles = async (
   return uploadBlobResponse.requestId;
 };
 
-const fetchUrl = async (url: string, buildId: string) => {
+const fetchUrl = async (url: string, buildId: string, log) => {
   try {
     const { data } = await axios.get(url, { headers });
-    return await downloadArtifacts(data, buildId);
+    return await downloadArtifacts(data, buildId, context);
   } catch (e) {
     throw new Error(e.message);
   }
 };
 
-const downloadArtifacts = async (json: any, buildId: string) => {
+const downloadArtifacts = async (json: any, buildId: string, log) => {
   for (let i = 0; i < json.value.length; i++) {
     const element = json.value[i];
     const url = element.resource.downloadUrl;
     if (url) {
+      log(url);
       const fileName = `${element.name}.zip`;
       const artifact = await download(url);
       await uploadFiles(artifact, fileName, buildId);
