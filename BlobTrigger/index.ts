@@ -67,13 +67,14 @@ async function fetchUrl(url, buildId, context) {
   return await downloadArtifacts(content, buildId, context);
 }
 
-async function downloadArtifacts(json, buildId, context) {
+async function downloadArtifacts(resources, buildId, context) {
   context.log("downloadArtifacts");
-  for (let i = 0; i < json.value.length; i++) {
-    const element = json.value[i];
-    const url = element.resource.downloadUrl;
+  for (let i = 0; i < resources.count; i++) {
+    const resource = resources.value[i];
+    const url = resource.drop.downloadUrl;
+
     if (url) {
-      const fileName = `${element.name}.zip`;
+      const fileName = `${resource}.zip`;
       const artifact = await download(url, context);
       await uploadFiles(artifact, fileName, buildId, context);
     }
