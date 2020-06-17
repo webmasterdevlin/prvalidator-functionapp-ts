@@ -27,7 +27,7 @@ export const updateStatusPolicy = async (
         state: "failed",
         description: "scan failed",
         context: {
-          name: "PullRequest-WIT-App",
+          name: "Validation-by-Function-App",
         },
       },
       { headers }
