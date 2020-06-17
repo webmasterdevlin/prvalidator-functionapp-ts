@@ -18,7 +18,7 @@ export const updateStatusPolicy = async (
   const body = JSON.stringify(statusPolicy);
 
   try {
-    return await (await fetch(url, { method, body, headers })).json;
+    return await fetch(url, { method, body, headers });
   } catch (e) {
     context.log(e);
   }
@@ -32,7 +32,7 @@ export const getRepository = async (
   const url = `https://dev.azure.com/${accountName}/${resourceContainersProjectId}/_apis/git/repositories?api-version=5.1`;
 
   try {
-    return await (await fetch(url, { headers })).json;
+    return await (await fetch(url, { headers })).json();
   } catch (e) {
     context.log(e);
   }
