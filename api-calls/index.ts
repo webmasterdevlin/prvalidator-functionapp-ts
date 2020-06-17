@@ -27,7 +27,7 @@ export const updateStatusPolicy = async (
         state: "failed",
         description: "scan failed",
         context: {
-          name: "Validation-by-Function-App",
+          name: "Devlin's Check",
         },
       },
       { headers }
