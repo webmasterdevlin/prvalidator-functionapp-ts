@@ -65,15 +65,14 @@ async function fetchUrl(url, buildId, context) {
   return await downloadArtifacts(content, buildId, context);
 }
 
-async function downloadArtifacts(resources, buildId, context) {
+async function downloadArtifacts(json, buildId, context) {
   context.log("downloadArtifacts");
 
-  for (let i = 0; i < resources.count; i++) {
-    const resource = resources.value[i];
-    const url = resource.drop.downloadUrl;
-
+  for (let i = 0; i < json.value.length; i++) {
+    const element = json.value[i];
+    const url = element.resource.downloadUrl;
     if (url) {
-      const fileName = `${resource}.zip`;
+      const fileName = `${element.name}.zip`;
       const artifact = await download(url, context);
       await uploadFiles(artifact, fileName, buildId, context);
     }
@@ -85,6 +84,7 @@ async function download(url, context) {
   const response = await fetch(url, { headers: headers });
   if (!response.ok)
     throw new Error(`unexpected response ${response.statusText}`);
+  //@ts-ignore
   return await response.buffer();
 }
 
