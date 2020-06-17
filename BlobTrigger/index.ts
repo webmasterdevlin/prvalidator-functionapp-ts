@@ -80,7 +80,7 @@ const uploadFiles = async (
 const fetchUrl = async (url: string, buildId: string, log) => {
   try {
     const { data } = await axios.get(url, { headers });
-    return await downloadArtifacts(data, buildId, context);
+    return await downloadArtifacts(data, buildId, log);
   } catch (e) {
     throw new Error(e.message);
   }
