@@ -37,7 +37,7 @@ const blobServiceClient = new BlobServiceClient(
   defaultAzureCredential
 );
 
-const uploadFiles = async (body: PullRequestCreated, context: Context) => {
+const uploadFiles = async (body: any, context: Context) => {
   try {
     // This is a bug caught using TypeScript compilation
     appendMetaData(body, context);
