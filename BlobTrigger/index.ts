@@ -42,7 +42,7 @@ const extractProjectId = (blob) => blob.resourceContainers.project.id;
 const auth = () =>
   `Basic ${Buffer.from(username + ":" + pat).toString("base64")}`;
 const artifacts_uri = (accountName, projectId, buildId) =>
-  `https://dev.azure.com/{accountName}/${projectId}/_apis/build/Builds/${buildId}/artifacts?api-version=5.1`;
+  `https://dev.azure.com/${accountName}/${projectId}/_apis/build/Builds/${buildId}/artifacts?api-version=5.1`;
 
 const blobServiceClient = new BlobServiceClient(
   `https://${account}.blob.core.windows.net`,
