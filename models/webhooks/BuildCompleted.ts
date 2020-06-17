@@ -14,7 +14,7 @@ export type BuildCompleted = {
 };
 
 type CustomData = {
-  executionTimeMs: number;
+  executionTimeMs: any;
 };
 
 export type Message = {
