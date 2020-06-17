@@ -49,14 +49,7 @@ const blobTrigger: AzureFunction = async function (
   }
   const prDownloadTobuffer: Buffer = await prBlockBlobClient.downloadToBuffer();
   const pr = prDownloadTobuffer.toString();
-
-  context.log("PR::", pr);
-
   const data = JSON.parse(pr) as PullRequestCreated;
-
-  context.log("###################################################");
-
-  context.log("DATA::", data);
 
   if (!md) {
     context.log("MD is EMPTY!!");
@@ -70,7 +63,7 @@ const blobTrigger: AzureFunction = async function (
       data.resource.pullRequestId,
       context
     );
-    context.log("STATUS_FAILED::", status);
+    context.log("STATUS_FAILED::", await status());
   } else {
     context.log("MD is Not EMPTY!!");
 
@@ -86,7 +79,7 @@ const blobTrigger: AzureFunction = async function (
       data.resource.pullRequestId,
       context
     );
-    context.log("STATUS_SUCCEEDED::", status);
+    context.log("STATUS_SUCCEEDED::", await status());
   }
 };
 
