@@ -12,7 +12,7 @@
   "dependencies": {
     "@azure/abort-controller": "^1.0.1",
     "@azure/storage-blob": "^12.1.2",
-    "axios": "^0.19.2"
+    "node-fetch": "^2.6.0"
   },
   "devDependencies": {
     "@azure/functions": "^1.2.2",
