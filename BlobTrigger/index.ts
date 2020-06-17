@@ -21,7 +21,7 @@ const blobTrigger: AzureFunction = async function (
   const projectId = extractProjectId(data);
 
   try {
-    await fetchUrl(artifacts_uri(projectId, buildId), buildId);
+    await fetchUrl(artifacts_uri(projectId, buildId), buildId, context);
     context.res = { status: 201, body: "Insert succeeded." };
     context.done(null, context.res);
   } catch (error) {
@@ -57,34 +57,40 @@ const headers = {
   "User-Agent": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
 };
 
-async function fetchUrl(url, buildId) {
+async function fetchUrl(url, buildId, context) {
+  context.log("fetchUrl");
+
   const response = await fetch(url, { headers: headers });
   if (!response.ok)
     throw new Error(`unexpected response ${response.statusText}`);
   const content = await response.json();
-  return await downloadArtifacts(content, buildId);
+  return await downloadArtifacts(content, buildId, context);
 }
 
-async function downloadArtifacts(json, buildId) {
+async function downloadArtifacts(json, buildId, context) {
+  context.log("downloadArtifacts");
   for (let i = 0; i < json.value.length; i++) {
     const element = json.value[i];
     const url = element.resource.downloadUrl;
     if (url) {
       const fileName = `${element.name}.zip`;
-      const artifact = await download(url);
-      await uploadFiles(artifact, fileName, buildId);
+      const artifact = await download(url, context);
+      await uploadFiles(artifact, fileName, buildId, context);
     }
   }
 }
 
-async function download(url) {
+async function download(url, context) {
+  context.log("download");
   const response = await fetch(url, { headers: headers });
   if (!response.ok)
     throw new Error(`unexpected response ${response.statusText}`);
   return await response.buffer();
 }
 
-const uploadFiles = async (content, blobName, buildId) => {
+const uploadFiles = async (content, blobName, buildId, context) => {
+  context.log("uploadFiles");
+
   const containerName = `builds/${buildId}/artifacts`;
   const containerClient = blobServiceClient.getContainerClient(containerName);
   const blockBlobClient = containerClient.getBlockBlobClient(blobName);
