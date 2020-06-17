@@ -3,25 +3,23 @@ import {
   BlobServiceClient,
   StorageSharedKeyCredential,
 } from "@azure/storage-blob";
+const ACCOUNT_NAME = process.env.ACCOUNT_NAME;
 
 const blobTrigger: AzureFunction = async function (
   context: Context,
   buffer: any
 ): Promise<void> {
-  context.log(
-    "JavaScript blob trigger function processed blob \n Blob:",
-    context.bindingData.blobTrigger,
-    "\n Blob Size:",
-    buffer.length,
-    "Bytes"
-  );
   const data = JSON.parse(buffer.toString("utf8"));
 
   const buildId = extractBuildId(data);
   const projectId = extractProjectId(data);
 
   try {
-    await fetchUrl(artifacts_uri(projectId, buildId), buildId, context);
+    await fetchUrl(
+      artifacts_uri(ACCOUNT_NAME, projectId, buildId),
+      buildId,
+      context
+    );
     context.res = { status: 201, body: "Insert succeeded." };
     context.done(null, context.res);
   } catch (error) {
@@ -43,8 +41,8 @@ const extractBuildId = (blob) => blob.resource.id;
 const extractProjectId = (blob) => blob.resourceContainers.project.id;
 const auth = () =>
   `Basic ${Buffer.from(username + ":" + pat).toString("base64")}`;
-const artifacts_uri = (projectId, buildId) =>
-  `https://dev.azure.com/NorskHelsenettUtvikling/${projectId}/_apis/build/Builds/${buildId}/artifacts?api-version=5.1`;
+const artifacts_uri = (accountName, projectId, buildId) =>
+  `https://dev.azure.com/{accountName}/${projectId}/_apis/build/Builds/${buildId}/artifacts?api-version=5.1`;
 
 const blobServiceClient = new BlobServiceClient(
   `https://${account}.blob.core.windows.net`,
@@ -67,14 +65,14 @@ async function fetchUrl(url, buildId, context) {
   return await downloadArtifacts(content, buildId, context);
 }
 
-async function downloadArtifacts(resources, buildId, context) {
+async function downloadArtifacts(json, buildId, context) {
   context.log("downloadArtifacts");
-  for (let i = 0; i < resources.count; i++) {
-    const resource = resources.value[i];
-    const url = resource.drop.downloadUrl;
 
+  for (let i = 0; i < json.value.length; i++) {
+    const element = json.value[i];
+    const url = element.resource.downloadUrl;
     if (url) {
-      const fileName = `${resource}.zip`;
+      const fileName = `${element.name}.zip`;
       const artifact = await download(url, context);
       await uploadFiles(artifact, fileName, buildId, context);
     }
