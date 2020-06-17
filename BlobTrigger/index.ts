@@ -1,19 +1,9 @@
 import { AzureFunction, Context } from "@azure/functions";
-import axios from "axios";
 import {
   BlobServiceClient,
   StorageSharedKeyCredential,
 } from "@azure/storage-blob";
 
-/* Application settings */
-const ACCOUNT = process.env.ACCOUNT;
-const ACCOUNT_NAME = process.env.ACCOUNT_NAME;
-const ACCESS_KEY = process.env.ACCESS_KEY;
-
-/*
- * function
- * /api/BlobTrigger
- * */
 const blobTrigger: AzureFunction = async function (
   context: Context,
   buffer: any
@@ -104,3 +94,5 @@ const uploadFiles = async (content, blobName, buildId) => {
   );
   return uploadBlobResponse.requestId;
 };
+
+export default blobTrigger;
