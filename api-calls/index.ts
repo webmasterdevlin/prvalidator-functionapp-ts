@@ -21,7 +21,17 @@ export const updateStatusPolicy = async (
   context.log("updateStatusPolicy()");
 
   try {
-    return await axios.post<Status>(url, statusPolicy, { headers });
+    return await axios.post<Status>(
+      url,
+      {
+        state: "succeeded",
+        description: "succeeded",
+        context: {
+          name: "PullRequest-WIT-App",
+        },
+      },
+      { headers }
+    );
   } catch (e) {
     context.log(e);
   }
