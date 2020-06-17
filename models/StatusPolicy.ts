@@ -9,7 +9,7 @@ export class StatusPolicy {
 
 export class Context {
   constructor(
-    public name = "PullRequest-WIT-App",
+    public name = "Pull Request Validering",
     public genre = "pr-azure-function-ci"
   ) {}
 }
@@ -22,10 +22,10 @@ export enum State {
 }
 
 export enum Description {
-  succeeded = "build succeeded",
-  failed = "build failed",
+  succeeded = "pr succeeded",
+  failed = "pr failed",
   pending = "work in progress",
-  error = "build error",
+  error = "error in pr validering",
 }
 
 export interface Status {

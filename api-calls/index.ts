@@ -21,17 +21,7 @@ export const updateStatusPolicy = async (
   context.log("updateStatusPolicy()");
 
   try {
-    return await axios.post<Status>(
-      url,
-      {
-        state: "failed",
-        description: "scan failed",
-        context: {
-          name: "Devlin's Check",
-        },
-      },
-      { headers }
-    );
+    return await axios.post<Status>(url, statusPolicy, { headers });
   } catch (e) {
     context.log(e);
   }
