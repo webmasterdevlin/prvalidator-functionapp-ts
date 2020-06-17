@@ -18,7 +18,7 @@ export const updateStatusPolicy = async (
   const body = JSON.stringify(statusPolicy);
 
   try {
-    return await fetch(url, { method, body, headers });
+    return await (await fetch(url, { method, body, headers })).json();
   } catch (e) {
     context.log(e);
   }
