@@ -19,11 +19,22 @@ const httpTrigger: AzureFunction = async function (
   context: Context,
   req: HttpRequest
 ): Promise<void> {
-  let messageId;
-  if (req.body) messageId = await uploadFiles(req.body, context);
+  context.log("JavaScript HTTP trigger function processed a request.");
 
-  if (messageId != null) context.res = { body: messageId };
-  else context.res = { status: 400, body: "Unable to post message to queue" };
+  var messageId;
+  if (req.body) {
+    messageId = await uploadFiles(req.body);
+  }
+  if (messageId != null) {
+    context.res = {
+      body: messageId,
+    };
+  } else {
+    context.res = {
+      status: 400,
+      body: "Unable to post message to queue",
+    };
+  }
 };
 export default httpTrigger;
 
@@ -37,16 +48,13 @@ const blobServiceClient = new BlobServiceClient(
   defaultAzureCredential
 );
 
-const uploadFiles = async (body: any, context: Context) => {
+const uploadFiles = async (body) => {
   try {
-    // This is a bug caught using TypeScript compilation
-    appendMetaData(body, context);
-    // object structure from PullRequestCreated webhook is different from BuildCompleted webhook
+    appendMetaData(body);
     const containerClient = blobServiceClient.getContainerClient(
       CONTAINER_NAME
     );
-    const buildId = body.resource.repository.id;
-
+    const buildId = body.resource.id;
     const blobName = `${buildId}/${body.id}.json`;
     const content = JSON.stringify(body);
     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
@@ -54,27 +62,14 @@ const uploadFiles = async (body: any, context: Context) => {
       content,
       content.length
     );
-    context.log(
+    console.log(
       `Upload block blob ${blobName} successfully`,
       uploadBlobResponse.requestId
     );
-
     return uploadBlobResponse.requestId;
   } catch (error) {
-    context.log(error);
+    console.log(error);
   }
 };
 
-/*
- * This is a bug caught using TypeScript compilation
- * */
-const appendMetaData = (body: any, context) => {
-  const start: any = new Date(body.resource.startTime); // This is a string "2020-06-13T18:13:55.7788727Z"
-  const finish: any = new Date(body.resource.finishTime); // This is a string "2020-06-13T18:15:05.9171757Z"
-  const timeDiff = finish - start;
-  context.log("TIME_DIFF::", timeDiff);
-
-  body.customData = {
-    executionTimeMs: timeDiff,
-  };
-};
+function appendMetaData(body) {}
