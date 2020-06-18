@@ -72,12 +72,29 @@ async function downloadArtifacts(json, buildId, context) {
     const element = json.value[i];
     const url = element.resource.downloadUrl;
     if (url) {
+      context.log("URL::", url);
       const fileName = `${element.name}.zip`;
       const artifact = await download(url, context);
       await uploadFiles(artifact, fileName, buildId, context);
     }
   }
 }
+
+// async function downloadArtifacts(resources, buildId, context) {
+//   context.log("downloadArtifacts");
+
+//   for (let i = 0; i < resources.count; i++) {
+//     const resource = resources.value[i];
+//     const url = resource.drop.downloadUrl;
+
+//     if (url) {
+//       context.log("URL::", url);
+//       const fileName = `${resource}.zip`;
+//       const artifact = await download(url, context);
+//       await uploadFiles(artifact, fileName, buildId, context);
+//     }
+//   }
+// }
 
 async function download(url, context) {
   context.log("download");
