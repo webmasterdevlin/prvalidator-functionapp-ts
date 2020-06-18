@@ -37,10 +37,10 @@ const blobServiceClient = new BlobServiceClient(
   defaultAzureCredential
 );
 
-const uploadFiles = async (body: PullRequestCreated, context: Context) => {
+const uploadFiles = async (body: any, context: Context) => {
   try {
-    // There's a bug here caught using TypeScript compilation
-    // appendMetaData(body)
+    // This is a bug caught using TypeScript compilation
+    appendMetaData(body, context);
     // object structure from PullRequestCreated webhook is different from BuildCompleted webhook
     const containerClient = blobServiceClient.getContainerClient(
       CONTAINER_NAME
@@ -67,14 +67,14 @@ const uploadFiles = async (body: PullRequestCreated, context: Context) => {
 
 /*
  * This is a bug caught using TypeScript compilation
- * I tested it in runtime. The timeDiff was NaN.
  * */
-const appendMetaData = (body: BuildCompleted) => {
-  const start = new Date(body.resource.startTime); // This is a string "2020-06-13T18:13:55.7788727Z"
-  const finish = new Date(body.resource.finishTime); // This is a string "2020-06-13T18:15:05.9171757Z"
-  // const timeDiff = finish - start;
+const appendMetaData = (body: any, context) => {
+  const start: any = new Date(body.resource.startTime); // This is a string "2020-06-13T18:13:55.7788727Z"
+  const finish: any = new Date(body.resource.finishTime); // This is a string "2020-06-13T18:15:05.9171757Z"
+  const timeDiff = finish - start;
+  context.log("TIME_DIFF::", timeDiff);
 
-  //  body.customData = {
-  //    executionTimeMs: timeDiff,
-  //  };
+  body.customData = {
+    executionTimeMs: timeDiff,
+  };
 };
