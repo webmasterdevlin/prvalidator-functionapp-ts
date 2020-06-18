@@ -80,6 +80,7 @@ const downloadArtifacts = async (
   try {
     artifacts.value.map(async (artifact) => {
       const url = artifact.resource.downloadUrl;
+      newContext.log("url", url);
       if (url) {
         const fileName = artifact.name + ".zip";
         newContext.log(fileName);
@@ -89,6 +90,7 @@ const downloadArtifacts = async (
       }
     });
   } catch (e) {
+    newContext.log("downloadArtifacts.Error::", e.message);
     throw new Error(e.message);
   }
 };
