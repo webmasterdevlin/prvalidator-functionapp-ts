@@ -75,11 +75,10 @@ const downloadArtifacts = async (
   try {
     artifacts.value.map(async (artifact) => {
       const url = artifact.resource.downloadUrl;
-      if (url) {
-        const fileName = artifact.name + ".zip";
-        const drops = await downloadDrops(url, buildId);
-        await uploadFiles(buildId, drops, fileName);
-      }
+
+      const fileName = artifact.name + ".zip";
+      const drops = await downloadDrops(url, buildId);
+      await uploadFiles(buildId, drops, fileName);
     });
   } catch (e) {
     throw new Error(e.message);
@@ -103,7 +102,7 @@ const uploadFiles = async (
   drops: Buffer,
   blobName: string
 ): Promise<void> => {
-  const containerName = CONTAINER_NAME;
+  const containerName = `builds/${buildId}/artifacts`;
   const containerClient = blobServiceClient.getContainerClient(containerName);
   const blockBlobClient = containerClient.getBlockBlobClient(blobName);
   await blockBlobClient.upload(drops, drops.length);
