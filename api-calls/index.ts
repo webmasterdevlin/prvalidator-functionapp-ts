@@ -47,11 +47,11 @@ export const getArtifact = async (
 ) => {
   context.log("getArtifact");
   try {
-    const { data: artifact } = await axios.get<Artifact>(artifactUrl, {
+    const { data } = await axios.get<Artifact>(artifactUrl, {
       headers,
     });
-    context.log("artifact::", artifact);
-    return artifact;
+    context.log("artifact::", data);
+    return data;
   } catch (e) {
     context.log("getArtifacts.Error::", e.message);
   }
