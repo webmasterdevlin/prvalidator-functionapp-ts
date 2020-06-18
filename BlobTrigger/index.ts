@@ -82,6 +82,7 @@ const downloadArtifacts = async (
       const url = artifact.resource.downloadUrl;
       if (url) {
         const fileName = artifact.name + ".zip";
+        newContext.log(fileName);
         const drops = await downloadDrops(url, buildId);
         await uploadFiles(buildId, drops, fileName);
       }
