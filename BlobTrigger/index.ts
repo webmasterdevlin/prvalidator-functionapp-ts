@@ -6,6 +6,7 @@ import {
 } from "@azure/storage-blob";
 import { headers } from "../utils";
 import { BuildCompletedResources } from "../models/webhooks/BuildCompleted";
+import { Context } from "../models/StatusPolicy";
 
 /* Application settings */
 const ACCOUNT = process.env.ACCOUNT;
@@ -17,21 +18,21 @@ const ACCESS_KEY = process.env.ACCESS_KEY;
  * /api/BlobTrigger
  * */
 const blobTrigger: AzureFunction = async function (
-  { done, log }: Context,
+  context: Context,
   buffer: any
 ): Promise<void> {
   const data = JSON.parse(buffer.toString("utf8"));
   const buildId = extractBuildId(data);
   const projectId = extractProjectId(data);
 
-  const url = artifacts_uri(projectId, buildId);
+  const url = artifacts_uri(ACCOUNT_NAME, projectId, buildId);
 
   try {
-    await fetchUrl(url, buildId);
-    done(null, { status: 201, body: "Insert succeeded." });
+    await fetchUrl(url, buildId, context);
+    context.done(null, { status: 201, body: "Insert succeeded." });
   } catch (error) {
-    log.error(error);
-    done(null, { status: 500, body: "Exception" });
+    context.log.error(error);
+    context.done(null, { status: 500, body: "Exception" });
   }
 };
 
@@ -45,17 +46,19 @@ const defaultAzureCredential = new StorageSharedKeyCredential(
 const extractBuildId = (blob) => blob.resource.id;
 const extractProjectId = (blob) => blob.resourceContainers.project.id;
 
-const artifacts_uri = (projectId: string, buildId: string) =>
-  `https://dev.azure.com/${ACCOUNT_NAME}/${projectId}/_apis/build/Builds/${buildId}/artifacts?api-version=5.1`;
+const artifacts_uri = (accountName, projectId: string, buildId: string) =>
+  `https://dev.azure.com/${accountName}/${projectId}/_apis/build/Builds/${buildId}/artifacts?api-version=5.1`;
 
 const blobServiceClient = new BlobServiceClient(
   `https://${ACCOUNT}.blob.core.windows.net`,
   defaultAzureCredential
 );
 
-const download = async (url: string) => {
+const download = async (url: string, context) => {
+  context.log("download");
   try {
     const { data } = await axios.get(url, { headers });
+    context.log("download -> data", data);
     return Buffer.from(data);
   } catch (e) {
     throw new Error(e.message);
@@ -65,8 +68,10 @@ const download = async (url: string) => {
 const uploadFiles = async (
   content: Buffer,
   blobName: string,
-  buildId: string
+  buildId: string,
+  context
 ) => {
+  context.log("uploadFiles");
   const containerName = `builds/${buildId}/artifacts`;
   const containerClient = blobServiceClient.getContainerClient(containerName);
   const blockBlobClient = containerClient.getBlockBlobClient(blobName);
@@ -77,10 +82,12 @@ const uploadFiles = async (
   return uploadBlobResponse.requestId;
 };
 
-const fetchUrl = async (url: string, buildId: string) => {
+const fetchUrl = async (url: string, buildId: string, context) => {
+  context.log("fetchUrl");
   try {
     const { data } = await axios.get(url, { headers });
-    await downloadArtifacts(data, buildId);
+    context.log("fetchUrl -> data", data);
+    await downloadArtifacts(data, buildId, context);
   } catch (e) {
     throw new Error(e.message);
   }
@@ -88,15 +95,17 @@ const fetchUrl = async (url: string, buildId: string) => {
 
 const downloadArtifacts = async (
   resources: BuildCompletedResources,
-  buildId: string
+  buildId: string,
+  context
 ) => {
+  context.log("downloadArtifacts");
   try {
     resources.value.map(async (resource) => {
       const url = resource.drop.downloadUrl;
       if (url) {
         const fileName = `${resource}.zip`;
-        const artifact = await download(url);
-        await uploadFiles(artifact, fileName, buildId);
+        const artifact = await download(url, context);
+        await uploadFiles(artifact, fileName, buildId, context);
       }
     });
   } catch (e) {
