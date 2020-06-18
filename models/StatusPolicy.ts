@@ -8,10 +8,7 @@ export class StatusPolicy {
 }
 
 export class Context {
-  constructor(
-    public name = "Pull Request Validering",
-    public genre = "pr-azure-function-ci"
-  ) {}
+  constructor(public name = "Context Name", public genre = "context-genre") {}
 }
 
 export enum State {
