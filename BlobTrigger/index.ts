@@ -21,20 +21,23 @@ const blobTrigger: AzureFunction = async function (
   buffer: any
 ): Promise<void> {
   const data = JSON.parse(buffer.toString("utf8"));
-  const buildId = extractBuildId(data);
-  const projectId = extractProjectId(data);
 
+  const buildId = extractBuildId(data);
   context.log("buildId::", buildId);
+
+  const projectId = extractProjectId(data);
   context.log("projectId::", projectId);
 
   const url = artifacts_uri(ACCOUNT_NAME, projectId, buildId);
   context.log("URL::", url);
+
   try {
     await fetchUrl(url, buildId, context);
-    context.done(null, { status: 201, body: "Insert succeeded." });
+    let res = { status: 201, body: "Insert succeeded." };
+    context.done(null, res);
   } catch (error) {
-    context.log.error(error);
-    context.done(null, { status: 500, body: "Exception" });
+    let res = { status: 500, body: "Exception" };
+    context.done(null, res);
   }
 };
 
@@ -56,16 +59,33 @@ const blobServiceClient = new BlobServiceClient(
   defaultAzureCredential
 );
 
-const download = async (url: string, context) => {
-  context.log("download");
-  try {
-    const { data } = await axios.get(url, { headers });
-    context.log("download -> data", data);
-    return Buffer.from(data);
-  } catch (e) {
-    throw new Error(e.message);
+async function fetchUrl(url, buildId, context) {
+  const response = await fetch(url, { headers: headers });
+  if (!response.ok)
+    throw new Error(`unexpected response ${response.statusText}`);
+  const content = await response.json();
+  return await downloadArtifacts(content, buildId, context);
+}
+
+async function downloadArtifacts(json, buildId, context) {
+  for (let i = 0; i < json.value.length; i++) {
+    const element = json.value[i];
+    const url = element.resource.downloadUrl;
+    if (url) {
+      const fileName = `${element.name}.zip`;
+      const artifact = await download(url);
+      await uploadFiles(artifact, fileName, buildId, context);
+    }
   }
-};
+}
+
+async function download(url) {
+  const response = await fetch(url, { headers: headers });
+  if (!response.ok)
+    throw new Error(`unexpected response ${response.statusText}`);
+  // @ts-ignore
+  return await response.buffer();
+}
 
 const uploadFiles = async (
   content: Buffer,
@@ -82,35 +102,4 @@ const uploadFiles = async (
     content.length
   );
   return uploadBlobResponse.requestId;
-};
-
-const fetchUrl = async (url: string, buildId: string, context) => {
-  context.log("fetchUrl");
-  try {
-    const { data } = await axios.get(url, { headers });
-    context.log("fetchUrl -> data", data);
-    await downloadArtifacts(data, buildId, context);
-  } catch (e) {
-    throw new Error(e.message);
-  }
-};
-
-const downloadArtifacts = async (
-  resources: BuildCompletedResources,
-  buildId: string,
-  context
-) => {
-  context.log("downloadArtifacts");
-  try {
-    resources.value.map(async (resource) => {
-      const url = resource.drop.downloadUrl;
-      if (url) {
-        const fileName = `${resource}.zip`;
-        // const artifact = await download(url, context);
-        // await uploadFiles(artifact, fileName, buildId, context);
-      }
-    });
-  } catch (e) {
-    throw new Error(e.message);
-  }
 };
