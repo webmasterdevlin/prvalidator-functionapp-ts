@@ -64,7 +64,7 @@ async function fetchUrl(url, buildId, context) {
     throw new Error(`unexpected response ${response.statusText}`);
   const content = await response.json();
   context.log("CONTENT::", content);
-  return await downloadArtifacts(content, buildId, context);
+  await downloadArtifacts(content, buildId, context);
 }
 
 // async function downloadArtifacts(json, buildId, context) {
