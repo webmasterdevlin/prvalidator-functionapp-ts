@@ -1,138 +1,72 @@
 import { AzureFunction, Context } from "@azure/functions";
+import axios from "axios";
 import {
   BlobServiceClient,
   StorageSharedKeyCredential,
 } from "@azure/storage-blob";
-import axios from "axios";
-const FileType = require("file-type");
+import { headers } from "../utils";
+import { BuildCompletedResources } from "../models/webhooks/BuildCompleted";
 
+/* Application settings */
+const ACCOUNT = process.env.ACCOUNT;
 const ACCOUNT_NAME = process.env.ACCOUNT_NAME;
+const ACCESS_KEY = process.env.ACCESS_KEY;
 
+/*
+ * function
+ * /api/BlobTrigger
+ * */
 const blobTrigger: AzureFunction = async function (
-  context: Context,
+  { done, log }: Context,
   buffer: any
 ): Promise<void> {
   const data = JSON.parse(buffer.toString("utf8"));
-
   const buildId = extractBuildId(data);
   const projectId = extractProjectId(data);
 
+  const url = artifacts_uri(projectId, buildId);
+
   try {
-    await fetchUrl(
-      artifacts_uri(ACCOUNT_NAME, projectId, buildId),
-      buildId,
-      context
-    );
-    context.res = { status: 201, body: "Insert succeeded." };
-    context.done(null, context.res);
+    await fetchUrl(url, buildId);
+    done(null, { status: 201, body: "Insert succeeded." });
   } catch (error) {
-    context.res = { status: 500, body: "Exception" };
-    context.done(null, context.res);
+    log.error(error);
+    done(null, { status: 500, body: "Exception" });
   }
 };
 
-const account = process.env.ACCOUNT;
-const accountKey = process.env.ACCESS_KEY;
+export default blobTrigger;
+
 const defaultAzureCredential = new StorageSharedKeyCredential(
-  account,
-  accountKey
+  ACCOUNT,
+  ACCESS_KEY
 );
-const username = process.env.DEVOPS_USERNAME;
-const pat = process.env.PAT_KEY;
 
 const extractBuildId = (blob) => blob.resource.id;
 const extractProjectId = (blob) => blob.resourceContainers.project.id;
-const auth = () =>
-  `Basic ${Buffer.from(username + ":" + pat).toString("base64")}`;
-const artifacts_uri = (accountName, projectId, buildId) =>
-  `https://dev.azure.com/${accountName}/${projectId}/_apis/build/Builds/${buildId}/artifacts?api-version=5.1`;
+
+const artifacts_uri = (projectId: string, buildId: string) =>
+  `https://dev.azure.com/${ACCOUNT_NAME}/${projectId}/_apis/build/Builds/${buildId}/artifacts?api-version=5.1`;
 
 const blobServiceClient = new BlobServiceClient(
-  `https://${account}.blob.core.windows.net`,
+  `https://${ACCOUNT}.blob.core.windows.net`,
   defaultAzureCredential
 );
 
-const headers = {
-  Authorization: auth(),
-  "Content-Type": "application/json",
-  "User-Agent": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
-};
-
-// async function fetchUrl(url, buildId, context) {
-//   context.log("fetchUrl");
-
-//   const response = await fetch(url, { headers: headers });
-//   if (!response.ok)
-//     throw new Error(`unexpected response ${response.statusText}`);
-//   const content = await response.json();
-//   context.log("CONTENT::", content);
-//   await downloadArtifacts(content, buildId, context);
-// }
-
-const fetchUrl = async (url: string, buildId: string, context) => {
-  context.log("fetchUrl");
+const download = async (url: string) => {
   try {
     const { data } = await axios.get(url, { headers });
-    context.log("DATA::", data);
-    await downloadArtifacts(data, buildId, context);
+    return Buffer.from(data);
   } catch (e) {
     throw new Error(e.message);
   }
 };
 
-// async function downloadArtifacts(json, buildId, context) {
-//   context.log("downloadArtifacts");
-
-//   for (let i = 0; i < json.value.length; i++) {
-//     const element = json.value[i];
-//     const url = element.resource.downloadUrl;
-//     if (url) {
-//       context.log("URL::", url);
-//       const fileName = `${element.name}.zip`;
-//       const artifact = await download(url);
-//       await uploadFiles(artifact, fileName, buildId, context);
-//     }
-//   }
-// }
-
-async function downloadArtifacts(resources, buildId, context) {
-  context.log("downloadArtifacts");
-
-  for (let i = 0; i < resources.count; i++) {
-    const resource = resources.value[i];
-    const url = resource.drop.downloadUrl;
-
-    if (url) {
-      context.log("URL::", url);
-      const fileName = `${resource}.zip`;
-      const artifact = await download(url, context);
-      await uploadFiles(artifact, fileName, buildId, context);
-    }
-  }
-}
-
-async function download(url, context) {
-  context.log("download");
-  const response = await fetch(url, { headers: headers });
-  if (!response.ok)
-    throw new Error(`unexpected response ${response.statusText}`);
-  // @ts-ignore
-  return await response.buffer();
-}
-
-// const download = async (url: string, context) => {
-//   context.log("download");
-//   try {
-//     const { data } = await axios.get(url, { headers });
-//     return Buffer.from(data);
-//   } catch (e) {
-//     throw new Error(e.message);
-//   }
-// };
-
-const uploadFiles = async (content, blobName, buildId, context) => {
-  context.log("uploadFiles");
-
+const uploadFiles = async (
+  content: Buffer,
+  blobName: string,
+  buildId: string
+) => {
   const containerName = `builds/${buildId}/artifacts`;
   const containerClient = blobServiceClient.getContainerClient(containerName);
   const blockBlobClient = containerClient.getBlockBlobClient(blobName);
@@ -143,4 +77,29 @@ const uploadFiles = async (content, blobName, buildId, context) => {
   return uploadBlobResponse.requestId;
 };
 
-export default blobTrigger;
+const fetchUrl = async (url: string, buildId: string) => {
+  try {
+    const { data } = await axios.get(url, { headers });
+    await downloadArtifacts(data, buildId);
+  } catch (e) {
+    throw new Error(e.message);
+  }
+};
+
+const downloadArtifacts = async (
+  resources: BuildCompletedResources,
+  buildId: string
+) => {
+  try {
+    resources.value.map(async (resource) => {
+      const url = resource.drop.downloadUrl;
+      if (url) {
+        const fileName = `${resource}.zip`;
+        const artifact = await download(url);
+        await uploadFiles(artifact, fileName, buildId);
+      }
+    });
+  } catch (e) {
+    throw new Error(e.message);
+  }
+};

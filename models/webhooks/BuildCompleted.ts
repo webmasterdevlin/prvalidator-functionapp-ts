@@ -101,6 +101,11 @@ export type Resource = {
   requests: Request[];
 };
 
+export type BuildCompletedResources = {
+  value: Resource[];
+  count: number;
+};
+
 export type Collection = {
   id: string;
 };
