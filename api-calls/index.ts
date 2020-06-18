@@ -23,37 +23,24 @@ export const updateStatusPolicy = async (
   }
 };
 
-export const getArtifacts = async (
-  projectId: string,
-  buildId: string,
-  context
-) => {
+export const getArtifacts = async (projectId: string, buildId: string) => {
   const url = `https://dev.azure.com/${ACCOUNT_NAME}/${projectId}/_apis/build/Builds/${buildId}/artifacts?api-version=5.1`;
-  context.log("getArtifacts");
   try {
-    const { data: artifact } = await axios.get<Artifacts>(url, { headers });
-    context.log("artifact::", artifact);
-    return artifact;
+    const { data } = await axios.get<Artifacts>(url, { headers });
+    return data;
   } catch (e) {
-    context.log("getArtifacts.Error::", e.message);
+    throw new Error(e.message);
   }
 };
 
-export const getArtifact = async (
-  artifactUrl: string,
-  projectId: string,
-  buildId: string,
-  context
-) => {
-  context.log("getArtifact");
+export const getArtifact = async (artifactUrl: string) => {
   try {
     const { data } = await axios.get<Artifact>(artifactUrl, {
       headers,
     });
-    context.log("artifact::", data);
     return data;
   } catch (e) {
-    context.log("getArtifacts.Error::", e.message);
+    throw new Error(e.message);
   }
 };
 
@@ -61,7 +48,8 @@ export const getRepositories = async (containersProjectId: string) => {
   const url = `https://dev.azure.com/${ACCOUNT_NAME}/${containersProjectId}/_apis/git/repositories?api-version=5.1`;
 
   try {
-    return await axios.get<Repositories>(url, { headers });
+    const { data } = await axios.get<Repositories>(url, { headers });
+    return data;
   } catch (e) {
     throw new Error(e.message);
   }
@@ -74,7 +62,8 @@ export const getPullRequests = async (
   const url = `https://dev.azure.com/${ACCOUNT_NAME}/${containersProjectId}/_apis/git/repositories/${repositoryId}/pullrequests?api-version=5.1`;
 
   try {
-    return await axios.get<PullRequests>(url, { headers });
+    const { data } = await axios.get<PullRequests>(url, { headers });
+    return data;
   } catch (e) {
     throw new Error(e.message);
   }

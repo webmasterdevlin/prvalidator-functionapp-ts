@@ -63,12 +63,11 @@ const fetchArtifacts = async (
   projectId: string,
   buildId: string
 ): Promise<void> => {
-  newContext.log("fetchArtifacts");
   try {
-    const artifacts = await getArtifacts(projectId, buildId, newContext);
+    const artifacts = await getArtifacts(projectId, buildId);
     await downloadArtifacts(artifacts, projectId, buildId);
   } catch (e) {
-    throw new Error(e.message);
+    newContext.log(e.message);
   }
 };
 
@@ -77,42 +76,26 @@ const downloadArtifacts = async (
   projectId: string,
   buildId: string
 ): Promise<void> => {
-  newContext.log("downloadArtifacts");
   try {
     artifacts.value.map(async (artifact) => {
       const url = artifact.resource.downloadUrl;
-      newContext.log("url", url);
       if (url) {
         const fileName = artifact.name + ".zip";
-        newContext.log(fileName);
-        const drop = await downloadDrop(url, projectId, buildId);
-        newContext.log("drop::", drop.toString());
+        const drop = await downloadDrop(url);
         await uploadFiles(buildId, drop, fileName);
       }
     });
   } catch (e) {
-    newContext.log("downloadArtifacts.Error::", e.message);
-    throw new Error(e.message);
+    newContext.log(e.message);
   }
 };
 
-const downloadDrop = async (
-  artifactUrl: string,
-  projectId: string,
-  buildId: string
-): Promise<Buffer> => {
-  newContext.log("downloadDrop");
+const downloadDrop = async (artifactUrl: string): Promise<Buffer> => {
   try {
-    const artifact = await getArtifact(
-      artifactUrl,
-      projectId,
-      buildId,
-      newContext
-    );
-    newContext.log("artifact::", artifact);
+    const artifact = await getArtifact(artifactUrl);
     return Buffer.from(artifact);
   } catch (e) {
-    newContext.log("downloadDrop.Error::", e.message);
+    newContext.log(e.message);
   }
 };
 
