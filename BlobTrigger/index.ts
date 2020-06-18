@@ -102,9 +102,10 @@ const downloadDrops = async (
   newContext.log("downloadDrops");
   try {
     const { data: artifacts } = await getArtifacts(projectId, buildId);
+    newContext.log("data: artifacts", artifacts);
     return Buffer.from(artifacts);
   } catch (e) {
-    throw new Error(e.message);
+    newContext.log("downloadDrops.Error::", e.message);
   }
 };
 
