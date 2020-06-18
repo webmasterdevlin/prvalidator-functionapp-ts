@@ -65,11 +65,9 @@ const blobTrigger: AzureFunction = async function (
     const status = (
       await updateStatusPolicy(
         statusPolicy,
-        ACCOUNT_NAME,
         data.resource.repository.project.name,
         data.resource.repository.name,
-        data.resource.pullRequestId,
-        context
+        data.resource.pullRequestId
       )
     ).data;
     context.log("STATUS_FAILED::", status);
@@ -83,11 +81,9 @@ const blobTrigger: AzureFunction = async function (
     const status = (
       await updateStatusPolicy(
         statusPolicy,
-        ACCOUNT_NAME,
         data.resource.repository.project.name,
         data.resource.repository.name,
-        data.resource.pullRequestId,
-        context
+        data.resource.pullRequestId
       )
     ).data;
     context.log("STATUS_SUCCEEDED::", status);
