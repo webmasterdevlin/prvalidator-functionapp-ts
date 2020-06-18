@@ -19,22 +19,11 @@ const httpTrigger: AzureFunction = async function (
   context: Context,
   req: HttpRequest
 ): Promise<void> {
-  context.log("JavaScript HTTP trigger function processed a request.");
+  let messageId;
+  if (req.body) messageId = await uploadFiles(req.body, context);
 
-  var messageId;
-  if (req.body) {
-    messageId = await uploadFiles(req.body);
-  }
-  if (messageId != null) {
-    context.res = {
-      body: messageId,
-    };
-  } else {
-    context.res = {
-      status: 400,
-      body: "Unable to post message to queue",
-    };
-  }
+  if (messageId != null) context.res = { body: messageId };
+  else context.res = { status: 400, body: "Unable to post message to queue" };
 };
 export default httpTrigger;
 
@@ -48,13 +37,16 @@ const blobServiceClient = new BlobServiceClient(
   defaultAzureCredential
 );
 
-const uploadFiles = async (body) => {
+const uploadFiles = async (body: PullRequestCreated, context: Context) => {
   try {
-    appendMetaData(body);
+    // There's a bug here caught using TypeScript compilation
+    // appendMetaData(body)
+    // object structure from PullRequestCreated webhook is different from BuildCompleted webhook
     const containerClient = blobServiceClient.getContainerClient(
       CONTAINER_NAME
     );
-    const buildId = body.resource.id;
+    const buildId = body.resource.repository.id;
+
     const blobName = `${buildId}/${body.id}.json`;
     const content = JSON.stringify(body);
     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
@@ -62,14 +54,27 @@ const uploadFiles = async (body) => {
       content,
       content.length
     );
-    console.log(
+    context.log(
       `Upload block blob ${blobName} successfully`,
       uploadBlobResponse.requestId
     );
+
     return uploadBlobResponse.requestId;
   } catch (error) {
-    console.log(error);
+    context.log(error);
   }
 };
 
-function appendMetaData(body) {}
+/*
+ * This is a bug caught using TypeScript compilation
+ * I tested it in runtime. The timeDiff was NaN.
+ * */
+const appendMetaData = (body: BuildCompleted) => {
+  const start = new Date(body.resource.startTime); // "2020-06-13T18:13:55.7788727Z"
+  const finish = new Date(body.resource.finishTime); // "2020-06-13T18:15:05.9171757Z"
+  // const timeDiff = finish - start;
+
+  //  body.customData = {
+  //    executionTimeMs: timeDiff,
+  //  };
+};

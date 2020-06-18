@@ -1,75 +1,57 @@
-import { Vote } from "../models/ApprovePullRequest";
-import {
-  GitPullRequestResources,
-  GitRepositories,
-} from "../models/webhooks/PullRequestCreated";
-import { Context } from "@azure/functions";
 import axios from "axios";
 
 import { Status, StatusPolicy } from "../models/StatusPolicy";
 import { headers } from "../utils";
+import { PullRequests } from "../models/PullRequests";
+import { Repositories } from "../models/Repositories";
+import { Artifacts } from "../models/Artifacts";
+
+const ACCOUNT_NAME = process.env.ACCOUNT_NAME;
 
 export const updateStatusPolicy = async (
   statusPolicy: StatusPolicy,
-  accountName: string,
-  resourceRepositoryProjectName: string,
-  resourceRepositoryName: string,
-  resourcePullRequestId: number,
-  context?: Context
+  repositoryProjectName: string,
+  repositoryName: string,
+  pullRequestId: number
 ) => {
-  const url = `https://dev.azure.com/${accountName}/${resourceRepositoryProjectName}/_apis/git/repositories/${resourceRepositoryName}/pullrequests/${resourcePullRequestId}/statuses?api-version=5.0-preview.1`;
-  context.log("updateStatusPolicy()");
+  const url = `https://dev.azure.com/${ACCOUNT_NAME}/${repositoryProjectName}/_apis/git/repositories/${repositoryName}/pullrequests/${pullRequestId}/statuses?api-version=5.0-preview.1`;
 
   try {
     return await axios.post<Status>(url, statusPolicy, { headers });
   } catch (e) {
-    context.log(e);
+    throw new Error(e.message);
   }
 };
 
-export const getRepository = async (
-  accountName: string,
-  resourceContainersProjectId: string,
-  context?: Context
-) => {
-  const url = `https://dev.azure.com/${accountName}/${resourceContainersProjectId}/_apis/git/repositories?api-version=5.1`;
+export const getArtifacts = async (projectId: string, buildId: string) => {
+  const url = `https://dev.azure.com/${ACCOUNT_NAME}/${projectId}/_apis/build/Builds/${buildId}/artifacts?api-version=5.1`;
 
   try {
-    return await axios.get<GitRepositories>(url, { headers });
+    return await axios.get<Artifacts>(url, { headers });
   } catch (e) {
-    context.log(e);
+    throw new Error(e.message);
   }
 };
 
-export const getGitPullRequestResources = async (
-  accountName: string,
-  resourceContainersProjectId: string,
-  repositoryId: string,
-  context?: Context
-) => {
-  const url = `https://dev.azure.com/${accountName}/${resourceContainersProjectId}/_apis/git/repositories/${repositoryId}/pullrequests?api-version=5.1`;
+export const getRepositories = async (containersProjectId: string) => {
+  const url = `https://dev.azure.com/${ACCOUNT_NAME}/${containersProjectId}/_apis/git/repositories?api-version=5.1`;
 
   try {
-    return await axios.get<GitPullRequestResources>(url, { headers });
+    return await axios.get<Repositories>(url, { headers });
   } catch (e) {
-    context.log(e);
+    throw new Error(e.message);
   }
 };
 
-export const sendFeedback = async (
-  accountName: string,
-  resourceContainersProjectId: string,
-  repositoryId: string,
-  resourcePullRequestId: number,
-  resourceRequestsRequestedForId: string,
-  vote: Vote,
-  context?: Context
+export const getPullRequests = async (
+  containersProjectId: string,
+  repositoryId: string
 ) => {
-  const url = `https://${accountName}.visualstudio.com/${resourceContainersProjectId}/_apis/git/repositories/${repositoryId}/pullRequests/${resourcePullRequestId}/reviewers/${resourceRequestsRequestedForId}?api-version=5.0-preview.1`;
+  const url = `https://dev.azure.com/${ACCOUNT_NAME}/${containersProjectId}/_apis/git/repositories/${repositoryId}/pullrequests?api-version=5.1`;
 
   try {
-    return await axios.put<any>(url, { vote }, { headers });
+    return await axios.get<PullRequests>(url, { headers });
   } catch (e) {
-    context.log(e);
+    throw new Error(e.message);
   }
 };
