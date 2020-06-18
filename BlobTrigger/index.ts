@@ -21,7 +21,7 @@ const blobTrigger: AzureFunction = async function (
 ): Promise<void> {
   try {
     const data: ParsedBlobBuffer = JSON.parse(buffer.toString("utf8"));
-    const buildId = data.resource.id; // this does not exists
+    const buildId = "275"; // data.resource.id; // this does not exists
     const projectId = data.resourceContainers.project.id;
 
     /*
