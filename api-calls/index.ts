@@ -23,13 +23,19 @@ export const updateStatusPolicy = async (
   }
 };
 
-export const getArtifacts = async (projectId: string, buildId: string) => {
+export const getArtifacts = async (
+  projectId: string,
+  buildId: string,
+  context
+) => {
   const url = `https://dev.azure.com/${ACCOUNT_NAME}/${projectId}/_apis/build/Builds/${buildId}/artifacts?api-version=5.1`;
-
+  context.log("getArtifacts");
   try {
-    return await axios.get<Artifacts>(url, { headers });
+    const artifact = await axios.get<Artifacts>(url, { headers });
+    context.log("artifact::", artifact);
+    return artifact;
   } catch (e) {
-    throw new Error(e.message);
+    context.log("getArtifacts.Error::", e.message);
   }
 };
 
