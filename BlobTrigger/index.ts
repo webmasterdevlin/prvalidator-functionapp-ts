@@ -56,16 +56,26 @@ const headers = {
   "User-Agent": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
 };
 
-async function fetchUrl(url, buildId, context) {
-  context.log("fetchUrl");
+// async function fetchUrl(url, buildId, context) {
+//   context.log("fetchUrl");
 
-  const response = await fetch(url, { headers: headers });
-  if (!response.ok)
-    throw new Error(`unexpected response ${response.statusText}`);
-  const content = await response.json();
-  context.log("CONTENT::", content);
-  await downloadArtifacts(content, buildId, context);
-}
+//   const response = await fetch(url, { headers: headers });
+//   if (!response.ok)
+//     throw new Error(`unexpected response ${response.statusText}`);
+//   const content = await response.json();
+//   context.log("CONTENT::", content);
+//   await downloadArtifacts(content, buildId, context);
+// }
+
+const fetchUrl = async (url: string, buildId: string, context) => {
+  try {
+    const { data } = await axios.get(url, { headers });
+    context.log("DATA::", data);
+    await downloadArtifacts(data, buildId, context);
+  } catch (e) {
+    throw new Error(e.message);
+  }
+};
 
 // async function downloadArtifacts(json, buildId, context) {
 //   context.log("downloadArtifacts");
