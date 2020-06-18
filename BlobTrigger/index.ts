@@ -65,7 +65,11 @@ const fetchArtifacts = async (
 ): Promise<void> => {
   newContext.log("fetchArtifacts");
   try {
-    const { data: artifacts } = await getArtifacts(projectId, buildId);
+    const { data: artifacts } = await getArtifacts(
+      projectId,
+      buildId,
+      newContext
+    );
     await downloadArtifacts(artifacts, buildId);
   } catch (e) {
     throw new Error(e.message);
