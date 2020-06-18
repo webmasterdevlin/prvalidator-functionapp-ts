@@ -6,7 +6,6 @@ import {
 } from "@azure/storage-blob";
 import { headers } from "../utils";
 import { BuildCompletedResources } from "../models/webhooks/BuildCompleted";
-import { Context } from "../models/StatusPolicy";
 
 /* Application settings */
 const ACCOUNT = process.env.ACCOUNT;
@@ -104,8 +103,8 @@ const downloadArtifacts = async (
       const url = resource.drop.downloadUrl;
       if (url) {
         const fileName = `${resource}.zip`;
-        const artifact = await download(url, context);
-        await uploadFiles(artifact, fileName, buildId, context);
+        // const artifact = await download(url, context);
+        // await uploadFiles(artifact, fileName, buildId, context);
       }
     });
   } catch (e) {
