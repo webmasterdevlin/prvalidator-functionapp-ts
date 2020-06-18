@@ -4,6 +4,8 @@ import {
   StorageSharedKeyCredential,
 } from "@azure/storage-blob";
 import axios from "axios";
+const FileType = require("file-type");
+
 const ACCOUNT_NAME = process.env.ACCOUNT_NAME;
 
 const blobTrigger: AzureFunction = async function (
@@ -108,24 +110,24 @@ async function downloadArtifacts(resources, buildId, context) {
   }
 }
 
-// async function download(url, context) {
-//   context.log("download");
-//   const response = await fetch(url, { headers: headers });
-//   if (!response.ok)
-//     throw new Error(`unexpected response ${response.statusText}`);
-//   //@ts-ignore
-//   return await response.buffer();
-// }
-
-const download = async (url: string, context) => {
+async function download(url, context) {
   context.log("download");
-  try {
-    const { data } = await axios.get(url, { headers });
-    return Buffer.from(data);
-  } catch (e) {
-    throw new Error(e.message);
-  }
-};
+  const response = await fetch(url, { headers: headers });
+  if (!response.ok)
+    throw new Error(`unexpected response ${response.statusText}`);
+  // @ts-ignore
+  return await response.buffer();
+}
+
+// const download = async (url: string, context) => {
+//   context.log("download");
+//   try {
+//     const { data } = await axios.get(url, { headers });
+//     return Buffer.from(data);
+//   } catch (e) {
+//     throw new Error(e.message);
+//   }
+// };
 
 const uploadFiles = async (content, blobName, buildId, context) => {
   context.log("uploadFiles");
