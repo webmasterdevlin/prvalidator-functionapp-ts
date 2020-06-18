@@ -75,7 +75,7 @@ async function downloadArtifacts(json, buildId, context) {
     if (url) {
       context.log("URL::", url);
       const fileName = `${element.name}.zip`;
-      const artifact = await download(url, context);
+      const artifact = await download(url);
       await uploadFiles(artifact, fileName, buildId, context);
     }
   }
