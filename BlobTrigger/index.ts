@@ -70,6 +70,7 @@ const headers = {
 // }
 
 const fetchUrl = async (url: string, buildId: string, context) => {
+  context.log("fetchUrl");
   try {
     const { data } = await axios.get(url, { headers });
     context.log("DATA::", data);
