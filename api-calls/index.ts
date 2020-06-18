@@ -31,7 +31,7 @@ export const getArtifacts = async (
   const url = `https://dev.azure.com/${ACCOUNT_NAME}/${projectId}/_apis/build/Builds/${buildId}/artifacts?api-version=5.1`;
   context.log("getArtifacts");
   try {
-    const artifact = await axios.get<Artifacts>(url, { headers });
+    const { data: artifact } = await axios.get<Artifacts>(url, { headers });
     context.log("artifact::", artifact);
     return artifact;
   } catch (e) {

@@ -105,9 +105,9 @@ const downloadDrops = async (
 ): Promise<Buffer> => {
   newContext.log("downloadDrops");
   try {
-    const { data } = await getArtifacts(projectId, buildId, newContext);
-    newContext.log("data: artifacts", data);
-    return Buffer.from(data);
+    const artifacts = await getArtifacts(projectId, buildId, newContext);
+    newContext.log("artifactss", artifacts);
+    return Buffer.from(artifacts);
   } catch (e) {
     newContext.log("downloadDrops.Error::", e.message);
   }
