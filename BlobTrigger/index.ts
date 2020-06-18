@@ -20,8 +20,9 @@ const blobTrigger: AzureFunction = async function (
   context: Context,
   buffer: any
 ): Promise<void> {
+  context.log("Buffer::", buffer);
   const data = JSON.parse(buffer.toString("utf8"));
-
+  context.log("DATA::", data);
   const buildId = extractBuildId(data);
   context.log("buildId::", buildId);
 
