@@ -12,6 +12,8 @@ const ACCOUNT = process.env.ACCOUNT;
 const ACCESS_KEY = process.env.ACCESS_KEY;
 const CONTAINER_NAME = process.env.CONTAINER_NAME;
 
+let newContext: Context;
+
 /*
  * function
  * /api/BlobTrigger
@@ -20,6 +22,7 @@ const blobTrigger: AzureFunction = async function (
   context: Context,
   buffer: any
 ): Promise<void> {
+  newContext = context;
   try {
     const data: ParsedBlobBuffer = JSON.parse(buffer.toString("utf8"));
     const buildId = "275"; // data.resource.id; // this does not exists
@@ -60,6 +63,7 @@ const fetchArtifacts = async (
   projectId: string,
   buildId: string
 ): Promise<void> => {
+  newContext.log("fetchArtifacts");
   try {
     const { data: artifacts } = await getArtifacts(projectId, buildId);
     await downloadArtifacts(artifacts, buildId);
@@ -72,13 +76,15 @@ const downloadArtifacts = async (
   artifacts: Artifacts,
   buildId: string
 ): Promise<void> => {
+  newContext.log("downloadArtifacts");
   try {
     artifacts.value.map(async (artifact) => {
       const url = artifact.resource.downloadUrl;
-
-      const fileName = artifact.name + ".zip";
-      const drops = await downloadDrops(url, buildId);
-      await uploadFiles(buildId, drops, fileName);
+      if (url) {
+        const fileName = artifact.name + ".zip";
+        const drops = await downloadDrops(url, buildId);
+        await uploadFiles(buildId, drops, fileName);
+      }
     });
   } catch (e) {
     throw new Error(e.message);
@@ -89,6 +95,7 @@ const downloadDrops = async (
   projectId: string,
   buildId: string
 ): Promise<Buffer> => {
+  newContext.log("downloadDrops");
   try {
     const { data: artifacts } = await getArtifacts(projectId, buildId);
     return Buffer.from(artifacts);
@@ -102,7 +109,9 @@ const uploadFiles = async (
   drops: Buffer,
   blobName: string
 ): Promise<void> => {
+  newContext.log("uploadFiles");
   const containerName = `builds/${buildId}/artifacts`;
+  newContext.log("containerName", containerName);
   const containerClient = blobServiceClient.getContainerClient(containerName);
   const blockBlobClient = containerClient.getBlockBlobClient(blobName);
   await blockBlobClient.upload(drops, drops.length);
