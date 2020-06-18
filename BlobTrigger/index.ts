@@ -5,7 +5,7 @@ import {
 } from "@azure/storage-blob";
 import { Artifacts } from "../models/Artifacts";
 import { ParsedBlobBuffer } from "../models/ParsedBlobBuffer";
-import { getArtifacts } from "../api-calls";
+import { getArtifacts, getArtifact } from "../api-calls";
 
 /* Application settings */
 const ACCOUNT = process.env.ACCOUNT;
@@ -85,9 +85,9 @@ const downloadArtifacts = async (
       if (url) {
         const fileName = artifact.name + ".zip";
         newContext.log(fileName);
-        const drops = await downloadDrop(projectId, buildId);
-        newContext.log("drops::", drops.toString());
-        await uploadFiles(buildId, drops, fileName);
+        const drop = await downloadDrop(url, projectId, buildId);
+        newContext.log("drop::", drop.toString());
+        await uploadFiles(buildId, drop, fileName);
       }
     });
   } catch (e) {
@@ -97,14 +97,20 @@ const downloadArtifacts = async (
 };
 
 const downloadDrop = async (
+  artifactUrl: string,
   projectId: string,
   buildId: string
 ): Promise<Buffer> => {
   newContext.log("downloadDrop");
   try {
-    const artifacts = await getArtifacts(projectId, buildId, newContext);
-    newContext.log("artifacts", artifacts);
-    return Buffer.from(artifacts);
+    const artifact = await getArtifact(
+      artifactUrl,
+      projectId,
+      buildId,
+      newContext
+    );
+    newContext.log("artifact::", artifact);
+    return Buffer.from(artifact);
   } catch (e) {
     newContext.log("downloadDrop.Error::", e.message);
   }

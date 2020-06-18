@@ -4,7 +4,7 @@ import { Status, StatusPolicy } from "../models/StatusPolicy";
 import { headers } from "../utils";
 import { PullRequests } from "../models/PullRequests";
 import { Repositories } from "../models/Repositories";
-import { Artifacts } from "../models/Artifacts";
+import { Artifacts, Artifact } from "../models/Artifacts";
 
 const ACCOUNT_NAME = process.env.ACCOUNT_NAME;
 
@@ -32,6 +32,24 @@ export const getArtifacts = async (
   context.log("getArtifacts");
   try {
     const { data: artifact } = await axios.get<Artifacts>(url, { headers });
+    context.log("artifact::", artifact);
+    return artifact;
+  } catch (e) {
+    context.log("getArtifacts.Error::", e.message);
+  }
+};
+
+export const getArtifact = async (
+  artifactUrl: string,
+  projectId: string,
+  buildId: string,
+  context
+) => {
+  context.log("getArtifact");
+  try {
+    const { data: artifact } = await axios.get<Artifact>(artifactUrl, {
+      headers,
+    });
     context.log("artifact::", artifact);
     return artifact;
   } catch (e) {
