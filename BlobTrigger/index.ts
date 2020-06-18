@@ -24,6 +24,9 @@ const blobTrigger: AzureFunction = async function (
   const buildId = extractBuildId(data);
   const projectId = extractProjectId(data);
 
+  context.log("buildId::", buildId);
+  context.log("projectId::", projectId);
+
   const url = artifacts_uri(ACCOUNT_NAME, projectId, buildId);
   context.log("URL::", url);
   try {

@@ -1,7 +1,7 @@
 {
   "bindings": [
     {
-      "name": "buffer",
+      "name": "BuildBlobTrigger",
       "type": "blobTrigger",
       "direction": "in",
       "path": "builds/{name}/{filename}.json",
