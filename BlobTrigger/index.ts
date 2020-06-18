@@ -65,11 +65,7 @@ const fetchArtifacts = async (
 ): Promise<void> => {
   newContext.log("fetchArtifacts");
   try {
-    const { data: artifacts } = await getArtifacts(
-      projectId,
-      buildId,
-      newContext
-    );
+    const artifacts = await getArtifacts(projectId, buildId, newContext);
     await downloadArtifacts(artifacts, buildId);
   } catch (e) {
     throw new Error(e.message);
@@ -123,5 +119,6 @@ const uploadFiles = async (
   newContext.log("containerName", containerName);
   const containerClient = blobServiceClient.getContainerClient(containerName);
   const blockBlobClient = containerClient.getBlockBlobClient(blobName);
-  await blockBlobClient.upload(drops, drops.length);
+  const response = await blockBlobClient.upload(drops, drops.length);
+  newContext.log(response);
 };
