@@ -7,6 +7,8 @@ import { Artifacts } from "../models/Artifacts";
 import { ParsedBlobBuffer } from "../models/ParsedBlobBuffer";
 import { getArtifacts, getArtifact } from "../api-calls";
 
+const { Readable } = require("stream");
+
 /* Application settings */
 const ACCOUNT = process.env.ACCOUNT;
 const ACCESS_KEY = process.env.ACCESS_KEY;
@@ -65,7 +67,7 @@ const fetchArtifacts = async (
 ): Promise<void> => {
   try {
     const artifacts = await getArtifacts(projectId, buildId);
-    await downloadArtifacts(artifacts, projectId, buildId);
+    await downloadArtifacts(artifacts, buildId);
   } catch (e) {
     newContext.log(e.message);
   }
@@ -73,16 +75,13 @@ const fetchArtifacts = async (
 
 const downloadArtifacts = async (
   artifacts: Artifacts,
-  projectId: string,
   buildId: string
 ): Promise<void> => {
   try {
     artifacts.value.map(async (artifact) => {
       const url = artifact.resource.downloadUrl;
       if (url) {
-        newContext.log("URL=", url);
-        // url is path to zip
-        const fileName = artifact.name;
+        const fileName = artifact.name + ".zip"; // NEED FIX: corrupted file
         const drop = await downloadDrop(url);
         await uploadFiles(buildId, drop, fileName);
       }
@@ -111,6 +110,7 @@ const uploadFiles = async (
   newContext.log("containerName", containerName);
   const containerClient = blobServiceClient.getContainerClient(containerName);
   const blockBlobClient = containerClient.getBlockBlobClient(blobName);
-  const response = await blockBlobClient.upload(drops, drops.length);
+  const stream = Readable.from(drops.toString());
+  const response = await blockBlobClient.upload(stream, 10);
   newContext.log(response);
 };
