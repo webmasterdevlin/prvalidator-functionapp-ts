@@ -49,17 +49,9 @@ const blobTrigger: AzureFunction = async function (
   const prDownloadTobuffer: Buffer = await prBlockBlobClient.downloadToBuffer();
   const pr = prDownloadTobuffer.toString();
 
-  context.log("PR::", pr);
-
   const data = JSON.parse(pr) as PullRequestCreated;
 
-  context.log("###################################################");
-
-  context.log("DATA::", data);
-
   if (!md) {
-    context.log("MD is EMPTY!!");
-
     const statusPolicy = new StatusPolicy(State.failed, Description.failed);
     const status = (
       await updateStatusPolicy(

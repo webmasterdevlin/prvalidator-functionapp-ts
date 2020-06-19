@@ -24,15 +24,12 @@ const httpTrigger: AzureFunction = async function (
     CONTAINER_NAME
   );
 
-  // Create a unique name for the blob
   const blobName = "pull-request-created.json";
 
-  // Get a block blob client
   const blockBlobClient = containerClient.getBlockBlobClient(blobName);
 
   console.log("\nUploading to Azure storage as blob:\n\t", blobName);
 
-  // Upload data to the blob
   const uploadBlobResponse = await blockBlobClient.upload(
     JSON.stringify(data),
     JSON.stringify(data).length

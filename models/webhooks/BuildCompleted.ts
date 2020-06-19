@@ -10,9 +10,13 @@ export type DetailedMessage = {
   markdown: string;
 };
 
-export type Drop = {};
+export type Drop = {
+  id: string;
+};
 
-export type Log = {};
+export type Log = {
+  id: string;
+};
 
 export type LastChangedBy = {
   displayName: string;
