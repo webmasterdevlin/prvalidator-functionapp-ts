@@ -35,7 +35,7 @@ export const getArtifacts = async (projectId: string, buildId: string) => {
 
 export const getArtifact = async (artifactUrl: string) => {
   try {
-    const data: any = await axios.get<Artifact>(artifactUrl, {
+    const { data } = await axios.get<Artifact>(artifactUrl, {
       headers,
     });
     return data;
