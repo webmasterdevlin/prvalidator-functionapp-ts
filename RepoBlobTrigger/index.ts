@@ -11,7 +11,6 @@ import { updateStatusPolicy } from "../api-calls";
 
 const CONNECTION_STRING = process.env.CONNECTION_STRING;
 const CONTAINER_NAME = process.env.REPO_CONTAINER_NAME;
-const ACCOUNT_NAME = process.env.ACCOUNT_NAME;
 
 const blobName = "Contributors.md";
 const prBlobName = "pull-request-created.json";
@@ -65,7 +64,7 @@ const blobTrigger: AzureFunction = async function (
     const status = (
       await updateStatusPolicy(
         statusPolicy,
-        data.resource.repository.project.name,
+        data.resource.repository.project.id,
         data.resource.repository.name,
         data.resource.pullRequestId
       )
@@ -81,7 +80,7 @@ const blobTrigger: AzureFunction = async function (
     const status = (
       await updateStatusPolicy(
         statusPolicy,
-        data.resource.repository.project.name,
+        data.resource.repository.project.id,
         data.resource.repository.name,
         data.resource.pullRequestId
       )

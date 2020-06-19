@@ -1,22 +1,3 @@
-export type BuildCompleted = {
-  subscriptionId: string;
-  notificationId: number;
-  id: string;
-  eventType: string;
-  publisherId: string;
-  message: Message;
-  detailedMessage: DetailedMessage;
-  resource: Resource;
-  resourceVersion: string;
-  resourceContainers: ResourceContainers;
-  createdDate: Date;
-  customData: CustomData;
-};
-
-type CustomData = {
-  executionTimeMs: any;
-};
-
 export type Message = {
   text: string;
   html: string;
@@ -29,55 +10,21 @@ export type DetailedMessage = {
   markdown: string;
 };
 
-export type Drop = {
-  location: string;
-  type: string;
-  url: string;
-  downloadUrl: string;
-};
+export type Drop = {};
 
-export type Log = {
-  type: string;
-  url: string;
-  downloadUrl: string;
-};
+export type Log = {};
 
 export type LastChangedBy = {
   displayName: string;
-  url: string;
   id: string;
   uniqueName: string;
-  imageUrl: string;
 };
 
 export type Definition = {
-  batchSize: number;
-  triggerType: string;
   definitionType: string;
   id: number;
   name: string;
   url: string;
-};
-
-export type Queue = {
-  queueType: string;
-  id: number;
-  name: string;
-  url: string;
-};
-
-export type RequestedFor = {
-  displayName: string;
-  url: string;
-  id: string;
-  uniqueName: string;
-  imageUrl: string;
-};
-
-export type Request = {
-  id: number;
-  url: string;
-  requestedFor: RequestedFor;
 };
 
 export type Resource = {
@@ -89,37 +36,46 @@ export type Resource = {
   finishTime: Date;
   reason: string;
   status: string;
-  dropLocation: string;
   drop: Drop;
   log: Log;
   sourceGetVersion: string;
   lastChangedBy: LastChangedBy;
   retainIndefinitely: boolean;
-  hasDiagnostics: boolean;
   definition: Definition;
-  queue: Queue;
-  requests: Request[];
-};
-
-export type BuildCompletedResources = {
-  value: Resource[];
-  count: number;
+  requests: any[];
 };
 
 export type Collection = {
   id: string;
+  baseUrl: string;
 };
 
 export type Account = {
   id: string;
+  baseUrl: string;
 };
 
 export type Project = {
   id: string;
+  baseUrl: string;
 };
 
 export type ResourceContainers = {
   collection: Collection;
   account: Account;
   project: Project;
+};
+
+export type BuildCompleted = {
+  subscriptionId: string;
+  notificationId: number;
+  id: string;
+  eventType: string;
+  publisherId: string;
+  message: Message;
+  detailedMessage: DetailedMessage;
+  resource: Resource;
+  resourceVersion: string;
+  resourceContainers: ResourceContainers;
+  createdDate: Date;
 };

@@ -1,8 +1,3 @@
-export type Artifacts = {
-  count: number;
-  value: Artifact[];
-};
-
 export type Properties = {
   localpath: string;
   artifactsize: string;
@@ -21,4 +16,9 @@ export type Artifact = {
   name: string;
   source: string;
   resource: Resource;
+};
+
+export type Artifacts = {
+  count: number;
+  value: Artifact[];
 };

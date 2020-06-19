@@ -12,7 +12,7 @@ const httpTrigger: AzureFunction = async function (
   context.log("HTTP trigger function processed a request.");
   const data = req.body as PullRequestCreated;
   context.log(
-    `https://dev.azure.com/${ACCOUNT_NAME}/${data.resource.repository.project.name}/_apis/git/repositories/${data.resource.repository.name}/pullrequests/${data.resource.pullRequestId}/statuses?api-version=5.0-preview.1`
+    `https://dev.azure.com/${ACCOUNT_NAME}/${data.resource.repository.project.id}/_apis/git/repositories/${data.resource.repository.name}/pullrequests/${data.resource.pullRequestId}/statuses?api-version=5.0-preview.1`
   );
   context.log("Data Received: " + JSON.stringify(req.body));
 

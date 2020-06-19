@@ -1,17 +1,3 @@
-export type PullRequestCreated = {
-  subscriptionId: string;
-  notificationId: number;
-  id: string;
-  eventType: string;
-  publisherId: string;
-  message: Message;
-  detailedMessage: DetailedMessage;
-  resource: Resource;
-  resourceVersion: string;
-  resourceContainers: ResourceContainers;
-  createdDate: Date;
-};
-
 export type Message = {
   text: string;
   html: string;
@@ -24,21 +10,25 @@ export type DetailedMessage = {
   markdown: string;
 };
 
-export type Project = {
+export type Repository = {
   id: string;
   name: string;
   url: string;
-  state: string;
-  visibility: string;
-  lastUpdateTime: Date;
+  project: Project;
+  size: number;
+  remoteUrl: string;
+  sshUrl: string;
+  webUrl: string;
 };
 
 export type CreatedBy = {
   displayName: string;
   url: string;
+  _links: any[];
   id: string;
   uniqueName: string;
   imageUrl: string;
+  descriptor: string;
 };
 
 export type LastMergeSourceCommit = {
@@ -53,52 +43,15 @@ export type LastMergeTargetCommit = {
 
 export type LastMergeCommit = {
   commitId: string;
+  author: any;
+  committer: any[];
+  comment: string;
   url: string;
-};
-
-export type Reviewer = {
-  reviewerUrl?: any;
-  vote: number;
-  displayName: string;
-  url: string;
-  id: string;
-  uniqueName: string;
-  imageUrl: string;
-  isContainer: boolean;
-};
-
-export type Commit = {
-  commitId: string;
-  url: string;
-};
-
-export type Web = {
-  href: string;
-};
-
-export type Statuses = {
-  href: string;
 };
 
 export type Links = {
-  web: Web;
-  statuses: Statuses;
-};
-
-export type Repository = {
-  id: string;
-  name: string;
-  url: string;
-  project: Project;
-  defaultBranch: string;
-  remoteUrl: string;
-  sshUrl: string;
-  webUrl: string;
-};
-
-export type GitRepositories = {
-  value: Repository[];
-  count: number;
+  web: any[];
+  statuses: any[];
 };
 
 export type Resource = {
@@ -113,35 +66,49 @@ export type Resource = {
   sourceRefName: string;
   targetRefName: string;
   mergeStatus: string;
+  isDraft: boolean;
   mergeId: string;
   lastMergeSourceCommit: LastMergeSourceCommit;
   lastMergeTargetCommit: LastMergeTargetCommit;
   lastMergeCommit: LastMergeCommit;
-  reviewers: Reviewer[];
-  commits: Commit[];
+  reviewers: any[];
   url: string;
   _links: Links;
+  supportsIterations: boolean;
+  artifactId: string;
 };
 
 export type Collection = {
   id: string;
+  baseUrl: string;
 };
 
 export type Account = {
   id: string;
+  baseUrl: string;
 };
 
-export type Project2 = {
+export type Project = {
   id: string;
+  baseUrl: string;
 };
 
 export type ResourceContainers = {
   collection: Collection;
   account: Account;
-  project: Project2;
+  project: Project;
 };
 
-export type GitPullRequestResources = {
-  value: Resource[];
-  count: number;
+export type PullRequestCreated = {
+  subscriptionId: string;
+  notificationId: number;
+  id: string;
+  eventType: string;
+  publisherId: string;
+  message: Message;
+  detailedMessage: DetailedMessage;
+  resource: Resource;
+  resourceVersion: string;
+  resourceContainers: ResourceContainers;
+  createdDate: Date;
 };

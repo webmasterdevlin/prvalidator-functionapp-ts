@@ -45,9 +45,9 @@ const uploadFiles = async (body: PullRequestCreated, context: Context) => {
     const containerClient = blobServiceClient.getContainerClient(
       CONTAINER_NAME
     );
-    const buildId = body.resource.repository.id;
+    const repositoryId = body.resource.repository.id;
 
-    const blobName = `${buildId}/${body.id}.json`;
+    const blobName = `${repositoryId}/${body.id}.json`;
     const content = JSON.stringify(body);
     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
     const uploadBlobResponse = await blockBlobClient.upload(
