@@ -94,7 +94,7 @@ const downloadArtifacts = async (
 const downloadDrop = async (artifactUrl: string): Promise<Buffer> => {
   try {
     const artifact = await getArtifact(artifactUrl);
-    return Buffer.from(artifact);
+    return Readable.from(artifact);
   } catch (e) {
     newContext.log(e.message);
   }
@@ -102,7 +102,7 @@ const downloadDrop = async (artifactUrl: string): Promise<Buffer> => {
 
 const uploadFiles = async (
   buildId: string,
-  drops: Buffer,
+  drops: any,
   blobName: string
 ): Promise<void> => {
   newContext.log("uploadFiles");
