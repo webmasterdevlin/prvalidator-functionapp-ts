@@ -7,7 +7,7 @@ import { Artifacts } from "../models/Artifacts";
 import { ParsedBlobBuffer } from "../models/ParsedBlobBuffer";
 import { getArtifacts, getArtifact } from "../api-calls";
 
-const { Readable } = require("stream");
+const { Readable, ReadableStream } = require("stream");
 
 /* Application settings */
 const ACCOUNT = process.env.ACCOUNT;
@@ -110,7 +110,7 @@ const uploadFiles = async (
   newContext.log("containerName", containerName);
   const containerClient = blobServiceClient.getContainerClient(containerName);
   const blockBlobClient = containerClient.getBlockBlobClient(blobName);
-  const stream = Readable.from(drops.toString());
+  const stream = ReadableStream.from(drops.toString());
   const response = await blockBlobClient.upload(stream, 10);
   newContext.log(response);
 };
