@@ -16,5 +16,5 @@
       "name": "res"
     }
   ],
-  "scriptFile": "../dist/ValidateContributorsMd/index.js"
+  "scriptFile": "../dist/PullRequestCreated/index.js"
 }
