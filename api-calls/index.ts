@@ -36,9 +36,10 @@ export const getArtifacts = async (projectId: string, buildId: string) => {
 export const getArtifact = async (artifactUrl: string) => {
   try {
     const { data } = await axios.get<Artifact>(artifactUrl, {
+      responseType: "arraybuffer",
       headers,
     });
-    return data;
+    return Buffer.from(data);
   } catch (e) {
     throw new Error(e.message);
   }
