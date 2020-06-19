@@ -33,7 +33,7 @@ export const getArtifacts = async (projectId: string, buildId: string) => {
   }
 };
 
-export const getArtifact = async (artifactUrl: string) => {
+export const getArtifactBuffer = async (artifactUrl: string) => {
   try {
     const { data } = await axios.get<Artifact>(artifactUrl, {
       responseType: "arraybuffer",

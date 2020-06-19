@@ -5,9 +5,7 @@ import {
 } from "@azure/storage-blob";
 import { Artifacts } from "../models/Artifacts";
 import { ParsedBlobBuffer } from "../models/ParsedBlobBuffer";
-import { getArtifacts, getArtifact } from "../api-calls";
-
-const { Readable, ReadableStream } = require("stream");
+import { getArtifactBuffer, getArtifacts } from "../api-calls";
 
 /* Application settings */
 const ACCOUNT = process.env.ACCOUNT;
@@ -81,7 +79,7 @@ const downloadArtifacts = async (
     artifacts.value.map(async (artifact) => {
       const url = artifact.resource.downloadUrl;
       if (url) {
-        const fileName = artifact.name + ".zip"; // NEED FIX: corrupted file
+        const fileName = artifact.name + ".zip";
         const drop = await downloadDrop(url);
         await uploadFiles(buildId, drop, fileName);
       }
@@ -93,8 +91,7 @@ const downloadArtifacts = async (
 
 const downloadDrop = async (artifactUrl: string): Promise<Buffer> => {
   try {
-    const artifact = await getArtifact(artifactUrl);
-    return artifact;
+    return await getArtifactBuffer(artifactUrl);
   } catch (e) {
     newContext.log(e.message);
   }
@@ -105,11 +102,8 @@ const uploadFiles = async (
   drop: Buffer,
   blobName: string
 ): Promise<void> => {
-  newContext.log("uploadFiles");
   const containerName = `builds/${buildId}/artifacts`;
-  newContext.log("containerName", containerName);
   const containerClient = blobServiceClient.getContainerClient(containerName);
   const blockBlobClient = containerClient.getBlockBlobClient(blobName);
-  const response = await blockBlobClient.upload(drop, drop.length);
-  newContext.log(response);
+  await blockBlobClient.upload(drop, drop.length);
 };
