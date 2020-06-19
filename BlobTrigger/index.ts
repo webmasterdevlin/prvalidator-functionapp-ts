@@ -110,7 +110,7 @@ const uploadFiles = async (
   newContext.log("containerName", containerName);
   const containerClient = blobServiceClient.getContainerClient(containerName);
   const blockBlobClient = containerClient.getBlockBlobClient(blobName);
-  const stream = ReadableStream.from(drops.toString());
+  const stream = ReadableStream.from(drops);
   const response = await blockBlobClient.upload(stream, 10);
   newContext.log(response);
 };
