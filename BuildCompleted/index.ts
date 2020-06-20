@@ -3,7 +3,7 @@ import {
   BlobServiceClient,
   StorageSharedKeyCredential,
 } from "@azure/storage-blob";
-import { Artifacts } from "../models/Artifacts";
+import { Artifacts, ArtifactsName } from "../models/Artifacts";
 import {
   getArtifactBuffer,
   getArtifacts,
@@ -18,6 +18,7 @@ const ACCOUNT = process.env.ACCOUNT;
 const ACCESS_KEY = process.env.ACCESS_KEY;
 
 let newContext: Context;
+let pullRequestId = "";
 
 const httpTrigger: AzureFunction = async function (
   context: Context,
@@ -40,13 +41,8 @@ const httpTrigger: AzureFunction = async function (
     const repositoryId = build.repository.id;
 
     const pullRequests = await getPullRequests(projectId, repositoryId);
-    // const pullRequest = pullRequests.value(pr => pr.createdDate === )
-    /*
-     * FIX: buildCompletedId is undefined
-     * buildCompletedId comes from BuildCompleted webhook
-     * TODO: find a way to get the buildCompletedId
-     * */
-    context.log("buildCompletedId::", buildCompletedId);
+    const pullRequest = pullRequests.value[0];
+    const pullRequestId = pullRequest.pullRequestId;
 
     try {
       await fetchArtifacts(projectId, buildCompletedId);
@@ -78,23 +74,38 @@ const fetchArtifacts = async (
 ): Promise<void> => {
   try {
     const artifacts = await getArtifacts(projectId, buildId);
-    await downloadArtifacts(artifacts, buildId);
+    await downloadArtifacts(artifacts);
   } catch (e) {
     newContext.log(e.message);
   }
 };
 
-const downloadArtifacts = async (
-  artifacts: Artifacts,
-  buildId: string
-): Promise<void> => {
+const downloadArtifacts = async (artifacts: Artifacts): Promise<void> => {
   try {
     artifacts.value.map(async (artifact) => {
       const url = artifact.resource.downloadUrl;
       if (url) {
-        const fileName = artifact.name + ".zip";
-        const drop = await downloadDrop(url);
-        await uploadFiles(buildId, drop, fileName);
+        const artifactToBeScanned = await downloadArtifact(url);
+        /*
+         * TODO: Scan each artifact here
+         * Use a function that will scan the artifact
+         * or upload the artifact then BlobTrigger a Function App that will scan this artifact
+         * The first approach is much simpler
+         * Update PullRequest if succeed or fail using pullRequestId
+         * */
+        if (artifact.name.includes("Code Coverage Report")) {
+          // function that will scan the Code Coverage Report_1234 artifact
+        } else if (artifact.name == ArtifactsName.contributors) {
+          // scan the contributors artifact
+        } else if (artifact.name == ArtifactsName.dependencyCheck) {
+          // scan the dependency check
+        } else if (artifact.name == ArtifactsName.resharper) {
+          // scan the resharper artifact
+        } else if (artifact.name == ArtifactsName.scanResults) {
+          // scan the scan results artifact that has the AquaSecurity.json
+        } else if (artifact.name == ArtifactsName.testResults) {
+          // scan the test results artifact
+        }
       }
     });
   } catch (e) {
@@ -102,21 +113,10 @@ const downloadArtifacts = async (
   }
 };
 
-const downloadDrop = async (artifactUrl: string): Promise<Buffer> => {
+const downloadArtifact = async (artifactUrl: string): Promise<Buffer> => {
   try {
     return await getArtifactBuffer(artifactUrl);
   } catch (e) {
     newContext.log(e.message);
   }
-};
-
-const uploadFiles = async (
-  buildId: string,
-  drop: Buffer,
-  blobName: string
-): Promise<void> => {
-  const containerName = `builds/${buildId}/artifacts`;
-  const containerClient = blobServiceClient.getContainerClient(containerName);
-  const blockBlobClient = containerClient.getBlockBlobClient(blobName);
-  await blockBlobClient.upload(drop, drop.length);
 };

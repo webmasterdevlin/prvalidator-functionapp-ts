@@ -22,3 +22,18 @@ export type Artifacts = {
   count: number;
   value: Artifact[];
 };
+
+export enum ArtifactsName {
+  coneCoverage = "Code Coverage",
+  contributors = "contributors",
+  databaseMigrations = "Database migrations",
+  dependencyCheck = "dependency check",
+  drop = "drop",
+  helmDeploy = "helm deploy artifact",
+  loadTests = "load-tests",
+  integrationTestResults = "integration test results",
+  nuget = "nuget",
+  resharper = "resharper",
+  scanResults = "scan results",
+  testResults = "test results",
+}

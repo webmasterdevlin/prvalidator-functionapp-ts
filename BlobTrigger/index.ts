@@ -4,13 +4,12 @@ import {
   StorageSharedKeyCredential,
 } from "@azure/storage-blob";
 import { Artifacts } from "../models/Artifacts";
-import { ParsedBlobBuffer } from "../models/ParsedBlobBuffer";
 import { getArtifactBuffer, getArtifacts } from "../api-calls";
+import { PullRequestCreated } from "../models/webhooks/PullRequestCreated";
 
 /* Application settings */
 const ACCOUNT = process.env.ACCOUNT;
 const ACCESS_KEY = process.env.ACCESS_KEY;
-const CONTAINER_NAME = process.env.CONTAINER_NAME;
 
 let newContext: Context;
 
@@ -24,14 +23,14 @@ const blobTrigger: AzureFunction = async function (
 ): Promise<void> {
   newContext = context;
   try {
-    const data: ParsedBlobBuffer = JSON.parse(buffer.toString("utf8"));
-    const buildId = "275"; // data.resource.id; // this does not exists
+    const data: PullRequestCreated = JSON.parse(buffer.toString("utf8"));
+    // const buildId =  data.resource.id; // this does not exists
+    const buildId = "719"; // sample build id
     const projectId = data.resourceContainers.project.id;
 
     /*
      * FIX: buildId is undefined
-     * buildId comes from BuildCompleted webhook
-     * TODO: find a way to get the buildId
+     * buildId comes from BuildCompleted webhook, not in the PullRequestCreated object from parsed file
      * */
     context.log("buildId::", buildId);
 
