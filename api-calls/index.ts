@@ -11,11 +11,11 @@ const ACCOUNT_NAME = process.env.ACCOUNT_NAME;
 
 export const updateStatusPolicy = async (
   statusPolicy: StatusPolicy,
-  repositoryProjectId: string,
+  projectId: string,
   repositoryName: string,
   pullRequestId: number
 ) => {
-  const url = `https://dev.azure.com/${ACCOUNT_NAME}/${repositoryProjectId}/_apis/git/repositories/${repositoryName}/pullrequests/${pullRequestId}/statuses?api-version=5.0-preview.1`;
+  const url = `https://dev.azure.com/${ACCOUNT_NAME}/${projectId}/_apis/git/repositories/${repositoryName}/pullrequests/${pullRequestId}/statuses?api-version=5.0-preview.1`;
 
   try {
     return await axios.post<Status>(url, statusPolicy, { headers });

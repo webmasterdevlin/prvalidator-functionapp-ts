@@ -24,6 +24,11 @@ export type Links = {
   sourceVersionDisplayUri: SourceVersionDisplayUri;
   timeline: Timeline;
   badge: Badge;
+  avatar: Avatar;
+};
+
+export type Avatar = {
+  href: string;
 };
 
 export type Properties = {};
@@ -69,16 +74,6 @@ export type Project = {
   lastUpdateTime: Date;
 };
 
-export type Project2 = {
-  id: string;
-  name: string;
-  url: string;
-  state: string;
-  revision: number;
-  visibility: string;
-  lastUpdateTime: Date;
-};
-
 export type Pool = {
   id: number;
   name: string;
@@ -91,54 +86,30 @@ export type Queue = {
   pool: Pool;
 };
 
-export type Avatar = {
-  href: string;
-};
-
-export type Links2 = {
-  avatar: Avatar;
-};
-
 export type RequestedFor = {
   displayName: string;
   url: string;
-  _links: Links2;
+  _links: Links;
   id: string;
   uniqueName: string;
   imageUrl: string;
   descriptor: string;
-};
-
-export type Avatar2 = {
-  href: string;
-};
-
-export type Links3 = {
-  avatar: Avatar2;
 };
 
 export type RequestedBy = {
   displayName: string;
   url: string;
-  _links: Links3;
+  _links: Links;
   id: string;
   uniqueName: string;
   imageUrl: string;
   descriptor: string;
 };
 
-export type Avatar3 = {
-  href: string;
-};
-
-export type Links4 = {
-  avatar: Avatar3;
-};
-
 export type LastChangedBy = {
   displayName: string;
   url: string;
-  _links: Links4;
+  _links: Links;
   id: string;
   uniqueName: string;
   imageUrl: string;
@@ -181,7 +152,7 @@ export type Build = {
   url: string;
   definition: Definition;
   buildNumberRevision: number;
-  project: Project2;
+  project: Project;
   uri: string;
   sourceBranch: string;
   sourceVersion: string;

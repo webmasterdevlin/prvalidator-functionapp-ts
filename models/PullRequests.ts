@@ -46,14 +46,6 @@ export type LastMergeCommit = {
   url: string;
 };
 
-export type Avatar2 = {
-  href: string;
-};
-
-export type Links2 = {
-  avatar: Avatar2;
-};
-
 export type Reviewer = {
   reviewerUrl: string;
   vote: Vote;
@@ -61,7 +53,7 @@ export type Reviewer = {
   isFlagged: boolean;
   displayName: string;
   url: string;
-  _links: Links2;
+  _links: Links;
   id: string;
   uniqueName: string;
   imageUrl: string;
