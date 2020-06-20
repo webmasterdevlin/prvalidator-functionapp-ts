@@ -8,6 +8,9 @@ const httpTrigger: AzureFunction = async function (
   context: Context,
   req: HttpRequest
 ): Promise<void> {
+  context.log("TypeScript HTTP trigger function processed a request.");
+  context.log(req);
+
   let pullRequestId = +req.body.resource.pullRequestId;
   let pullRequestTitle = req.body.resource.title;
 
