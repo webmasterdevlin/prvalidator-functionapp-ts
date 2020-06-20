@@ -24,7 +24,8 @@ const blobTrigger: AzureFunction = async function (
   newContext = context;
   try {
     const data: PullRequestCreated = JSON.parse(buffer.toString("utf8"));
-    // const buildId =  data.resource.id; // this does not exists
+    // this does not exists
+    // const buildId =  data.resource.id;
     const buildId = "719"; // sample build id
     const projectId = data.resourceContainers.project.id;
 
