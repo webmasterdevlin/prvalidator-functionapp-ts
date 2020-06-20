@@ -8,5 +8,5 @@
       "connection": "AzureWebJobsStorage"
     }
   ],
-  "scriptFile": "../dist/RepoBlobTrigger/index.js"
+  "scriptFile": "../dist/TestBlobTrigger/index.js"
 }

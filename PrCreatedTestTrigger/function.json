@@ -16,5 +16,5 @@
       "name": "res"
     }
   ],
-  "scriptFile": "../dist/PullRequestCreatedHttpTrigger/index.js"
+  "scriptFile": "../dist/PrCreatedTestTrigger/index.js"
 }
