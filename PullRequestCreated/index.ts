@@ -22,7 +22,7 @@ const httpTrigger: AzureFunction = async function (
   newContext = context;
   try {
     const data: PullRequestCreated = req.body;
-    const buildId = "275"; // data.resource.id; // this does not exists
+    const buildResourcedId = 275; // data.resource.id; // this does not exists
     const projectId = data.resourceContainers.project.id;
 
     /*
@@ -30,10 +30,10 @@ const httpTrigger: AzureFunction = async function (
      * buildId comes from BuildCompleted webhook
      * TODO: find a way to get the buildId
      * */
-    context.log("buildId::", buildId);
+    context.log("buildId::", buildResourcedId);
 
     try {
-      await fetchArtifacts(projectId, buildId);
+      await fetchArtifacts(projectId, buildResourcedId);
       context.done(null, { status: 201, body: "Insert succeeded." });
     } catch (error) {
       context.log.error(error);
@@ -58,11 +58,11 @@ const blobServiceClient = new BlobServiceClient(
 
 const fetchArtifacts = async (
   projectId: string,
-  buildId: string
+  buildResourcedId: number
 ): Promise<void> => {
   try {
-    const artifacts = await getArtifacts(projectId, buildId);
-    await downloadArtifacts(artifacts, buildId);
+    const artifacts = await getArtifacts(projectId, buildResourcedId);
+    await downloadArtifacts(artifacts, buildResourcedId);
   } catch (e) {
     newContext.log(e.message);
   }
@@ -70,7 +70,7 @@ const fetchArtifacts = async (
 
 const downloadArtifacts = async (
   artifacts: Artifacts,
-  buildId: string
+  buildResourcedId: number
 ): Promise<void> => {
   try {
     artifacts.value.map(async (artifact) => {
@@ -78,7 +78,7 @@ const downloadArtifacts = async (
       if (url) {
         const fileName = artifact.name + ".zip";
         const drop = await downloadDrop(url);
-        await uploadFiles(buildId, drop, fileName);
+        await uploadFiles(buildResourcedId, drop, fileName);
       }
     });
   } catch (e) {
@@ -95,11 +95,11 @@ const downloadDrop = async (artifactUrl: string): Promise<Buffer> => {
 };
 
 const uploadFiles = async (
-  buildId: string,
+  buildResourcedId: number,
   drop: Buffer,
   blobName: string
 ): Promise<void> => {
-  const containerName = `builds/${buildId}/artifacts`;
+  const containerName = `builds/${buildResourcedId}/artifacts`;
   const containerClient = blobServiceClient.getContainerClient(containerName);
   const blockBlobClient = containerClient.getBlockBlobClient(blobName);
   await blockBlobClient.upload(drop, drop.length);
