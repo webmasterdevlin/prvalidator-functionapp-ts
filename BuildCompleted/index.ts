@@ -31,25 +31,25 @@ const httpTrigger: AzureFunction = async function (
   newContext = context;
   try {
     const buildCompleted = req.body as BuildCompleted;
-    const buildCompletedId = buildCompleted.id;
+    const buildResourceId = buildCompleted.resource.id.toString();
     const projectId = buildCompleted.resourceContainers.project.id;
-    context.log("Build ID is = ", buildCompletedId);
+    context.log("Build CompletedID is = ", buildResourceId);
     const builds = await getBuilds(projectId);
 
     const build = builds.value.find(
-      (build) => build.id.toString() == buildCompletedId
+      (build) => build.id.toString() == buildResourceId
     );
 
     // repositoryId = build.repository.id;
 
-    pullRequestId = await getPullRequestId(projectId, buildCompletedId);
+    pullRequestId = await getPullRequestId(projectId, buildResourceId);
 
     context.log("Pull Request ID is = ", pullRequestId);
 
     context.log("Build is = ", build);
 
     try {
-      await fetchArtifacts(projectId, buildCompletedId);
+      await fetchArtifacts(projectId, buildResourceId);
       context.done(null, { status: 201, body: "Insert succeeded." });
     } catch (error) {
       context.log.error(error);
