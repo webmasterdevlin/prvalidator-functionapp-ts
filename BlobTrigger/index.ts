@@ -26,7 +26,7 @@ const blobTrigger: AzureFunction = async function (
     const data: PullRequestCreated = JSON.parse(buffer.toString("utf8"));
     // this does not exists
     // const buildId =  data.resource.id;
-    const buildId = "719"; // sample build id
+    const buildId = 719; // sample build id
     const projectId = data.resourceContainers.project.id;
 
     /*
@@ -61,7 +61,7 @@ const blobServiceClient = new BlobServiceClient(
 
 const fetchArtifacts = async (
   projectId: string,
-  buildId: string
+  buildId: number
 ): Promise<void> => {
   try {
     const artifacts = await getArtifacts(projectId, buildId);
@@ -73,7 +73,7 @@ const fetchArtifacts = async (
 
 const downloadArtifacts = async (
   artifacts: Artifacts,
-  buildId: string
+  buildId: number
 ): Promise<void> => {
   try {
     artifacts.value.map(async (artifact) => {
@@ -98,7 +98,7 @@ const downloadDrop = async (artifactUrl: string): Promise<Buffer> => {
 };
 
 const uploadFiles = async (
-  buildId: string,
+  buildId: number,
   drop: Buffer,
   blobName: string
 ): Promise<void> => {
