@@ -37,13 +37,16 @@ const httpTrigger: AzureFunction = async function (
     const builds = await getBuilds(projectId);
 
     const build = builds.value.find(
-      (build) => build.id.toString() === buildCompletedId
+      (build) => build.id.toString() == buildCompletedId
     );
-    repositoryId = build.repository.id;
+
+    // repositoryId = build.repository.id;
 
     pullRequestId = await getPullRequestId(projectId, buildCompletedId);
 
     context.log("Pull Request ID is = ", pullRequestId);
+
+    context.log("Build is = ", build);
 
     try {
       await fetchArtifacts(projectId, buildCompletedId);
