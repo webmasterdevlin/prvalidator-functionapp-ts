@@ -58,7 +58,6 @@ export const getPullRequestId = async (
   const url = `https://dev.azure.com/${ACCOUNT_NAME}/${projectId}/_apis/build/Builds/${buildResourceId}/?api-version=5.1-preview`;
   try {
     const { data } = await axios.get<Build>(url, { headers });
-    context.log("DATA::", data);
     return data.triggerInfo["pr.number"];
   } catch (e) {
     throw new Error(e.message);
