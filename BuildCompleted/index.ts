@@ -21,8 +21,6 @@ let newContext: Context;
 /*
  * these two IDs are needed to decorate the pullrequest
  * */
-let repositoryId = "";
-let pullRequestId = "";
 
 const httpTrigger: AzureFunction = async function (
   context: Context,
@@ -36,15 +34,16 @@ const httpTrigger: AzureFunction = async function (
     context.log("Build Completed ID is = ", buildResourceId);
     const builds = await getBuilds(projectId);
     const build = builds.value.find(
-      (build) => build.id.toString() == buildResourceId
+      (build) => build.id.toString() === buildResourceId
     );
 
     const pullRequestIdTest = await getPullRequestId(
       projectId,
-      buildResourceId
+      buildResourceId,
+      context
     );
     context.log("Pull Request ID Test is = ", pullRequestIdTest);
-    pullRequestId = build.triggerInfo.prNumber;
+    const pullRequestId = build.triggerInfo.prNumber;
     context.log("Pull Request ID is = ", pullRequestId);
 
     try {

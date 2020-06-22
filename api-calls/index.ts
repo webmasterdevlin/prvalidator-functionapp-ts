@@ -46,10 +46,15 @@ export const getArtifactBuffer = async (artifactUrl: string) => {
   }
 };
 
-export const getPullRequestId = async (projectId: string, buildId: string) => {
+export const getPullRequestId = async (
+  projectId: string,
+  buildId: string,
+  context: any
+) => {
   const url = `https://dev.azure.com/${ACCOUNT_NAME}/${projectId}/_apis/build/Builds/${buildId}/?api-version=5.1-preview`;
   try {
     const { data } = await axios.get<Build>(url, { headers });
+    context.log("DATA::", data);
     return data.triggerInfo.prNumber;
   } catch (e) {
     throw new Error(e.message);
