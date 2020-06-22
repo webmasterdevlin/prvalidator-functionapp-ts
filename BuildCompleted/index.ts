@@ -29,22 +29,15 @@ const httpTrigger: AzureFunction = async function (
   newContext = context;
   try {
     const buildCompleted = req.body as BuildCompleted;
-    const buildResourceId = buildCompleted.resource.id.toString();
+    const buildResourceId = buildCompleted.resource.id;
     const projectId = buildCompleted.resourceContainers.project.id;
-    context.log("Build Completed ID is = ", buildResourceId);
-    const builds = await getBuilds(projectId);
-    const build = builds.value.find(
-      (build) => build.id.toString() === buildResourceId
-    );
 
-    const pullRequestIdTest = await getPullRequestId(
-      projectId,
-      buildResourceId,
-      context
-    );
-    context.log("Pull Request ID Test is = ", pullRequestIdTest);
+    const builds = await getBuilds(projectId);
+    const build = builds.value.find((build) => build.id === buildResourceId);
+
     const pullRequestId = build.triggerInfo["pr.number"];
     context.log("Pull Request ID is = ", pullRequestId);
+    context.log("Build Completed ID is = ", buildResourceId);
 
     try {
       await fetchArtifacts(projectId, buildResourceId);
@@ -72,7 +65,7 @@ const blobServiceClient = new BlobServiceClient(
 
 const fetchArtifacts = async (
   projectId: string,
-  buildId: string
+  buildId: number
 ): Promise<void> => {
   try {
     const artifacts = await getArtifacts(projectId, buildId);

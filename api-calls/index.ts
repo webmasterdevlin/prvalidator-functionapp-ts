@@ -24,7 +24,7 @@ export const updateStatusPolicy = async (
   }
 };
 
-export const getArtifacts = async (projectId: string, buildId: string) => {
+export const getArtifacts = async (projectId: string, buildId: number) => {
   const url = `https://dev.azure.com/${ACCOUNT_NAME}/${projectId}/_apis/build/Builds/${buildId}/artifacts?api-version=5.1`;
   try {
     const { data } = await axios.get<Artifacts>(url, { headers });
