@@ -33,7 +33,7 @@ const httpTrigger: AzureFunction = async function (
     const buildCompleted = req.body as BuildCompleted;
     const buildCompletedId = buildCompleted.id;
     const projectId = buildCompleted.resourceContainers.project.id;
-
+    context.log("Build ID is = ", buildCompletedId);
     const builds = await getBuilds(projectId);
 
     const build = builds.value.find(
