@@ -4,12 +4,7 @@ import {
   StorageSharedKeyCredential,
 } from "@azure/storage-blob";
 import { Artifacts, ArtifactsName } from "../models/Artifacts";
-import {
-  getArtifactBuffer,
-  getArtifacts,
-  getBuilds,
-  getPullRequestId,
-} from "../api-calls";
+import { getArtifactBuffer, getArtifacts, getBuilds } from "../api-calls";
 import { BuildCompleted } from "../models/webhooks/BuildCompleted";
 
 /* Application settings */
@@ -17,10 +12,6 @@ const ACCOUNT = process.env.ACCOUNT;
 const ACCESS_KEY = process.env.ACCESS_KEY;
 
 let newContext: Context;
-
-/*
- * these two IDs are needed to decorate the pullrequest
- * */
 
 const httpTrigger: AzureFunction = async function (
   context: Context,
@@ -65,10 +56,10 @@ const blobServiceClient = new BlobServiceClient(
 
 const fetchArtifacts = async (
   projectId: string,
-  buildId: number
+  buildResourceId: number
 ): Promise<void> => {
   try {
-    const artifacts = await getArtifacts(projectId, buildId);
+    const artifacts = await getArtifacts(projectId, buildResourceId);
     await downloadArtifacts(artifacts);
   } catch (e) {
     newContext.log(e.message);

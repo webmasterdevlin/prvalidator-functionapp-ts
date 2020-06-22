@@ -24,8 +24,12 @@ export const updateStatusPolicy = async (
   }
 };
 
-export const getArtifacts = async (projectId: string, buildId: number) => {
-  const url = `https://dev.azure.com/${ACCOUNT_NAME}/${projectId}/_apis/build/Builds/${buildId}/artifacts?api-version=5.1`;
+export const getArtifacts = async (
+  projectId: string,
+  buildResourceId: number
+) => {
+  const url = `https://dev.azure.com/${ACCOUNT_NAME}/${projectId}/_apis/build/Builds/${buildResourceId}/artifacts?api-version=5.1`;
+
   try {
     const { data } = await axios.get<Artifacts>(url, { headers });
     return data;
@@ -48,10 +52,10 @@ export const getArtifactBuffer = async (artifactUrl: string) => {
 
 export const getPullRequestId = async (
   projectId: string,
-  buildId: string,
+  buildResourceId: number,
   context: any
 ) => {
-  const url = `https://dev.azure.com/${ACCOUNT_NAME}/${projectId}/_apis/build/Builds/${buildId}/?api-version=5.1-preview`;
+  const url = `https://dev.azure.com/${ACCOUNT_NAME}/${projectId}/_apis/build/Builds/${buildResourceId}/?api-version=5.1-preview`;
   try {
     const { data } = await axios.get<Build>(url, { headers });
     context.log("DATA::", data);
@@ -63,10 +67,10 @@ export const getPullRequestId = async (
 
 export const directArtifactDownload = async (
   projectId: string,
-  buildId: string,
+  buildResourceId: number,
   artifactName: string
 ) => {
-  const url = `https://dev.azure.com/${ACCOUNT_NAME}/${projectId}/_apis/build/builds/${buildId}/artifacts?artifactName=${artifactName}&api-version=5.1&%24format=zip`;
+  const url = `https://dev.azure.com/${ACCOUNT_NAME}/${projectId}/_apis/build/builds/${buildResourceId}/artifacts?artifactName=${artifactName}&api-version=5.1&%24format=zip`;
 
   try {
     const { data } = await axios.get<Artifact>(url, {
