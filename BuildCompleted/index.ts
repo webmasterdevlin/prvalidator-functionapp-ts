@@ -43,7 +43,7 @@ const httpTrigger: AzureFunction = async function (
       context
     );
     context.log("Pull Request ID Test is = ", pullRequestIdTest);
-    const pullRequestId = build.triggerInfo.prNumber;
+    const pullRequestId = build.triggerInfo["pr.number"];
     context.log("Pull Request ID is = ", pullRequestId);
 
     try {

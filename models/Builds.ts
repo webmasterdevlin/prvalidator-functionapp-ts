@@ -43,12 +43,12 @@ export type Plan = {
 };
 
 export type TriggerInfo = {
-  prNumber: string;
-  prIsFork: string;
-  ciSourceSha: string;
-  ciTriggerRepository: string;
-  ciSourceBranch: string;
-  ciMessage: string;
+  ["pr.number"]: string;
+  ["pr.isFork"]: string;
+  ["ci.sourceSha"]: string;
+  ["ci.triggerRepository"]: string;
+  ["ci.sourceBranch"]: string;
+  ["ci.message"]: string;
 };
 
 export type Definition = {

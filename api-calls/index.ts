@@ -55,7 +55,7 @@ export const getPullRequestId = async (
   try {
     const { data } = await axios.get<Build>(url, { headers });
     context.log("DATA::", data);
-    return data.triggerInfo.prNumber;
+    return data.triggerInfo["pr.number"];
   } catch (e) {
     throw new Error(e.message);
   }
