@@ -8,16 +8,20 @@ import {
   getArtifactBuffer,
   getArtifacts,
   getBuilds,
-  getPullRequests,
+  getPullRequestId,
 } from "../api-calls";
 import { BuildCompleted } from "../models/webhooks/BuildCompleted";
-import { Build } from "../models/Builds";
 
 /* Application settings */
 const ACCOUNT = process.env.ACCOUNT;
 const ACCESS_KEY = process.env.ACCESS_KEY;
 
 let newContext: Context;
+
+/*
+ * these two IDs are needed to decorate the pullrequest
+ * */
+let repositoryId = "";
 let pullRequestId = "";
 
 const httpTrigger: AzureFunction = async function (
@@ -26,9 +30,6 @@ const httpTrigger: AzureFunction = async function (
 ): Promise<void> {
   newContext = context;
   try {
-    // const data: PullRequestCreated = req.body;
-    // const buildCompletedId = "275"; // data.resource.id; // this does not exists
-
     const buildCompleted = req.body as BuildCompleted;
     const buildCompletedId = buildCompleted.id;
     const projectId = buildCompleted.resourceContainers.project.id;
@@ -38,11 +39,11 @@ const httpTrigger: AzureFunction = async function (
     const build = builds.value.find(
       (build) => build.id.toString() === buildCompletedId
     );
-    const repositoryId = build.repository.id;
+    repositoryId = build.repository.id;
 
-    const pullRequests = await getPullRequests(projectId, repositoryId);
-    const pullRequest = pullRequests.value[0];
-    const pullRequestId = pullRequest.pullRequestId;
+    pullRequestId = await getPullRequestId(projectId, buildCompletedId);
+
+    context.log("Pull Request ID is = ", pullRequestId);
 
     try {
       await fetchArtifacts(projectId, buildCompletedId);

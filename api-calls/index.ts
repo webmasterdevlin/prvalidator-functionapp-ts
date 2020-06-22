@@ -5,17 +5,17 @@ import { headers } from "../utils";
 import { PullRequests } from "../models/PullRequests";
 import { Repositories } from "../models/Repositories";
 import { Artifacts, Artifact } from "../models/Artifacts";
-import { Builds } from "../models/Builds";
+import { Build, Builds } from "../models/Builds";
 
 const ACCOUNT_NAME = process.env.ACCOUNT_NAME;
 
 export const updateStatusPolicy = async (
   statusPolicy: StatusPolicy,
   projectId: string,
-  repositoryName: string,
+  repositoryId: string,
   pullRequestId: number
 ) => {
-  const url = `https://dev.azure.com/${ACCOUNT_NAME}/${projectId}/_apis/git/repositories/${repositoryName}/pullrequests/${pullRequestId}/statuses?api-version=5.0-preview.1`;
+  const url = `https://dev.azure.com/${ACCOUNT_NAME}/${projectId}/_apis/git/repositories/${repositoryId}/pullrequests/${pullRequestId}/statuses?api-version=5.0-preview.1`;
 
   try {
     return await axios.post<Status>(url, statusPolicy, { headers });
@@ -41,6 +41,16 @@ export const getArtifactBuffer = async (artifactUrl: string) => {
       headers,
     });
     return Buffer.from(data);
+  } catch (e) {
+    throw new Error(e.message);
+  }
+};
+
+export const getPullRequestId = async (projectId: string, buildId: string) => {
+  const url = `https://dev.azure.com/${ACCOUNT_NAME}/${projectId}/_apis/build/Builds/${buildId}/?api-version=5.1-preview`;
+  try {
+    const { data } = await axios.get<Build>(url, { headers });
+    return data.triggerInfo.prNumber;
   } catch (e) {
     throw new Error(e.message);
   }
