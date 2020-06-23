@@ -81,8 +81,13 @@ const downloadArtifacts = async (artifacts: Artifacts): Promise<void> => {
     artifacts.value.map(async (artifact) => {
       const url = artifact.resource.downloadUrl;
       if (url) {
-        const artifactToBeScanned = await downloadArtifact(url);
         clonedContext.log("URL = ", url);
+        const artifactToBeScanned = await downloadArtifact(url);
+        clonedContext.log("artifactToBeScanned = ", artifactToBeScanned);
+        clonedContext.log(
+          "artifactToBeScanned_toString() = ",
+          artifactToBeScanned.toString()
+        );
         /*
          * TODO: Scan each artifact here
          * */
