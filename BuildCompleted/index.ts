@@ -35,10 +35,7 @@ const httpTrigger: AzureFunction = async function (
     const build = builds.value.find((build) => build.id === buildResourceId);
 
     const pullRequestId = build.triggerInfo["pr.number"];
-    context.log(
-      "Pull Request ID is = ",
-      pullRequestId ? pullRequestId + "_exists" : "missing"
-    );
+    context.log("Pull Request ID is = ", pullRequestId);
     context.log("Build Completed ID is = ", buildResourceId);
 
     try {
@@ -79,7 +76,7 @@ const fetchArtifacts = async (
 };
 
 const downloadArtifacts = async (artifacts: Artifacts): Promise<void> => {
-  clonedContext.log("downloadArtifacts");
+  clonedContext.log("downloadArtifacts = ", artifacts.value);
   try {
     artifacts.value.map(async (artifact) => {
       const url = artifact.resource.downloadUrl;
@@ -96,7 +93,7 @@ const downloadArtifacts = async (artifacts: Artifacts): Promise<void> => {
         if (artifact.name.includes("Code Coverage Report")) {
           await checkCodeCoverage(artifactToBeScanned);
         } else if (artifact.name == ArtifactsName.contributors) {
-          await checkContributors(artifactToBeScanned, clonedContext);
+          checkContributors(artifactToBeScanned, clonedContext);
         } else if (artifact.name == ArtifactsName.dependencyCheck) {
           await checkDependency(artifactToBeScanned);
         } else if (artifact.name == ArtifactsName.resharper) {
