@@ -83,11 +83,8 @@ const downloadArtifacts = async (artifacts: Artifacts): Promise<void> => {
       if (url) {
         clonedContext.log("URL = ", url);
         const artifactToBeScanned = await downloadArtifact(url);
-        clonedContext.log("artifactToBeScanned = ", artifactToBeScanned);
-        clonedContext.log(
-          "artifactToBeScanned_toString() = ",
-          artifactToBeScanned.toString()
-        );
+        clonedContext.log("artifactToBeScanned = ");
+        clonedContext.log("artifactToBeScanned_toString() = ");
         /*
          * TODO: Scan each artifact here
          * */
@@ -112,6 +109,7 @@ const downloadArtifacts = async (artifacts: Artifacts): Promise<void> => {
 };
 
 const downloadArtifact = async (artifactUrl: string): Promise<Buffer> => {
+  clonedContext.log("downloadArtifact = ", artifactUrl);
   try {
     return await getArtifactBuffer(artifactUrl);
   } catch (e) {
