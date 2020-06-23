@@ -12,10 +12,11 @@ export const updateStatusPolicy = async (
   statusPolicy: StatusPolicy,
   projectId: string,
   repositoryId: string,
-  pullRequestId: string
+  pullRequestId: string,
+  log: any
 ) => {
   const url = `https://dev.azure.com/${ACCOUNT_NAME}/${projectId}/_apis/git/repositories/${repositoryId}/pullrequests/${pullRequestId}/statuses?api-version=5.0-preview.1`;
-
+  log("URL::", url);
   try {
     return await axios.post<Status>(url, statusPolicy, { headers });
   } catch (e) {

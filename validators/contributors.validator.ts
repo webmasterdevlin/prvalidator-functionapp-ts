@@ -24,11 +24,12 @@ export const checkContributors = async (
     statusPolicy.state = State.failed;
     statusPolicy.description = Description.failed;
   }
-
+  log(`${statusPolicy.state} ${statusPolicy.description}`);
   await updateStatusPolicy(
     statusPolicy,
     projectId,
     repositoryId,
-    pullRequestId
+    pullRequestId,
+    log
   );
 };
