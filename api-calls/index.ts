@@ -6,16 +6,13 @@ import { Repositories } from "../models/Repositories";
 import { Artifacts, Artifact } from "../models/Artifacts";
 import { Build, Builds } from "../models/Builds";
 
-const fs = require("fs");
-const zlib = require("zlib");
-
 const ACCOUNT_NAME = process.env.ACCOUNT_NAME;
 
 export const updateStatusPolicy = async (
   statusPolicy: StatusPolicy,
   projectId: string,
   repositoryId: string,
-  pullRequestId: number
+  pullRequestId: string
 ) => {
   const url = `https://dev.azure.com/${ACCOUNT_NAME}/${projectId}/_apis/git/repositories/${repositoryId}/pullrequests/${pullRequestId}/statuses?api-version=5.0-preview.1`;
 
@@ -40,8 +37,8 @@ export const getArtifacts = async (
   }
 };
 
-export const getArtifactBuffer = async (artifactUrl: string, { log }: any) => {
-  log("getArtifactBuffer");
+export const getArtifactContent = async (artifactUrl: string, { log }: any) => {
+  log("getArtifactContent");
   try {
     const { data } = await axios.get<string>(artifactUrl, {
       responseType: "document",

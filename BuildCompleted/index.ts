@@ -4,7 +4,7 @@ import {
   StorageSharedKeyCredential,
 } from "@azure/storage-blob";
 import { Artifacts, ArtifactsName } from "../models/Artifacts";
-import { getArtifactBuffer, getArtifacts, getBuilds } from "../api-calls";
+import { getArtifactContent, getArtifacts, getBuilds } from "../api-calls";
 import { BuildCompleted } from "../models/webhooks/BuildCompleted";
 import {
   checkAquaScanner,
@@ -19,6 +19,9 @@ const ACCOUNT = process.env.ACCOUNT;
 const ACCESS_KEY = process.env.ACCESS_KEY;
 
 let clonedContext: Context;
+let projectId = "";
+let repositoryId = "";
+let pullRequestId = "";
 
 const httpTrigger: AzureFunction = async function (
   context: Context,
@@ -28,17 +31,18 @@ const httpTrigger: AzureFunction = async function (
   try {
     const buildCompleted = req.body as BuildCompleted;
     const buildResourceId = buildCompleted.resource.id;
-    const projectId = buildCompleted.resourceContainers.project.id;
+    projectId = buildCompleted.resourceContainers.project.id;
 
     const builds = await getBuilds(projectId);
     const build = builds.value.find((build) => build.id === buildResourceId);
+    repositoryId = build.repository.id;
 
-    const pullRequestId = build.triggerInfo["pr.number"];
+    pullRequestId = build.triggerInfo["pr.number"];
     context.log("Pull Request ID is = ", pullRequestId);
     context.log("Build Completed ID is = ", buildResourceId);
 
     try {
-      await fetchArtifacts(projectId, buildResourceId);
+      await fetchArtifacts(buildResourceId);
       context.done(null, { status: 201, body: "Insert succeeded." });
     } catch (error) {
       context.log.error(error);
@@ -61,10 +65,7 @@ const blobServiceClient = new BlobServiceClient(
   defaultAzureCredential
 );
 
-const fetchArtifacts = async (
-  projectId: string,
-  buildResourceId: number
-): Promise<void> => {
+const fetchArtifacts = async (buildResourceId: number): Promise<void> => {
   clonedContext.log("fetchArtifacts");
   try {
     const artifacts = await getArtifacts(projectId, buildResourceId);
@@ -90,7 +91,13 @@ const downloadArtifacts = async (artifacts: Artifacts): Promise<void> => {
         if (artifact.name.includes("Code Coverage Report")) {
           // await checkCodeCoverage(artifactToBeScanned);
         } else if (artifact.name == ArtifactsName.contributors) {
-          checkContributors(artifactToBeScanned, clonedContext);
+          await checkContributors(
+            artifactToBeScanned,
+            projectId,
+            repositoryId,
+            pullRequestId,
+            clonedContext
+          );
         } else if (artifact.name == ArtifactsName.dependencyCheck) {
           // await checkDependency(artifactToBeScanned);
         } else if (artifact.name == ArtifactsName.resharper) {
@@ -110,7 +117,7 @@ const downloadArtifacts = async (artifacts: Artifacts): Promise<void> => {
 const downloadArtifact = async (artifactUrl: string): Promise<string> => {
   clonedContext.log("downloadArtifact");
   try {
-    return await getArtifactBuffer(artifactUrl, clonedContext);
+    return await getArtifactContent(artifactUrl, clonedContext);
   } catch (e) {
     clonedContext.log(e.message);
   }

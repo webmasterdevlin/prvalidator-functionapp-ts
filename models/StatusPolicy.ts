@@ -1,8 +1,8 @@
 export class StatusPolicy {
   context = new Context();
   constructor(
-    public state: State,
-    public description: Description,
+    public state: State = State.error,
+    public description: Description = Description.error,
     public targetUrl = "https://visualstudio.microsoft.com"
   ) {}
 }
