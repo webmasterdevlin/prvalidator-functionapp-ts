@@ -43,11 +43,43 @@ export const getArtifactBuffer = async (artifactUrl: string, { log }: any) => {
   log("getArtifactBuffer");
   try {
     const { data }: any = await axios.get<any>(artifactUrl, {
+      responseType: "json",
+      headers,
+    });
+    const stream: any = await axios.get<any>(artifactUrl, {
       responseType: "stream",
       headers,
     });
-    log("getArtifactBuffer_data_string = ", data.toString());
+    const blob: any = await axios.get<any>(artifactUrl, {
+      responseType: "blob",
+      headers,
+    });
+
+    const { data: buffer }: any = await axios.get<any>(artifactUrl, {
+      responseType: "arraybuffer",
+      headers,
+    });
+
+    const docs = await axios.get<any>(artifactUrl, {
+      responseType: "document",
+      headers,
+    });
+
+    log("getArtifactBuffer_data_string_data = ", data.toString());
     log("getArtifactBuffer_data = ", data);
+
+    log("getArtifactBuffer_data_string_stream = ", stream.toString());
+    log("getArtifactBuffer_data_stream = ", stream);
+
+    log("getArtifactBuffer_data_string_blob = ", blob.toString());
+    log("getArtifactBuffer_data_blob = ", blob);
+
+    log("getArtifactBuffer_data_string_buffer = ", buffer.toString());
+    log("getArtifactBuffer_data_buffer = ", buffer);
+
+    log("getArtifactBuffer_data_string_buffer = ", docs.toString());
+    log("getArtifactBuffer_data_buffer = ", docs);
+
     return Buffer.from(data);
   } catch (e) {
     log("ERROR : ", e);
