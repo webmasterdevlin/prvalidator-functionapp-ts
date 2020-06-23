@@ -35,7 +35,10 @@ const httpTrigger: AzureFunction = async function (
     const build = builds.value.find((build) => build.id === buildResourceId);
 
     const pullRequestId = build.triggerInfo["pr.number"];
-    context.log("Pull Request ID is = ", pullRequestId);
+    context.log(
+      "Pull Request ID is = ",
+      pullRequestId ? pullRequestId + "_exists" : "missing"
+    );
     context.log("Build Completed ID is = ", buildResourceId);
 
     try {
