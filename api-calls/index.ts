@@ -41,10 +41,11 @@ export const getArtifacts = async (
 export const getArtifactBuffer = async (artifactUrl: string, { log }: any) => {
   log("getArtifactBuffer");
   try {
-    const { data } = await axios.get<Artifact>(artifactUrl, {
+    const { data }: any = await axios.get<any>(artifactUrl, {
       responseType: "arraybuffer",
       headers,
     });
+    log("getArtifactBuffer_data_string = ", data.toString());
     log("getArtifactBuffer_data = ", data);
     return Buffer.from(data);
   } catch (e) {
