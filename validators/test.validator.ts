@@ -1,1 +1,1 @@
-export const checkTestResult = (artifact: Buffer) => true;
+export const checkTestResult = (artifact: any) => true;

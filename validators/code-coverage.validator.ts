@@ -1,1 +1,1 @@
-export const checkCodeCoverage = (artifact: Buffer) => true;
+export const checkCodeCoverage = (artifact: any) => true;

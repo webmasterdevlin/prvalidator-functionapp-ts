@@ -1,2 +1,2 @@
-export const checkNuget = (artifact: Buffer) => true;
-export const checkNugetPdb = (artifact: Buffer) => false;
+export const checkNuget = (artifact: any) => true;
+export const checkNugetPdb = (artifact: any) => false;

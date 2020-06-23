@@ -6,6 +6,7 @@ import { Repositories } from "../models/Repositories";
 import { Artifacts, Artifact } from "../models/Artifacts";
 import { Build, Builds } from "../models/Builds";
 
+const fs = require("fs");
 const zlib = require("zlib");
 
 const ACCOUNT_NAME = process.env.ACCOUNT_NAME;
@@ -42,49 +43,14 @@ export const getArtifacts = async (
 export const getArtifactBuffer = async (artifactUrl: string, { log }: any) => {
   log("getArtifactBuffer");
   try {
-    const { data: json }: any = await axios.get<any>(artifactUrl, {
-      responseType: "json",
-      headers,
-    });
-
-    const stream: any = await axios.get<any>(artifactUrl, {
-      responseType: "stream",
-      headers,
-    });
-
-    const blob: any = await axios.get<any>(artifactUrl, {
-      responseType: "blob",
-      headers,
-    });
-
-    const { data: buffer }: any = await axios.get<any>(artifactUrl, {
-      responseType: "arraybuffer",
-      headers,
-    });
-
-    const docs = await axios.get<any>(artifactUrl, {
+    const { data } = await axios.get<string>(artifactUrl, {
       responseType: "document",
       headers,
     });
 
-    log("getArtifactBuffer_data_string_data = ", json.toString());
-    log("getArtifactBuffer_data = ", json);
-
-    log("getArtifactBuffer_data_string_stream = ", stream.toString());
-    log("getArtifactBuffer_data_stream = ", stream);
-
-    log("getArtifactBuffer_data_string_blob = ", blob.toString());
-    log("getArtifactBuffer_data_blob = ", blob);
-
-    log("getArtifactBuffer_data_string_buffer = ", buffer.toString());
-    log("getArtifactBuffer_data_buffer = ", buffer);
-
-    log("getArtifactBuffer_data_string_buffer = ", docs.toString());
-    log("getArtifactBuffer_data_buffer = ", docs);
-
-    // return Buffer.from(data);
+    return data;
   } catch (e) {
-    log("ERROR : ", e);
+    throw new Error(e.message);
   }
 };
 

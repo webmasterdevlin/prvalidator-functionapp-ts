@@ -1,1 +1,1 @@
-export const checkEclint = (artifact: Buffer) => true;
+export const checkEclint = (artifact: any) => true;

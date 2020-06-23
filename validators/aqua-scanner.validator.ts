@@ -1,1 +1,1 @@
-export const checkAquaScanner = (artifact: Buffer) => true;
+export const checkAquaScanner = (artifact: any) => true;

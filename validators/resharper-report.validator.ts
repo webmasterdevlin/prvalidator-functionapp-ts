@@ -1,1 +1,1 @@
-export const checkResharperReport = (artifact: Buffer) => true;
+export const checkResharperReport = (artifact: any) => true;

@@ -13,7 +13,6 @@ import {
   checkResharperReport,
   checkTestResult,
 } from "../validators";
-import { checkCodeCoverage } from "../validators/code-coverage.validator";
 
 /* Application settings */
 const ACCOUNT = process.env.ACCOUNT;
@@ -89,17 +88,17 @@ const downloadArtifacts = async (artifacts: Artifacts): Promise<void> => {
          * TODO: Scan each artifact here
          * */
         if (artifact.name.includes("Code Coverage Report")) {
-          await checkCodeCoverage(artifactToBeScanned);
+          // await checkCodeCoverage(artifactToBeScanned);
         } else if (artifact.name == ArtifactsName.contributors) {
           checkContributors(artifactToBeScanned, clonedContext);
         } else if (artifact.name == ArtifactsName.dependencyCheck) {
-          await checkDependency(artifactToBeScanned);
+          // await checkDependency(artifactToBeScanned);
         } else if (artifact.name == ArtifactsName.resharper) {
-          await checkResharperReport(artifactToBeScanned);
+          // await checkResharperReport(artifactToBeScanned);
         } else if (artifact.name == ArtifactsName.scanResults) {
-          await checkAquaScanner(artifactToBeScanned);
+          // await checkAquaScanner(artifactToBeScanned);
         } else if (artifact.name == ArtifactsName.testResults) {
-          await checkTestResult(artifactToBeScanned);
+          // await checkTestResult(artifactToBeScanned);
         }
       }
     });
@@ -108,13 +107,10 @@ const downloadArtifacts = async (artifacts: Artifacts): Promise<void> => {
   }
 };
 
-const downloadArtifact = async (artifactUrl: string): Promise<Buffer> => {
-  clonedContext.log("downloadArtifact = ", artifactUrl);
+const downloadArtifact = async (artifactUrl: string): Promise<string> => {
+  clonedContext.log("downloadArtifact");
   try {
-    const artifactBuffer = await getArtifactBuffer(artifactUrl, clonedContext);
-    clonedContext.log("artifactBuffer = ", artifactBuffer);
-    // return artifactBuffer;
-    return Buffer.from(null);
+    return await getArtifactBuffer(artifactUrl, clonedContext);
   } catch (e) {
     clonedContext.log(e.message);
   }

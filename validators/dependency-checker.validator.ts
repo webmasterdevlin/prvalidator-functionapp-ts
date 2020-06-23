@@ -1,1 +1,1 @@
-export const checkDependency = (artifact: Buffer) => true;
+export const checkDependency = (artifact: any) => true;
