@@ -85,10 +85,6 @@ const downloadArtifacts = async (artifacts: Artifacts): Promise<void> => {
         clonedContext.log("URL = ", url);
         /*
          * TODO: Scan each artifact here
-         * Use a function that will scan the artifact
-         * or upload the artifact then BlobTrigger a Function App that will scan this artifact
-         * The first approach is much simpler
-         * Update PullRequest if succeed or fail using pullRequestId
          * */
         if (artifact.name.includes("Code Coverage Report")) {
           await checkCodeCoverage(artifactToBeScanned);
