@@ -83,15 +83,15 @@ const downloadArtifacts = async (artifacts: Artifacts): Promise<void> => {
       if (url) {
         clonedContext.log("URL = ", url);
         const artifactToBeScanned = await downloadArtifact(url);
-        clonedContext.log("artifactToBeScanned = ");
-        clonedContext.log("artifactToBeScanned_toString() = ");
+        clonedContext.log("NAME:", artifact.name);
         /*
          * TODO: Scan each artifact here
          * */
         if (artifact.name.includes("Code Coverage Report")) {
+          clonedContext.log("Here Code Coverage Report");
           // await checkCodeCoverage(artifactToBeScanned);
         } else if (artifact.name == ArtifactsName.contributors) {
-          clonedContext.log("downloadArtifacts_checkContributors");
+          clonedContext.log("Here checkContributors");
           await checkContributors(
             artifactToBeScanned,
             projectId,
