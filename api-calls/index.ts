@@ -1,11 +1,12 @@
 import axios from "axios";
-
 import { Status, StatusPolicy } from "../models/StatusPolicy";
 import { headers } from "../utils";
 import { PullRequests } from "../models/PullRequests";
 import { Repositories } from "../models/Repositories";
 import { Artifacts, Artifact } from "../models/Artifacts";
 import { Build, Builds } from "../models/Builds";
+
+const zlib = require("zlib");
 
 const ACCOUNT_NAME = process.env.ACCOUNT_NAME;
 
@@ -42,14 +43,14 @@ export const getArtifactBuffer = async (artifactUrl: string, { log }: any) => {
   log("getArtifactBuffer");
   try {
     const { data }: any = await axios.get<any>(artifactUrl, {
-      responseType: "arraybuffer",
+      responseType: "stream",
       headers,
     });
     log("getArtifactBuffer_data_string = ", data.toString());
     log("getArtifactBuffer_data = ", data);
     return Buffer.from(data);
   } catch (e) {
-    throw new Error(e.message);
+    log("ERROR : ", e);
   }
 };
 
