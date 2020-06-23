@@ -45,7 +45,7 @@ export const getArtifactContent = async (artifactUrl: string, { log }: any) => {
       responseType: "document",
       headers,
     });
-
+    log("DATA::::", data);
     return data;
   } catch (e) {
     throw new Error(e.message);
