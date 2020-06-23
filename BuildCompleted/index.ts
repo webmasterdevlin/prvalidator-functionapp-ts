@@ -6,18 +6,26 @@ import {
 import { Artifacts, ArtifactsName } from "../models/Artifacts";
 import { getArtifactBuffer, getArtifacts, getBuilds } from "../api-calls";
 import { BuildCompleted } from "../models/webhooks/BuildCompleted";
+import {
+  checkAquaScanner,
+  checkContributors,
+  checkDependency,
+  checkResharperReport,
+  checkTestResult,
+} from "../validators";
+import { checkCodeCoverage } from "../validators/code-coverage.validator";
 
 /* Application settings */
 const ACCOUNT = process.env.ACCOUNT;
 const ACCESS_KEY = process.env.ACCESS_KEY;
 
-let newContext: Context;
+let clonedContext: Context;
 
 const httpTrigger: AzureFunction = async function (
   context: Context,
   req: HttpRequest
 ): Promise<void> {
-  newContext = context;
+  clonedContext = context;
   try {
     const buildCompleted = req.body as BuildCompleted;
     const buildResourceId = buildCompleted.resource.id;
@@ -58,20 +66,23 @@ const fetchArtifacts = async (
   projectId: string,
   buildResourceId: number
 ): Promise<void> => {
+  clonedContext.log("fetchArtifacts");
   try {
     const artifacts = await getArtifacts(projectId, buildResourceId);
     await downloadArtifacts(artifacts);
   } catch (e) {
-    newContext.log(e.message);
+    clonedContext.log(e.message);
   }
 };
 
 const downloadArtifacts = async (artifacts: Artifacts): Promise<void> => {
+  clonedContext.log("downloadArtifacts");
   try {
     artifacts.value.map(async (artifact) => {
       const url = artifact.resource.downloadUrl;
       if (url) {
         const artifactToBeScanned = await downloadArtifact(url);
+        clonedContext.log("URL = ", url);
         /*
          * TODO: Scan each artifact here
          * Use a function that will scan the artifact
@@ -80,22 +91,22 @@ const downloadArtifacts = async (artifacts: Artifacts): Promise<void> => {
          * Update PullRequest if succeed or fail using pullRequestId
          * */
         if (artifact.name.includes("Code Coverage Report")) {
-          // function that will scan the Code Coverage Report_1234 artifact
+          await checkCodeCoverage(artifactToBeScanned);
         } else if (artifact.name == ArtifactsName.contributors) {
-          // scan the contributors artifact
+          await checkContributors(artifactToBeScanned, clonedContext);
         } else if (artifact.name == ArtifactsName.dependencyCheck) {
-          // scan the dependency check
+          await checkDependency(artifactToBeScanned);
         } else if (artifact.name == ArtifactsName.resharper) {
-          // scan the resharper artifact
+          await checkResharperReport(artifactToBeScanned);
         } else if (artifact.name == ArtifactsName.scanResults) {
-          // scan the scan results artifact that has the AquaSecurity.json
+          await checkAquaScanner(artifactToBeScanned);
         } else if (artifact.name == ArtifactsName.testResults) {
-          // scan the test results artifact
+          await checkTestResult(artifactToBeScanned);
         }
       }
     });
   } catch (e) {
-    newContext.log(e.message);
+    clonedContext.log(e.message);
   }
 };
 
@@ -103,6 +114,6 @@ const downloadArtifact = async (artifactUrl: string): Promise<Buffer> => {
   try {
     return await getArtifactBuffer(artifactUrl);
   } catch (e) {
-    newContext.log(e.message);
+    clonedContext.log(e.message);
   }
 };
