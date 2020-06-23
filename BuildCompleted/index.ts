@@ -91,6 +91,7 @@ const downloadArtifacts = async (artifacts: Artifacts): Promise<void> => {
         if (artifact.name.includes("Code Coverage Report")) {
           // await checkCodeCoverage(artifactToBeScanned);
         } else if (artifact.name == ArtifactsName.contributors) {
+          clonedContext.log("downloadArtifacts_checkContributors");
           await checkContributors(
             artifactToBeScanned,
             projectId,
