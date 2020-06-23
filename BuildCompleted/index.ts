@@ -113,7 +113,8 @@ const downloadArtifact = async (artifactUrl: string): Promise<Buffer> => {
   try {
     const artifactBuffer = await getArtifactBuffer(artifactUrl, clonedContext);
     clonedContext.log("artifactBuffer = ", artifactBuffer);
-    return artifactBuffer;
+    // return artifactBuffer;
+    return Buffer.from(null);
   } catch (e) {
     clonedContext.log(e.message);
   }

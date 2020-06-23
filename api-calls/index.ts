@@ -42,14 +42,16 @@ export const getArtifacts = async (
 export const getArtifactBuffer = async (artifactUrl: string, { log }: any) => {
   log("getArtifactBuffer");
   try {
-    const { data }: any = await axios.get<any>(artifactUrl, {
+    const { data: json }: any = await axios.get<any>(artifactUrl, {
       responseType: "json",
       headers,
     });
+
     const stream: any = await axios.get<any>(artifactUrl, {
       responseType: "stream",
       headers,
     });
+
     const blob: any = await axios.get<any>(artifactUrl, {
       responseType: "blob",
       headers,
@@ -65,8 +67,8 @@ export const getArtifactBuffer = async (artifactUrl: string, { log }: any) => {
       headers,
     });
 
-    log("getArtifactBuffer_data_string_data = ", data.toString());
-    log("getArtifactBuffer_data = ", data);
+    log("getArtifactBuffer_data_string_data = ", json.toString());
+    log("getArtifactBuffer_data = ", json);
 
     log("getArtifactBuffer_data_string_stream = ", stream.toString());
     log("getArtifactBuffer_data_stream = ", stream);
@@ -80,7 +82,7 @@ export const getArtifactBuffer = async (artifactUrl: string, { log }: any) => {
     log("getArtifactBuffer_data_string_buffer = ", docs.toString());
     log("getArtifactBuffer_data_buffer = ", docs);
 
-    return Buffer.from(data);
+    // return Buffer.from(data);
   } catch (e) {
     log("ERROR : ", e);
   }
