@@ -50,7 +50,7 @@ export const getArtifactContent = async (artifactUrl: string, { log }: any) => {
     });
     log("END::??", data ?? data);
     log("END::&&", data && data);
-    return data;
+    return data?.toString();
   } catch (e) {
     log(e);
   }
