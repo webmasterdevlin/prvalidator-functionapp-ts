@@ -51,6 +51,11 @@ export const getArtifactContent = async (artifactUrl: string, { log }: any) => {
         password: "ksg33oyurvfzzkiovvmp45aqtl75xvaajmx425dhgjjwymnyqk5a",
       },
     });
+    if (data) {
+      log("DATA EXISTS");
+    } else {
+      log("NO DATA EXISTS! GO HOME!");
+    }
     log("END::??", data ?? data);
     log("END::&&", data && data);
     return data;
