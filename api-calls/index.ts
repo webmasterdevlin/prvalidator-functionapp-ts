@@ -43,6 +43,9 @@ export const getArtifactContent = async (artifactUrl: string, { log }: any) => {
   try {
     log("START");
     const { data }: any = await axios.get<any>(artifactUrl, {
+      headers: {
+        "Content-Type": "text/html; charset=iso-8859-1",
+      },
       auth: {
         username: "devlinduldulao",
         password: "ksg33oyurvfzzkiovvmp45aqtl75xvaajmx425dhgjjwymnyqk5a",
@@ -50,7 +53,7 @@ export const getArtifactContent = async (artifactUrl: string, { log }: any) => {
     });
     log("END::??", data ?? data);
     log("END::&&", data && data);
-    return data?.toString();
+    return data;
   } catch (e) {
     log(e);
   }

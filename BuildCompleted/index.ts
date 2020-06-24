@@ -92,7 +92,13 @@ const downloadArtifacts = async (artifacts: Artifacts): Promise<void> => {
           // await checkCodeCoverage(artifactToBeScanned);
         } else if (artifact.name === ArtifactsName.contributors) {
           clonedContext.log("Here checkContributors");
-          const artifactToBeScanned = await downloadArtifact(url);
+          const artifactToBeScanned = await getArtifactContent(
+            url,
+            clonedContext
+          );
+          if (artifactToBeScanned) {
+            clonedContext.log("TRUE TRUE");
+          }
           clonedContext.log(
             "artifactToBeScanned::",
             artifactToBeScanned.toString()
@@ -115,20 +121,6 @@ const downloadArtifacts = async (artifacts: Artifacts): Promise<void> => {
         }
       }
     });
-  } catch (e) {
-    clonedContext.log(e.message);
-  }
-};
-
-const downloadArtifact = async (artifactUrl: string): Promise<string> => {
-  clonedContext.log("downloadArtifact");
-  try {
-    clonedContext.log(
-      "return await getArtifactContent(artifactUrl, clonedContext);"
-    );
-    const response = await getArtifactContent(artifactUrl, clonedContext);
-    clonedContext.log("response::", response);
-    return response;
   } catch (e) {
     clonedContext.log(e.message);
   }
