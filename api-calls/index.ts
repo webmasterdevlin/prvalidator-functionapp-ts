@@ -39,24 +39,14 @@ export const getArtifacts = async (
 };
 
 export const getArtifactContent = async (artifactUrl: string, { log }: any) => {
+  log("getArtifactContent");
   try {
-    const { data } = await axios.get<string>(artifactUrl);
-    return data;
-  } catch (e) {
-    throw new Error(e.message);
-  }
-};
-
-export const getArtifactBuffer = async (artifactUrl: string, context) => {
-  context.log("getArtifactBuffer_URL::", artifactUrl);
-  try {
-    const { data } = await axios.get<Artifact>(artifactUrl, {
-      responseType: "arraybuffer",
+    const { data } = await axios.get<string>(artifactUrl, {
+      responseType: "document",
       headers,
     });
-    context.log("I am here");
-    context.log("BUFFER = ");
-    return Buffer.from(data);
+    log("DATA::::", data);
+    return data;
   } catch (e) {
     throw new Error(e.message);
   }

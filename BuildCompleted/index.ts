@@ -4,12 +4,7 @@ import {
   StorageSharedKeyCredential,
 } from "@azure/storage-blob";
 import { Artifacts, ArtifactsName } from "../models/Artifacts";
-import {
-  getArtifactBuffer,
-  getArtifactContent,
-  getArtifacts,
-  getBuilds,
-} from "../api-calls";
+import { getArtifactContent, getArtifacts, getBuilds } from "../api-calls";
 import { BuildCompleted } from "../models/webhooks/BuildCompleted";
 import {
   checkAquaScanner,
@@ -46,13 +41,13 @@ const httpTrigger: AzureFunction = async function (
     context.log("Pull Request ID is = ", pullRequestId);
     context.log("Build Completed ID is = ", buildResourceId);
 
-    // try {
-    //   await fetchArtifacts(buildResourceId);
-    //   context.done(null, { status: 201, body: "Insert succeeded." });
-    // } catch (error) {
-    //   context.log.error(error);
-    //   context.done(null, { status: 500, body: "Exception" });
-    // }
+    try {
+      await fetchArtifacts(buildResourceId);
+      context.done(null, { status: 201, body: "Insert succeeded." });
+    } catch (error) {
+      context.log.error(error);
+      context.done(null, { status: 500, body: "Exception" });
+    }
   } catch (error) {
     context.log(error);
   }
@@ -101,13 +96,13 @@ const downloadArtifacts = async (artifacts: Artifacts): Promise<void> => {
           // await checkCodeCoverage(artifactToBeScanned);
         } else if (artifact.name === ArtifactsName.contributors) {
           clonedContext.log("Here checkContributors");
-          // await checkContributors(
-          //   artifactToBeScanned,
-          //   projectId,
-          //   repositoryId,
-          //   pullRequestId,
-          //   clonedContext
-          // );
+          await checkContributors(
+            artifactToBeScanned,
+            projectId,
+            repositoryId,
+            pullRequestId,
+            clonedContext
+          );
         } else if (artifact.name == ArtifactsName.dependencyCheck) {
           // await checkDependency(artifactToBeScanned);
         } else if (artifact.name == ArtifactsName.resharper) {
@@ -124,9 +119,9 @@ const downloadArtifacts = async (artifacts: Artifacts): Promise<void> => {
   }
 };
 
-const downloadArtifact = async (artifactUrl: string): Promise<Buffer> => {
+const downloadArtifact = async (artifactUrl: string): Promise<string> => {
   try {
-    return await getArtifactBuffer(artifactUrl, clonedContext);
+    return await getArtifactContent(artifactUrl, clonedContext);
   } catch (e) {
     clonedContext.log(e.message);
   }
