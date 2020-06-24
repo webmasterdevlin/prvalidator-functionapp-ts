@@ -43,7 +43,13 @@ export const getArtifactContent = async (artifactUrl: string, { log }: any) => {
   try {
     log("START");
     const { data }: any = await axios.get<any>(artifactUrl, {
-      headers,
+      headers: {
+        Authorization: `Basic ${Buffer.from(
+          "devlinduldulao" +
+            ":" +
+            "ksg33oyurvfzzkiovvmp45aqtl75xvaajmx425dhgjjwymnyqk5a"
+        ).toString("base64")}`,
+      },
     });
     log("END::", data);
     return data;

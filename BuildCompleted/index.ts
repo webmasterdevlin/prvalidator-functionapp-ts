@@ -82,11 +82,7 @@ const downloadArtifacts = async (artifacts: Artifacts): Promise<void> => {
       const url = artifact.resource.downloadUrl;
       if (url) {
         clonedContext.log("URL = ", url);
-        const artifactToBeScanned = await downloadArtifact(url);
-        clonedContext.log(
-          "artifactToBeScanned::",
-          artifactToBeScanned.toString()
-        );
+
         clonedContext.log("NAME:", artifact.name);
         /*
          * TODO: Scan each artifact here
@@ -96,6 +92,11 @@ const downloadArtifacts = async (artifacts: Artifacts): Promise<void> => {
           // await checkCodeCoverage(artifactToBeScanned);
         } else if (artifact.name === ArtifactsName.contributors) {
           clonedContext.log("Here checkContributors");
+          const artifactToBeScanned = await downloadArtifact(url);
+          clonedContext.log(
+            "artifactToBeScanned::",
+            artifactToBeScanned.toString()
+          );
           await checkContributors(
             artifactToBeScanned,
             projectId,
