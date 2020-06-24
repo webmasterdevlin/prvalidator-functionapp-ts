@@ -4,7 +4,12 @@ import {
   StorageSharedKeyCredential,
 } from "@azure/storage-blob";
 import { Artifacts, ArtifactsName } from "../models/Artifacts";
-import { getArtifactContent, getArtifacts, getBuilds } from "../api-calls";
+import {
+  getArtifactBuffer,
+  getArtifactContent,
+  getArtifacts,
+  getBuilds,
+} from "../api-calls";
 import { BuildCompleted } from "../models/webhooks/BuildCompleted";
 import {
   checkAquaScanner,
@@ -83,6 +88,10 @@ const downloadArtifacts = async (artifacts: Artifacts): Promise<void> => {
       if (url) {
         clonedContext.log("URL = ", url);
         const artifactToBeScanned = await downloadArtifact(url);
+        clonedContext.log(
+          "artifactToBeScanned::",
+          artifactToBeScanned.toString()
+        );
         clonedContext.log("NAME:", artifact.name);
         /*
          * TODO: Scan each artifact here
@@ -92,13 +101,13 @@ const downloadArtifacts = async (artifacts: Artifacts): Promise<void> => {
           // await checkCodeCoverage(artifactToBeScanned);
         } else if (artifact.name === ArtifactsName.contributors) {
           clonedContext.log("Here checkContributors");
-          await checkContributors(
-            artifactToBeScanned,
-            projectId,
-            repositoryId,
-            pullRequestId,
-            clonedContext
-          );
+          // await checkContributors(
+          //   artifactToBeScanned,
+          //   projectId,
+          //   repositoryId,
+          //   pullRequestId,
+          //   clonedContext
+          // );
         } else if (artifact.name == ArtifactsName.dependencyCheck) {
           // await checkDependency(artifactToBeScanned);
         } else if (artifact.name == ArtifactsName.resharper) {
@@ -115,10 +124,9 @@ const downloadArtifacts = async (artifacts: Artifacts): Promise<void> => {
   }
 };
 
-const downloadArtifact = async (artifactUrl: string): Promise<string> => {
-  clonedContext.log("downloadArtifact");
+const downloadArtifact = async (artifactUrl: string): Promise<Buffer> => {
   try {
-    return await getArtifactContent(artifactUrl, clonedContext);
+    return await getArtifactBuffer(artifactUrl);
   } catch (e) {
     clonedContext.log(e.message);
   }

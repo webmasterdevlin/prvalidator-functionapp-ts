@@ -39,13 +39,22 @@ export const getArtifacts = async (
 };
 
 export const getArtifactContent = async (artifactUrl: string, { log }: any) => {
-  log("getArtifactContent");
   try {
-    const { data } = await axios.get<any>(
-      "https://devlintest.blob.core.windows.net/mycontainer/contributors.zip"
-    );
-    log("DEVLINS DATA::::", data);
+    const { data } = await axios.get<string>(artifactUrl);
     return data;
+  } catch (e) {
+    throw new Error(e.message);
+  }
+};
+
+export const getArtifactBuffer = async (artifactUrl: string) => {
+  try {
+    const { data } = await axios.get<Artifact>(artifactUrl, {
+      responseType: "arraybuffer",
+      headers,
+    });
+    console.log("I am here");
+    return Buffer.from(data);
   } catch (e) {
     throw new Error(e.message);
   }
