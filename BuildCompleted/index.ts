@@ -126,7 +126,7 @@ const downloadArtifacts = async (artifacts: Artifacts): Promise<void> => {
 
 const downloadArtifact = async (artifactUrl: string): Promise<Buffer> => {
   try {
-    return await getArtifactBuffer(artifactUrl);
+    return await getArtifactBuffer(artifactUrl, clonedContext);
   } catch (e) {
     clonedContext.log(e.message);
   }

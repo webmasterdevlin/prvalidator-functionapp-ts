@@ -47,7 +47,8 @@ export const getArtifactContent = async (artifactUrl: string, { log }: any) => {
   }
 };
 
-export const getArtifactBuffer = async (artifactUrl: string) => {
+export const getArtifactBuffer = async (artifactUrl: string, context) => {
+  context.log("getArtifactBuffer");
   try {
     const { data } = await axios.get<Artifact>(artifactUrl, {
       responseType: "arraybuffer",
