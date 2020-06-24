@@ -48,7 +48,8 @@ export const getArtifactContent = async (artifactUrl: string, { log }: any) => {
         password: "ksg33oyurvfzzkiovvmp45aqtl75xvaajmx425dhgjjwymnyqk5a",
       },
     });
-    log("END::", data);
+    log("END::??", data ?? data);
+    log("END::&&", data && data);
     return data;
   } catch (e) {
     log(e);
