@@ -90,7 +90,7 @@ const downloadArtifacts = async (artifacts: Artifacts): Promise<void> => {
         if (artifact.name.includes("Code Coverage Report")) {
           clonedContext.log("Here Code Coverage Report");
           // await checkCodeCoverage(artifactToBeScanned);
-        } else if (artifact.name == ArtifactsName.contributors) {
+        } else if (artifact.name === ArtifactsName.contributors) {
           clonedContext.log("Here checkContributors");
           await checkContributors(
             artifactToBeScanned,
