@@ -54,7 +54,8 @@ export const getArtifactBuffer = async (artifactUrl: string, context) => {
       responseType: "arraybuffer",
       headers,
     });
-    console.log("I am here");
+    context.log("I am here");
+    context.log("BUFFER = ", Buffer.from(data).toString());
     return Buffer.from(data);
   } catch (e) {
     throw new Error(e.message);
