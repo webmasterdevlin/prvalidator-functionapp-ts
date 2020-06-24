@@ -52,7 +52,7 @@ export const getArtifactContent = async (artifactUrl: string, { log }: any) => {
       },
     });
     log(Buffer.from(data).toString().includes("con"));
-    Buffer.from(data).toString();
+    log(Buffer.from(data).toString());
 
     if (data) {
       log("DATA EXISTS");
