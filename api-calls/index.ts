@@ -42,11 +42,7 @@ export const getArtifactContent = async (artifactUrl: string, { log }: any) => {
   log("getArtifactContent");
   try {
     const { data } = await axios.get<any>(
-      "https://devlintest.blob.core.windows.net/mycontainer/contributors.zip",
-      {
-        responseType: "document",
-        headers,
-      }
+      "https://devlintest.blob.core.windows.net/mycontainer/contributors.zip"
     );
     log("DATA::::", data);
     return data;
