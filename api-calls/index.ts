@@ -40,19 +40,33 @@ export const getArtifacts = async (
 
 export const getArtifactContent = async (artifactUrl: string, { log }: any) => {
   log("getArtifactContent::", artifactUrl);
+  let data;
   try {
     log("START");
-    const { data }: any = await axios.get<any>(artifactUrl, {
-      headers: {
-        "Content-Type": "text/html; charset=iso-8859-1",
-      },
-      auth: {
-        username: "devlinduldulao",
-        password: "ksg33oyurvfzzkiovvmp45aqtl75xvaajmx425dhgjjwymnyqk5a",
-      },
-    });
-    log(Buffer.from(data).toString().includes("con"));
-    log(Buffer.from(data).toString());
+    // const { data }: any = await axios.get<any>(artifactUrl, {
+    //   headers: {
+    //     "Content-Type": "text/html; charset=iso-8859-1",
+    //   },
+    //   auth: {
+    //     username: "devlinduldulao",
+    //     password: "ksg33oyurvfzzkiovvmp45aqtl75xvaajmx425dhgjjwymnyqk5a",
+    //   },
+    // });
+    axios
+      .get(artifactUrl, {
+        headers: {
+          "Content-Type": "text/html; charset=iso-8859-1",
+        },
+        auth: {
+          username: "devlinduldulao",
+          password: "ksg33oyurvfzzkiovvmp45aqtl75xvaajmx425dhgjjwymnyqk5a",
+        },
+      })
+      .then((res) => {
+        log(Buffer.from(res.data).toString().includes("con"));
+        log(Buffer.from(res.data).toString());
+        data = res.data;
+      });
 
     if (data) {
       log("DATA EXISTS");
