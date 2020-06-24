@@ -46,13 +46,13 @@ const httpTrigger: AzureFunction = async function (
     context.log("Pull Request ID is = ", pullRequestId);
     context.log("Build Completed ID is = ", buildResourceId);
 
-    try {
-      await fetchArtifacts(buildResourceId);
-      context.done(null, { status: 201, body: "Insert succeeded." });
-    } catch (error) {
-      context.log.error(error);
-      context.done(null, { status: 500, body: "Exception" });
-    }
+    // try {
+    //   await fetchArtifacts(buildResourceId);
+    //   context.done(null, { status: 201, body: "Insert succeeded." });
+    // } catch (error) {
+    //   context.log.error(error);
+    //   context.done(null, { status: 500, body: "Exception" });
+    // }
   } catch (error) {
     context.log(error);
   }
