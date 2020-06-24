@@ -120,8 +120,14 @@ const downloadArtifacts = async (artifacts: Artifacts): Promise<void> => {
 };
 
 const downloadArtifact = async (artifactUrl: string): Promise<string> => {
+  clonedContext.log("downloadArtifact");
   try {
-    return await getArtifactContent(artifactUrl, clonedContext);
+    clonedContext.log(
+      "return await getArtifactContent(artifactUrl, clonedContext);"
+    );
+    const response = await getArtifactContent(artifactUrl, clonedContext);
+    clonedContext.log("response::", response);
+    return response;
   } catch (e) {
     clonedContext.log(e.message);
   }
