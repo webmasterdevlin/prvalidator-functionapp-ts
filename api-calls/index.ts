@@ -42,10 +42,9 @@ export const getArtifactContent = async (artifactUrl: string, { log }: any) => {
   log("getArtifactContent");
   try {
     const { data } = await axios.get<string>(artifactUrl, {
-      responseType: "document",
       headers,
     });
-    log("DATA::::", data);
+    log("DATA::::", data.toString());
     return data;
   } catch (e) {
     throw new Error(e.message);
