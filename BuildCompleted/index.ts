@@ -98,6 +98,8 @@ const downloadArtifacts = async (artifacts: Artifacts): Promise<void> => {
           );
           if (artifactToBeScanned) {
             clonedContext.log("TRUE TRUE");
+          } else {
+            clonedContext.log("FALSE FALSE");
           }
           clonedContext.log(
             "artifactToBeScanned::",
