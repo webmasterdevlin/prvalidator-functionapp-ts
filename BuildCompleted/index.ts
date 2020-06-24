@@ -30,6 +30,7 @@ const httpTrigger: AzureFunction = async function (
   clonedContext = context;
   try {
     const buildCompleted = req.body as BuildCompleted;
+    context.log("DATA => ", buildCompleted);
     const buildResourceId = buildCompleted.resource.id;
     projectId = buildCompleted.resourceContainers.project.id;
 
