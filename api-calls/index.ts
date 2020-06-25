@@ -7,7 +7,7 @@ import { Artifacts, Artifact } from "../models/Artifacts";
 import { Build, Builds } from "../models/Builds";
 
 const AdmZip = require("adm-zip");
-const http = require("http");
+const request = require("request");
 
 const ACCOUNT_NAME = process.env.ACCOUNT_NAME;
 
@@ -56,37 +56,14 @@ export const getArtifactContent = async (artifactUrl: string, con: any) => {
 
   let dataToReturn = "no_body";
 
-  http
-    .get(
-      "http://devlintest.blob.core.windows.net/mycontainer/contributors.zip",
-      (res) => {
-        let data = [],
-          dataLen = 0;
+  con.log("BEFORE");
+  request.get({ url: artifactUrl, encoding: null }, (err, res, body) => {
+    const zipEntries = new AdmZip(body).getEntries();
+    con.log(zipEntries.length);
 
-        res
-          .on("data", function (chunk) {
-            data.push(chunk);
-            dataLen += chunk.length;
-          })
-          .on("end", function () {
-            const buf = Buffer.alloc(dataLen);
-
-            for (let i = 0, len = data.length, pos = 0; i < len; i++) {
-              data[i].copy(buf, pos);
-              pos += data[i].length;
-            }
-
-            let zip = new AdmZip(buf);
-            let zipEntries = zip.getEntries();
-
-            for (let i = 0; i < zipEntries.length; i++) {
-              if (zipEntries[i].entryName.includes("contributors"))
-                con.log("True");
-            }
-          });
-      }
-    )
-    .then();
+    zipEntries.forEach((entry) => con.log(entry.entryName));
+  });
+  con.log("AFTER");
 
   con.log(dataToReturn);
   return "contributors.md";
