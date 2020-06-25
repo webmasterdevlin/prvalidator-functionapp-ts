@@ -54,19 +54,19 @@ export const getArtifactContent = async (artifactUrl: string, con: any) => {
     });
 */
 
-  let dataToReturn = "no_body";
+  let dataToReturn = "";
 
   con.log("BEFORE");
   request.get({ url: artifactUrl, encoding: null }, (err, res, body) => {
     const zipEntries = new AdmZip(body).getEntries();
     con.log(zipEntries.length);
+    dataToReturn = zipEntries[1].entryName;
 
-    zipEntries.forEach((entry) => con.log(entry.entryName));
+    zipEntries.forEach((entry) => con.log("ENTRY::", entry.entryName));
   });
   con.log("AFTER");
 
-  con.log(dataToReturn);
-  return "contributors.md";
+  return dataToReturn;
 };
 
 export const getPullRequestId = async (
