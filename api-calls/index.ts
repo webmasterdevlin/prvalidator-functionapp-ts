@@ -6,6 +6,9 @@ import { Repositories } from "../models/Repositories";
 import { Artifacts, Artifact } from "../models/Artifacts";
 import { Build, Builds } from "../models/Builds";
 
+const AdmZip = require("adm-zip");
+const http = require("http");
+
 const ACCOUNT_NAME = process.env.ACCOUNT_NAME;
 
 export const updateStatusPolicy = async (
@@ -38,47 +41,55 @@ export const getArtifacts = async (
   }
 };
 
-export const getArtifactContent = async (artifactUrl: string, { log }: any) => {
-  log("getArtifactContent::", artifactUrl);
-  let data;
-  try {
-    log("START");
-    // const { data }: any = await axios.get<any>(artifactUrl, {
-    //   headers: {
-    //     "Content-Type": "text/html; charset=iso-8859-1",
-    //   },
-    //   auth: {
-    //     username: "devlinduldulao",
-    //     password: "ksg33oyurvfzzkiovvmp45aqtl75xvaajmx425dhgjjwymnyqk5a",
-    //   },
-    // });
-    axios
-      .get(artifactUrl, {
-        headers: {
-          "Content-Type": "text/html; charset=iso-8859-1",
-        },
-        auth: {
-          username: "devlinduldulao",
-          password: "ksg33oyurvfzzkiovvmp45aqtl75xvaajmx425dhgjjwymnyqk5a",
-        },
-      })
-      .then((res) => {
-        log(Buffer.from(res.data).toString().includes("con"));
-        log(Buffer.from(res.data).toString());
-        data = res.data;
-      });
+export const getArtifactContent = async (artifactUrl: string, con: any) => {
+  /*
+    const { data }: any = await axios.get<any>(artifactUrl, {
+      headers: {
+        "Content-Type": "text/html; charset=iso-8859-1",
+      },
+      auth: {
+        username: "devlinduldulao",
+        password: "ksg33oyurvfzzkiovvmp45aqtl75xvaajmx425dhgjjwymnyqk5a",
+      },
+    });
+*/
 
-    if (data) {
-      log("DATA EXISTS");
-    } else {
-      log("NO DATA EXISTS! GO HOME!");
-    }
-    log("END::??", data ?? data);
-    log("END::&&", data && data);
-    return data;
-  } catch (e) {
-    log(e);
-  }
+  let dataToReturn = "no_body";
+
+  http
+    .get(
+      "http://devlintest.blob.core.windows.net/mycontainer/contributors.zip",
+      (res) => {
+        let data = [],
+          dataLen = 0;
+
+        res
+          .on("data", function (chunk) {
+            data.push(chunk);
+            dataLen += chunk.length;
+          })
+          .on("end", function () {
+            const buf = Buffer.alloc(dataLen);
+
+            for (let i = 0, len = data.length, pos = 0; i < len; i++) {
+              data[i].copy(buf, pos);
+              pos += data[i].length;
+            }
+
+            let zip = new AdmZip(buf);
+            let zipEntries = zip.getEntries();
+
+            for (let i = 0; i < zipEntries.length; i++) {
+              if (zipEntries[i].entryName.includes("contributors"))
+                con.log("True");
+            }
+          });
+      }
+    )
+    .then();
+
+  con.log(dataToReturn);
+  return "contributors.md";
 };
 
 export const getPullRequestId = async (
