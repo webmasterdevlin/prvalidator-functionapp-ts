@@ -13,7 +13,7 @@
     "@azure/abort-controller": "^1.0.1",
     "@azure/storage-blob": "^12.1.2",
     "adm-zip": "^0.4.16",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "http": "0.0.1-security",
     "request": "^2.88.2",
     "zlib": "^1.0.5"
